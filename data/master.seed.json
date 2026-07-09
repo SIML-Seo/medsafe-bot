@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "source": "DEMO_FIXTURE",
+    "baseDate": "2026-07-01",
+    "notice": "개발/테스트용 fixture입니다. 실제 제출 전에는 공공데이터포털 15118958 원문 파일로 재생성해야 합니다."
+  },
+  "products": [
+    {
+      "itemSeq": "DEMO-TYLENOL-500",
+      "productCode": "DEMO-TYLENOL-500",
+      "name": "타이레놀정500밀리그람",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-APAP",
+      "ingredientName": "아세트아미노펜",
+      "atcCode": "N02BE01",
+      "atcName": "Anilides",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-TYLENOL-ER650",
+      "productCode": "DEMO-TYLENOL-ER650",
+      "name": "타이레놀8시간이알서방정650밀리그람",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-APAP",
+      "ingredientName": "아세트아미노펜",
+      "atcCode": "N02BE01",
+      "atcName": "Anilides",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-GEVORIN",
+      "productCode": "DEMO-GEVORIN",
+      "name": "게보린정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-APAP",
+      "ingredientName": "아세트아미노펜",
+      "atcCode": "N02BE51",
+      "atcName": "Anilides, combinations excl. psycholeptics",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-BRUFEN",
+      "productCode": "DEMO-BRUFEN",
+      "name": "부루펜정200밀리그람",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-IBUPROFEN",
+      "ingredientName": "이부프로펜",
+      "atcCode": "M01AE01",
+      "atcName": "Ibuprofen",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-WARFARIN",
+      "productCode": "DEMO-WARFARIN",
+      "name": "데모와파린정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-WARFARIN",
+      "ingredientName": "와파린",
+      "atcCode": "B01AA03",
+      "atcName": "Warfarin",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-ASPIRIN",
+      "productCode": "DEMO-ASPIRIN",
+      "name": "데모아스피린장용정100밀리그람",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-ASPIRIN",
+      "ingredientName": "아스피린",
+      "atcCode": "B01AC06",
+      "atcName": "Acetylsalicylic acid",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-NO-INGREDIENT",
+      "productCode": "DEMO-NO-INGREDIENT",
+      "name": "성분코드없는데모정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "",
+      "ingredientName": "",
+      "atcCode": "",
+      "atcName": "",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "HIRA-DEMO-WARFARIN",
+      "productCode": "HIRA-DEMO-WARFARIN",
+      "name": "심평원코드와파린정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-WARFARIN",
+      "ingredientName": "와파린",
+      "atcCode": "B01AA03",
+      "atcName": "Warfarin",
+      "source": "HIRA_ATC_MAPPING"
+    }
+  ]
+}

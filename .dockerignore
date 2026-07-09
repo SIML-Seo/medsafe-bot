@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+coverage
+.env
+.secrets
+*.log
+npm-debug.log*
+
+data/master.test.sqlite
+data/source
+
+docs
+design

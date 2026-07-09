@@ -1,0 +1,50 @@
+[
+  {
+    "alias": "타이레놀",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-TYLENOL-500",
+    "label": "타이레놀정 500mg"
+  },
+  {
+    "alias": "타이레놀",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-TYLENOL-ER650",
+    "label": "타이레놀 8시간 이알 서방정 650mg"
+  },
+  {
+    "alias": "게보린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-GEVORIN",
+    "label": "게보린정"
+  },
+  {
+    "alias": "부루펜",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-BRUFEN",
+    "label": "부루펜정 200mg"
+  },
+  {
+    "alias": "아세트아미노펜",
+    "kind": "INGREDIENT",
+    "targetIngredientCode": "INGR-APAP",
+    "label": "아세트아미노펜"
+  },
+  {
+    "alias": "이부프로펜",
+    "kind": "INGREDIENT",
+    "targetIngredientCode": "INGR-IBUPROFEN",
+    "label": "이부프로펜"
+  },
+  {
+    "alias": "와파린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-WARFARIN",
+    "label": "데모와파린정"
+  },
+  {
+    "alias": "아스피린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "DEMO-ASPIRIN",
+    "label": "데모아스피린장용정 100mg"
+  }
+]

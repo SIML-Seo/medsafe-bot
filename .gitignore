@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.secrets/
+.claude/
+coverage/
+data/master.test.sqlite

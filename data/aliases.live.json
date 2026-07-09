@@ -1,0 +1,86 @@
+[
+  {
+    "alias": "타이레놀",
+    "kind": "PRODUCT",
+    "targetItemSeq": "202106092",
+    "label": "타이레놀정500밀리그람(아세트아미노펜)"
+  },
+  {
+    "alias": "게보린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "197900277",
+    "label": "게보린정(수출명:돌로린정)"
+  },
+  {
+    "alias": "게보린브이",
+    "kind": "PRODUCT",
+    "targetItemSeq": "202107495",
+    "label": "게보린브이정(아세트아미노펜)"
+  },
+  {
+    "alias": "부루펜",
+    "kind": "PRODUCT",
+    "targetItemSeq": "197700120",
+    "label": "부루펜정200밀리그램(이부프로펜)"
+  },
+  {
+    "alias": "어린이부루펜",
+    "kind": "PRODUCT",
+    "targetItemSeq": "198601920",
+    "label": "어린이부루펜시럽(이부프로펜)"
+  },
+  {
+    "alias": "아스피린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "200108429",
+    "label": "아스피린프로텍트정100밀리그람"
+  },
+  {
+    "alias": "와파린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "657801900",
+    "label": "쿠파린정2밀리그램(와파린나트륨)_(2mg/1정)"
+  },
+  {
+    "alias": "낙센",
+    "kind": "PRODUCT",
+    "targetItemSeq": "197500016",
+    "label": "낙센정(나프록센)"
+  },
+  {
+    "alias": "판콜",
+    "kind": "PRODUCT",
+    "targetItemSeq": "196800036",
+    "label": "판콜에이내복액"
+  },
+  {
+    "alias": "판피린",
+    "kind": "PRODUCT",
+    "targetItemSeq": "200700547",
+    "label": "판피린큐액"
+  },
+  {
+    "alias": "로바콜",
+    "kind": "PRODUCT",
+    "targetItemSeq": "199701294",
+    "label": "로바콜정(로바스타틴)(수출용)"
+  },
+  {
+    "alias": "더마졸",
+    "kind": "PRODUCT",
+    "targetItemSeq": "199101243",
+    "label": "더마졸정(케토코나졸)(수출용)"
+  },
+  {
+    "alias": "로바스타틴",
+    "kind": "INGREDIENT",
+    "targetIngredientCode": "D000419",
+    "label": "로바스타틴"
+  },
+  {
+    "alias": "케토코나졸",
+    "kind": "INGREDIENT",
+    "targetIngredientCode": "D000769",
+    "label": "케토코나졸"
+  }
+]
