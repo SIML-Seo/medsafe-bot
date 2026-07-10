@@ -1,0 +1,52 @@
+name: Remote Release Verification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: remote-release-verification
+  cancel-in-progress: false
+
+jobs:
+  verify-production:
+    name: Verify deployed KC release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run verify:remote
+        env:
+          MASTER_DB_PATH: data/master.sqlite
+      - name: Verify tools/list with official MCP Inspector
+        run: |
+          npx --no-install @modelcontextprotocol/inspector --cli https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp --transport http --method tools/list > /tmp/inspector-tools.raw.json
+          npm run verify:inspector-output -- /tmp/inspector-tools.raw.json docs/submission/inspector-tools.generated.json --endpoint https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp
+        env:
+          MASTER_DB_PATH: data/master.sqlite
+      - run: npm run submission:check:release
+        env:
+          NODE_ENV: production
+          DATA_MODE: live
+          MASTER_DB_PATH: data/master.sqlite
+          CONFIRMATION_SECRET: ci-release-secret-is-at-least-32-characters
+          LIVE_SELF_TEST_ITEM_SEQ: "200108429"
+          LIVE_SELF_TEST_TARGET_ITEM_SEQ: "197900145"
+          LIVE_SELF_TEST_EXPECT_CONTRAINDICATION: "true"
+          ALLOWED_HOSTS: medsafe-bot.playmcp-endpoint.kakaocloud.io
+          ALLOWED_ORIGINS: https://playmcp.kakao.com,https://playmcp.kakaocloud.io
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: medsafe-remote-release-evidence
+          path: |
+            docs/submission/remote-verification.generated.json
+            docs/submission/inspector-tools.generated.json
+          if-no-files-found: error
+          retention-days: 30

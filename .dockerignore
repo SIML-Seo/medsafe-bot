@@ -2,13 +2,24 @@
 node_modules
 dist
 coverage
-.env
+.env*
+!.env.example
 .secrets
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
 *.log
 npm-debug.log*
 
 data/master.test.sqlite
+data/master.fixture.sqlite
+data/*.json
 data/source
+output
+.playwright-cli
 
 docs
 design

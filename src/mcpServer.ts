@@ -7,24 +7,26 @@ import type {
   ResolvedMedication,
   SafetyContext
 } from "./types.js";
-import { formatEasyDrugInfo } from "./services/easyDrugClient.js";
+import { conciseEasyDrugInfo, formatEasyDrugInfo } from "./services/easyDrugClient.js";
 import {
   emergencyResult,
   formatSafetyResult,
   hasEmergencySignal,
+  hasPotentialOverdoseSignal,
   NON_DEVICE_NOTICE,
   sanitizeSafetyResult,
   sanitizeSafetyText,
   sanitizeStructuredContent,
   SCOPE_NOTICE,
-  STANDARD_DISCLAIMER
+  STANDARD_DISCLAIMER,
+  potentialOverdoseResult
 } from "./services/safetyPolicy.js";
 
 const MAX_RESOLVE_QUERIES = 8;
-const MAX_QUERY_CHARS = 80;
+const MAX_QUERY_CHARS = 512;
 const MAX_CHECK_MEDICATIONS = 12;
 const MAX_ID_CHARS = 80;
-const MAX_DISPLAY_NAME_CHARS = 100;
+const MAX_DISPLAY_NAME_CHARS = 512;
 const MAX_CONTEXT_NOTES_CHARS = 500;
 
 const SERVICE_NAME = "Medsafe Bot(복약안전 봇)";
@@ -49,15 +51,52 @@ const candidateSchema = z.object({
   confirmationToken: z.string().nullable().optional()
 });
 
+const findingTypeSchema = z.enum([
+  "USJNT_TABOO",
+  "DUP_INGREDIENT",
+  "DUP_INPUT",
+  "EMERGENCY",
+  "CONTEXT_UNKNOWN"
+]);
+const findingOriginSchema = z.enum([
+  "DUR_SNAPSHOT",
+  "DUR_INGREDIENT_SNAPSHOT",
+  "LOCAL_INGREDIENT",
+  "LOCAL_ATC",
+  "LOCAL_POLICY"
+]);
+const findingLevelSchema = z.enum(["RED", "YELLOW", "GREEN"]);
+const checkedTypeSchema = z.enum(["USJNT_TABOO", "DUP_INGREDIENT", "DUP_INPUT"]);
+const failedTypeSchema = z.enum([
+  "USJNT_TABOO",
+  "DUP_INGREDIENT",
+  "DUP_INPUT",
+  "EMERGENCY_TRIAGE"
+]);
+
 const findingSchema = z.object({
-  type: z.string(),
-  origin: z.string(),
-  level: z.string(),
-  a: z.string(),
-  b: z.string().nullable(),
-  reason: z.string(),
-  source: z.string(),
-  baseDate: z.string()
+  type: findingTypeSchema,
+  origin: findingOriginSchema,
+  level: findingLevelSchema,
+  a: z.string().max(MAX_DISPLAY_NAME_CHARS),
+  b: z.string().max(MAX_DISPLAY_NAME_CHARS).nullable(),
+  reason: z.string().max(2048),
+  source: z.string().max(512),
+  baseDate: z.string().max(64),
+  dateBasis: z.enum(["SOURCE_DATE", "SNAPSHOT_FETCHED_AT", "LOCAL_POLICY_DATE", "FIXTURE_DATE"])
+});
+
+const easyDrugInfoSchema = z.object({
+  itemSeq: z.string(),
+  itemName: z.string(),
+  entpName: z.string(),
+  efcyQesitm: z.string().optional(),
+  useMethodQesitm: z.string().optional(),
+  atpnWarnQesitm: z.string().optional(),
+  atpnQesitm: z.string().optional(),
+  intrcQesitm: z.string().optional(),
+  seQesitm: z.string().optional(),
+  depositMethodQesitm: z.string().optional()
 });
 
 export function buildMcpServer(services: AppServices): McpServer {
@@ -93,15 +132,37 @@ export function buildMcpServer(services: AppServices): McpServer {
             candidates: z.array(candidateSchema)
           })
         ),
-        emergency: z.boolean().optional()
+        emergency: z.boolean().optional(),
+        triageStatus: z.enum(["UNCERTAIN"]).optional(),
+        dataAsOf: z.string()
       }
     },
     async ({ queries }) => {
-      if (hasEmergencySignal(queries.join(" "))) {
-        const result = emergencyResult(process.env.DUR_BASE_DATE ?? "2026-07-01");
+      // Keep list items as independent clauses so an informational query cannot suppress a later emergency.
+      const emergencyText = queries.join("\n");
+      const medicationReferences = services.resolver.medicationReferencesInText(emergencyText);
+      const medicationNames = services.resolver.knownMedicationNamesInText(emergencyText);
+      if (hasEmergencySignal(emergencyText, medicationNames)) {
+        const result = emergencyResult(services.baseDate);
         return {
           content: [{ type: "text" as const, text: formatSafetyResult(result) }],
-          structuredContent: { resolved: [], emergency: true }
+          structuredContent: { resolved: [], emergency: true, dataAsOf: services.baseDate }
+        };
+      }
+      if (hasPotentialOverdoseSignal(emergencyText, medicationNames)) {
+        const result = potentialOverdoseResult(services.baseDate);
+        const resolved = addConfirmationTokens(
+          services,
+          services.resolver.resolveMany(medicationReferences.slice(0, MAX_RESOLVE_QUERIES))
+        );
+        return {
+          content: [{ type: "text" as const, text: formatSafetyResult(result) }],
+          structuredContent: sanitizeStructuredContent({
+            resolved,
+            emergency: false,
+            triageStatus: "UNCERTAIN" as const,
+            dataAsOf: services.baseDate
+          })
         };
       }
       const resolved = addConfirmationTokens(services, services.resolver.resolveMany(queries));
@@ -126,7 +187,7 @@ export function buildMcpServer(services: AppServices): McpServer {
       );
       return {
         content: [{ type: "text" as const, text: textWithNotice }],
-        structuredContent: sanitizeStructuredContent({ resolved })
+        structuredContent: sanitizeStructuredContent({ resolved, dataAsOf: services.baseDate })
       };
     }
   );
@@ -137,7 +198,7 @@ export function buildMcpServer(services: AppServices): McpServer {
       title: "복약 안전 점검",
       description:
         `${SERVICE_NAME} checks confirmed medication entries copied from resolve_medications for DUR contraindications, duplicate ingredients, and unresolved risk states. It returns a read-only safety summary with sources, dates, and fail-closed disclaimers.`,
-      annotations: readOnlyToolAnnotations("복약 안전 점검", true),
+      annotations: readOnlyToolAnnotations("복약 안전 점검", false),
       inputSchema: {
         medications: z
           .array(
@@ -177,25 +238,37 @@ export function buildMcpServer(services: AppServices): McpServer {
                 .describe("resolve_medications가 발급한 confirmationToken을 그대로 전달합니다.")
             })
           )
-          .describe("반드시 resolve_medications 결과의 itemSeq, ingrCode, status, displayName, confirmationToken을 필드명 그대로 복사해 전달합니다.")
+          .describe("resolve_medications 결과의 itemSeq, ingrCode, status, confirmationToken은 그대로 복사하고 matchedName은 displayName으로 매핑해 전달합니다.")
           .min(1)
           .max(MAX_CHECK_MEDICATIONS),
         context: z
           .object({
-            subjectIsUser: z.boolean().optional(),
-            ageGroup: z.enum(["adult", "elderly", "child", "unknown"]).optional(),
-            pregnancy: z.enum(["yes", "no", "unknown"]).optional(),
-            notes: z.string().trim().max(MAX_CONTEXT_NOTES_CHARS).nullable().optional()
+            ageGroup: z
+              .enum(["adult", "elderly", "child", "unknown"])
+              .optional()
+              .describe("사용자가 복용자의 연령대를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
+            pregnancy: z
+              .enum(["yes", "no", "unknown"])
+              .optional()
+              .describe("사용자가 임신 여부를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
+            notes: z
+              .string()
+              .trim()
+              .max(MAX_CONTEXT_NOTES_CHARS)
+              .nullable()
+              .optional()
+              .describe("응급·과량복용 표현을 포함해 사용자가 말한 추가 문맥을 임의 추론 없이 전달합니다.")
           })
           .optional()
       },
       outputSchema: {
         verdict: z.enum(["NO_KNOWN_FINDINGS", "CAUTION", "WARN", "UNCERTAIN"]),
-        findings: z.array(findingSchema),
-        unresolved: z.array(z.string()),
-        checkedTypes: z.array(z.string()),
-        failedTypes: z.array(z.string()),
-        disclaimer: z.string()
+        dataAsOf: z.string(),
+        findings: z.array(findingSchema).max(512),
+        unresolved: z.array(z.string().max(MAX_DISPLAY_NAME_CHARS)).max(24),
+        checkedTypes: z.array(checkedTypeSchema).max(3),
+        failedTypes: z.array(failedTypeSchema).max(4),
+        disclaimer: z.string().max(2048)
       }
     },
     async ({ medications, context }) => {
@@ -219,25 +292,40 @@ export function buildMcpServer(services: AppServices): McpServer {
       title: "의약품 설명 조회",
       description:
         `${SERVICE_NAME} retrieves public e약은요 medication guidance for a single itemSeq and returns a concise explanation. Missing public data is reported as not found, not as a tool failure.`,
-      annotations: readOnlyToolAnnotations("의약품 설명 조회", true),
+      annotations: readOnlyToolAnnotations("의약품 설명 조회", false),
       inputSchema: {
-        itemSeq: z.string().trim().min(1).max(MAX_ID_CHARS).describe("품목기준코드")
+        itemSeq: z
+          .string()
+          .trim()
+          .max(MAX_ID_CHARS)
+          .regex(/^(?:\d{9}|DEMO-[A-Z0-9-]+)$/, "9자리 품목기준코드를 입력합니다.")
+          .describe("resolve_medications가 확정한 9자리 품목기준코드")
       },
       outputSchema: {
-        info: z.unknown().nullable(),
-        found: z.boolean()
+        info: easyDrugInfoSchema.nullable(),
+        found: z.boolean(),
+        status: z.enum(["FOUND", "NOT_FOUND", "UPSTREAM_ERROR"]),
+        error: z.string().nullable(),
+        dataAsOf: z.string()
       }
     },
     async ({ itemSeq }) => {
-      const info = await services.easyDrugClient.explain(itemSeq);
+      const result = await services.easyDrugClient.explain(itemSeq);
       const text = sanitizeSafetyText(
-        [formatEasyDrugInfo(info), "", SCOPE_NOTICE, NON_DEVICE_NOTICE, STANDARD_DISCLAIMER].join(
+        [formatEasyDrugInfo(result), "", SCOPE_NOTICE, NON_DEVICE_NOTICE, STANDARD_DISCLAIMER].join(
           "\n"
         )
       );
       return {
         content: [{ type: "text" as const, text }],
-        structuredContent: sanitizeStructuredContent({ info, found: info !== null })
+        structuredContent: sanitizeStructuredContent({
+          info: result.info ? conciseEasyDrugInfo(result.info) : null,
+          found: result.status === "FOUND",
+          status: result.status,
+          error: result.error ?? null,
+          dataAsOf: services.baseDate
+        }),
+        ...(result.status === "UPSTREAM_ERROR" ? { isError: true } : {})
       };
     }
   );
@@ -260,7 +348,10 @@ function addConfirmationTokens(
     confirmationToken: confirmationTokenFor(services, item),
     candidates: item.candidates.map((candidate) => ({
       ...candidate,
-      confirmationToken: confirmationTokenFor(services, { ...candidate, status: "CONFIRMED" })
+      confirmationToken:
+        item.status === "CONFIRMED"
+          ? confirmationTokenFor(services, { ...candidate, status: "CONFIRMED" })
+          : null
     }))
   }));
 }
@@ -271,7 +362,7 @@ function confirmationTokenFor(
 ): string | null {
   const itemSeq = nonEmptyOrNull(item.itemSeq);
   const ingrCode = nonEmptyOrNull(item.ingrCode);
-  if (!itemSeq && !ingrCode) return null;
+  if (item.status !== "CONFIRMED" || (!itemSeq && !ingrCode)) return null;
   return services.confirmationTokens.sign({
     itemSeq,
     ingrCode,

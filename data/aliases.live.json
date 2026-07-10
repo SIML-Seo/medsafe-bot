@@ -1,86 +1,296 @@
-[
-  {
-    "alias": "타이레놀",
-    "kind": "PRODUCT",
-    "targetItemSeq": "202106092",
-    "label": "타이레놀정500밀리그람(아세트아미노펜)"
+{
+  "metadata": {
+    "generationId": "c041f1bd-24c2-4e7c-82fb-a95fb1288efd",
+    "fetchedAt": "2026-07-10T15:03:14.589Z"
   },
-  {
-    "alias": "게보린",
-    "kind": "PRODUCT",
-    "targetItemSeq": "197900277",
-    "label": "게보린정(수출명:돌로린정)"
-  },
-  {
-    "alias": "게보린브이",
-    "kind": "PRODUCT",
-    "targetItemSeq": "202107495",
-    "label": "게보린브이정(아세트아미노펜)"
-  },
-  {
-    "alias": "부루펜",
-    "kind": "PRODUCT",
-    "targetItemSeq": "197700120",
-    "label": "부루펜정200밀리그램(이부프로펜)"
-  },
-  {
-    "alias": "어린이부루펜",
-    "kind": "PRODUCT",
-    "targetItemSeq": "198601920",
-    "label": "어린이부루펜시럽(이부프로펜)"
-  },
-  {
-    "alias": "아스피린",
-    "kind": "PRODUCT",
-    "targetItemSeq": "200108429",
-    "label": "아스피린프로텍트정100밀리그람"
-  },
-  {
-    "alias": "와파린",
-    "kind": "PRODUCT",
-    "targetItemSeq": "657801900",
-    "label": "쿠파린정2밀리그램(와파린나트륨)_(2mg/1정)"
-  },
-  {
-    "alias": "낙센",
-    "kind": "PRODUCT",
-    "targetItemSeq": "197500016",
-    "label": "낙센정(나프록센)"
-  },
-  {
-    "alias": "판콜",
-    "kind": "PRODUCT",
-    "targetItemSeq": "196800036",
-    "label": "판콜에이내복액"
-  },
-  {
-    "alias": "판피린",
-    "kind": "PRODUCT",
-    "targetItemSeq": "200700547",
-    "label": "판피린큐액"
-  },
-  {
-    "alias": "로바콜",
-    "kind": "PRODUCT",
-    "targetItemSeq": "199701294",
-    "label": "로바콜정(로바스타틴)(수출용)"
-  },
-  {
-    "alias": "더마졸",
-    "kind": "PRODUCT",
-    "targetItemSeq": "199101243",
-    "label": "더마졸정(케토코나졸)(수출용)"
-  },
-  {
-    "alias": "로바스타틴",
-    "kind": "INGREDIENT",
-    "targetIngredientCode": "D000419",
-    "label": "로바스타틴"
-  },
-  {
-    "alias": "케토코나졸",
-    "kind": "INGREDIENT",
-    "targetIngredientCode": "D000769",
-    "label": "케토코나졸"
-  }
-]
+  "aliases": [
+    {
+      "alias": "타이레놀",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202106954",
+      "label": "타이레놀콜드-에스정"
+    },
+    {
+      "alias": "타이레놀",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202201300",
+      "label": "타이레놀산500밀리그램(아세트아미노펜)"
+    },
+    {
+      "alias": "타이레놀",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202106092",
+      "label": "타이레놀정500밀리그람(아세트아미노펜)"
+    },
+    {
+      "alias": "타이레놀",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202200407",
+      "label": "타이레놀8시간이알서방정(아세트아미노펜)"
+    },
+    {
+      "alias": "타이레놀",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202200658",
+      "label": "우먼스타이레놀정"
+    },
+    {
+      "alias": "게보린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201200252",
+      "label": "게보린에프정(수출용)"
+    },
+    {
+      "alias": "게보린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202007294",
+      "label": "게보린릴랙스연질캡슐"
+    },
+    {
+      "alias": "게보린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201908295",
+      "label": "게보린소프트연질캡슐"
+    },
+    {
+      "alias": "게보린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "197900277",
+      "label": "게보린정(수출명:돌로린정)"
+    },
+    {
+      "alias": "게보린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202107495",
+      "label": "게보린브이정(아세트아미노펜)"
+    },
+    {
+      "alias": "게보린브이",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202107495",
+      "label": "게보린브이정(아세트아미노펜)"
+    },
+    {
+      "alias": "부루펜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "197700120",
+      "label": "부루펜정200밀리그램(이부프로펜)"
+    },
+    {
+      "alias": "부루펜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "198300343",
+      "label": "부루펜정400밀리그램(이부프로펜)"
+    },
+    {
+      "alias": "부루펜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "198601920",
+      "label": "어린이부루펜시럽(이부프로펜)"
+    },
+    {
+      "alias": "부루펜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200302482",
+      "label": "디부루펜정400밀리그램(덱시부프로펜디.씨)"
+    },
+    {
+      "alias": "어린이부루펜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "198601920",
+      "label": "어린이부루펜시럽(이부프로펜)"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200108429",
+      "label": "아스피린프로텍트정100밀리그람"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201309112",
+      "label": "경동아스피린장용정"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201206820",
+      "label": "경보아스피린장용정"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201211564",
+      "label": "삼익아스피린장용정"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201402678",
+      "label": "삼진아스피린장용정"
+    },
+    {
+      "alias": "와파린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201905321",
+      "label": "뉴파린정(와파린나트륨)(수출용)"
+    },
+    {
+      "alias": "와파린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200600456",
+      "label": "쿠파린정2밀리그램(와파린나트륨)"
+    },
+    {
+      "alias": "와파린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200502107",
+      "label": "쿠파린정5밀리그램(와파린나트륨)"
+    },
+    {
+      "alias": "낙센",
+      "kind": "PRODUCT",
+      "targetItemSeq": "197500016",
+      "label": "낙센정(나프록센)"
+    },
+    {
+      "alias": "낙센",
+      "kind": "PRODUCT",
+      "targetItemSeq": "199300208",
+      "label": "낙센에프정(나프록센)"
+    },
+    {
+      "alias": "낙센",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201501592",
+      "label": "낙센연질캡슐(나프록센)"
+    },
+    {
+      "alias": "낙센",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201402074",
+      "label": "낙센에스정500/20밀리그램"
+    },
+    {
+      "alias": "낙센",
+      "kind": "PRODUCT",
+      "targetItemSeq": "199700166",
+      "label": "낙센에프서방정1000밀리그램(나프록센)"
+    },
+    {
+      "alias": "판콜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "198900672",
+      "label": "판콜에스내복액"
+    },
+    {
+      "alias": "판콜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "196800036",
+      "label": "판콜에이내복액"
+    },
+    {
+      "alias": "판콜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202400486",
+      "label": "판콜케어내복액"
+    },
+    {
+      "alias": "판콜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "201802134",
+      "label": "판콜아이콜드시럽"
+    },
+    {
+      "alias": "판콜",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202500588",
+      "label": "판콜에이치건조시럽"
+    },
+    {
+      "alias": "판피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202303219",
+      "label": "판피린씨액"
+    },
+    {
+      "alias": "판피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200700547",
+      "label": "판피린큐액"
+    },
+    {
+      "alias": "판피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "199400202",
+      "label": "판피린티정"
+    },
+    {
+      "alias": "판피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202303193",
+      "label": "판피린에이액"
+    },
+    {
+      "alias": "판피린",
+      "kind": "PRODUCT",
+      "targetItemSeq": "202501643",
+      "label": "판피린나이트액"
+    },
+    {
+      "alias": "아세트아미노펜",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "아세트아미노펜",
+      "label": "아세트아미노펜"
+    },
+    {
+      "alias": "이부프로펜",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "이부프로펜",
+      "label": "이부프로펜"
+    },
+    {
+      "alias": "아스피린",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "아스피린",
+      "label": "아스피린"
+    },
+    {
+      "alias": "나프록센",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "나프록센",
+      "label": "나프록센"
+    },
+    {
+      "alias": "로바스타틴",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "로바스타틴",
+      "label": "로바스타틴"
+    },
+    {
+      "alias": "케토코나졸",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "케토코나졸",
+      "label": "케토코나졸"
+    },
+    {
+      "alias": "아스피린프로텍트100",
+      "kind": "PRODUCT",
+      "targetItemSeq": "200108429",
+      "label": "아스피린프로텍트정100밀리그람"
+    },
+    {
+      "alias": "유한메토트렉세이트",
+      "kind": "PRODUCT",
+      "targetItemSeq": "197900145",
+      "label": "유한메토트렉세이트정"
+    },
+    {
+      "alias": "메토트렉세이트",
+      "kind": "INGREDIENT",
+      "targetIngredientKey": "메토트렉세이트",
+      "label": "메토트렉세이트"
+    }
+  ]
+}

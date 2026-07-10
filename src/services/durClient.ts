@@ -1,12 +1,20 @@
 import {
-  DUR_BASE_URLS,
+  DUR_PRODUCT_BASE_URL,
   DUR_OPERATION_MAP,
   FIELD_MAP,
   OFFICIAL_SOURCE_URLS,
   readMappedField
 } from "../config/schemaMap.js";
 import type { AppConfig } from "../config/env.js";
+import { MasterRepository } from "../repositories/masterRepository.js";
 import type { DurCheckResult, DurContraindication } from "../types.js";
+import { normalizeIngredientName } from "../utils/text.js";
+import {
+  publicDataItems,
+  publicDataPageFingerprint,
+  publicDataRowFingerprint
+} from "../utils/publicDataIntegrity.js";
+import { isDeletedDurRow, normalizedDurDate } from "../utils/durIngredient.js";
 
 export interface DurClient {
   checkUsjntTaboo(itemSeq: string): Promise<DurCheckResult>;
@@ -31,6 +39,7 @@ export class FixtureDurClient implements DurClient {
             targetIngredientCode: "INGR-ASPIRIN",
             reason: "[DEMO] 병용금기 fixture입니다. 실제 DUR 데이터가 아닙니다.",
             baseDate: this.baseDate,
+            dateBasis: "FIXTURE_DATE",
             source: "DEMO_FIXTURE_DUR"
           }
         ]
@@ -44,6 +53,7 @@ export class FixtureDurClient implements DurClient {
             targetIngredientCode: "INGR-WARFARIN",
             reason: "[DEMO] 병용금기 fixture입니다. 실제 DUR 데이터가 아닙니다.",
             baseDate: this.baseDate,
+            dateBasis: "FIXTURE_DATE",
             source: "DEMO_FIXTURE_DUR"
           }
         ]
@@ -58,8 +68,63 @@ export class FixtureDurClient implements DurClient {
   }
 }
 
+export class RepositoryDurClient implements DurClient {
+  constructor(
+    private readonly repository: MasterRepository,
+    private readonly config: AppConfig
+  ) {}
+
+  async selfTest(): Promise<{ ok: boolean; message: string }> {
+    const itemSeq = this.config.liveSelfTestItemSeq;
+    if (!itemSeq) {
+      return { ok: false, message: "LIVE_SELF_TEST_ITEM_SEQ is required for snapshot verification" };
+    }
+    const result = await this.checkUsjntTaboo(itemSeq);
+    if (!result.ok) return { ok: false, message: result.error ?? "DUR snapshot self-test failed" };
+    if (this.config.liveSelfTestExpectContraindication && result.contraindications.length === 0) {
+      return {
+        ok: false,
+        message: "DUR snapshot contains no contraindication for the configured red-case itemSeq"
+      };
+    }
+    if (
+      this.config.liveSelfTestTargetItemSeq &&
+      !result.contraindications.some(
+        (finding) => finding.targetItemSeq === this.config.liveSelfTestTargetItemSeq
+      )
+    ) {
+      return {
+        ok: false,
+        message: "DUR snapshot does not contain the configured red-case target itemSeq"
+      };
+    }
+    return { ok: true, message: "local DUR snapshot verified" };
+  }
+
+  async checkUsjntTaboo(itemSeq: string): Promise<DurCheckResult> {
+    const snapshot = this.repository.getDurSnapshot(itemSeq);
+    if (!snapshot || !snapshot.complete) {
+      return {
+        ok: false,
+        type: "USJNT_TABOO",
+        contraindications: [],
+        failedType: "USJNT_TABOO",
+        error: snapshot
+          ? `DUR snapshot is incomplete for ${itemSeq}`
+          : `DUR snapshot is unavailable for ${itemSeq}`
+      };
+    }
+    return {
+      ok: true,
+      type: "USJNT_TABOO",
+      contraindications: snapshot.contraindications
+    };
+  }
+}
+
 export class LiveDurClient implements DurClient {
   private readonly usjntCache = new Map<string, { expiresAt: number; result: DurCheckResult }>();
+  private readonly inFlight = new Map<string, Promise<DurCheckResult>>();
 
   constructor(private readonly config: AppConfig) {}
 
@@ -87,6 +152,17 @@ export class LiveDurClient implements DurClient {
         message: "DUR self-test returned zero contraindications for the configured red-case itemSeq"
       };
     }
+    if (
+      this.config.liveSelfTestTargetItemSeq &&
+      !result.contraindications.some(
+        (finding) => finding.targetItemSeq === this.config.liveSelfTestTargetItemSeq
+      )
+    ) {
+      return {
+        ok: false,
+        message: "DUR self-test did not return the configured target itemSeq"
+      };
+    }
     return { ok: true, message: "DUR self-test succeeded" };
   }
 
@@ -110,37 +186,58 @@ export class LiveDurClient implements DurClient {
 
     const cached = this.usjntCache.get(itemSeq);
     if (cached && cached.expiresAt > Date.now()) {
+      this.usjntCache.delete(itemSeq);
+      this.usjntCache.set(itemSeq, cached);
       return cached.result;
     }
+    if (cached) this.usjntCache.delete(itemSeq);
 
+    const inFlightKey = `${itemSeq}:${timeoutMs}`;
+    const existingRequest = this.inFlight.get(inFlightKey);
+    if (existingRequest) return existingRequest;
+
+    const request = this.fetchUsjntTaboo(itemSeq, timeoutMs).finally(() => {
+      this.inFlight.delete(inFlightKey);
+    });
+    this.inFlight.set(inFlightKey, request);
+    return request;
+  }
+
+  private async fetchUsjntTaboo(itemSeq: string, timeoutMs: number): Promise<DurCheckResult> {
     const operation = DUR_OPERATION_MAP.USJNT_TABOO.operationName;
-    const errors: string[] = [];
-    for (const baseUrl of DUR_BASE_URLS) {
-      try {
-        const result = await this.fetchAllPages(`${baseUrl}/${operation}`, itemSeq, timeoutMs);
-        if (result.ok) {
-          this.cacheUsjntResult(itemSeq, result);
-          return result;
-        }
-        errors.push(result.error ?? "unknown DUR error");
-      } catch (error) {
-        errors.push(error instanceof Error ? error.message : String(error));
-      }
+    try {
+      const result = await this.fetchAllPages(
+        `${DUR_PRODUCT_BASE_URL}/${operation}`,
+        itemSeq,
+        timeoutMs
+      );
+      if (result.ok) this.cacheUsjntResult(itemSeq, result);
+      return result;
+    } catch (error) {
+      return {
+        ok: false,
+        type: "USJNT_TABOO",
+        contraindications: [],
+        failedType: "USJNT_TABOO",
+        error: error instanceof Error ? error.message : String(error)
+      };
     }
-
-    return {
-      ok: false,
-      type: "USJNT_TABOO",
-      contraindications: [],
-      failedType: "USJNT_TABOO",
-      error: errors.join(" | ") || "DUR request failed"
-    };
   }
 
   private cacheUsjntResult(itemSeq: string, result: DurCheckResult): void {
     if (this.config.durCacheTtlMs <= 0) return;
+    const now = Date.now();
+    for (const [key, cached] of this.usjntCache) {
+      if (cached.expiresAt <= now) this.usjntCache.delete(key);
+    }
+    this.usjntCache.delete(itemSeq);
+    while (this.usjntCache.size >= this.config.durCacheMaxEntries) {
+      const oldest = this.usjntCache.keys().next().value as string | undefined;
+      if (!oldest) break;
+      this.usjntCache.delete(oldest);
+    }
     this.usjntCache.set(itemSeq, {
-      expiresAt: Date.now() + this.config.durCacheTtlMs,
+      expiresAt: now + this.config.durCacheTtlMs,
       result
     });
   }
@@ -152,11 +249,34 @@ export class LiveDurClient implements DurClient {
   ): Promise<DurCheckResult> {
     const contraindications: DurContraindication[] = [];
     const unresolvedFields = new Set<string>();
-    const numOfRows = 100;
+    const numOfRows = 500;
+    const deadline = Date.now() + timeoutMs;
     let pageNo = 1;
-    let totalCount = 0;
+    let totalCount: number | null = null;
+    let receivedRows = 0;
+    const pageFingerprints = new Set<string>();
+    const rowFingerprints = new Set<string>();
 
-    do {
+    while (true) {
+      if (pageNo > this.config.durMaxPages) {
+        return {
+          ok: false,
+          type: "USJNT_TABOO",
+          contraindications,
+          failedType: "USJNT_TABOO",
+          error: `DUR pagination exceeded ${this.config.durMaxPages} pages`
+        };
+      }
+      const remainingMs = deadline - Date.now();
+      if (remainingMs <= 0) {
+        return {
+          ok: false,
+          type: "USJNT_TABOO",
+          contraindications,
+          failedType: "USJNT_TABOO",
+          error: "DUR request deadline exceeded"
+        };
+      }
       const url = new URL(endpoint);
       url.search = new URLSearchParams({
         serviceKey: this.config.mfdsServiceKey ?? "",
@@ -166,7 +286,7 @@ export class LiveDurClient implements DurClient {
         itemSeq
       }).toString();
 
-      const response = await this.fetchWithRetry(url, timeoutMs);
+      const response = await this.fetchWithRetry(url, remainingMs);
 
       if (!response.ok) {
         return {
@@ -191,8 +311,8 @@ export class LiveDurClient implements DurClient {
         };
       }
 
-      totalCount = wrapped.totalCount ?? Number.NaN;
-      if (!Number.isFinite(totalCount)) {
+      const pageTotalCount = wrapped.totalCount;
+      if (pageTotalCount === null || !Number.isFinite(pageTotalCount) || pageTotalCount < 0) {
         return {
           ok: false,
           type: "USJNT_TABOO",
@@ -201,28 +321,17 @@ export class LiveDurClient implements DurClient {
           error: "DUR totalCount is missing or invalid"
         };
       }
-      for (const row of wrapped.items) {
-        const targetItemSeq = readMappedField(row, FIELD_MAP.durUsjntTaboo.targetItemSeq);
-        const targetIngredientCode = readMappedField(
-          row,
-          FIELD_MAP.durUsjntTaboo.targetIngredientCode
-        );
-        const reason = readMappedField(row, FIELD_MAP.durUsjntTaboo.reason);
-        if (!targetItemSeq && !targetIngredientCode) unresolvedFields.add("targetItemSeq");
-        if (!reason) unresolvedFields.add("reason");
-        contraindications.push({
-          sourceItemSeq: itemSeq,
-          targetItemSeq,
-          targetIngredientCode,
-          reason: reason ?? "DUR 병용금기 응답 필드 미해결",
-          baseDate:
-            readMappedField(row, FIELD_MAP.durUsjntTaboo.baseDate) ?? this.config.durBaseDate,
-          source: OFFICIAL_SOURCE_URLS.durProductInfo
-        });
+      if (totalCount !== null && totalCount !== pageTotalCount) {
+        return {
+          ok: false,
+          type: "USJNT_TABOO",
+          contraindications,
+          failedType: "USJNT_TABOO",
+          error: "DUR totalCount changed during pagination"
+        };
       }
-
-      pageNo += 1;
-      if (pageNo > this.config.durMaxPages) {
+      totalCount = pageTotalCount;
+      if (Math.ceil(totalCount / numOfRows) > this.config.durMaxPages) {
         return {
           ok: false,
           type: "USJNT_TABOO",
@@ -231,7 +340,83 @@ export class LiveDurClient implements DurClient {
           error: `DUR pagination exceeded ${this.config.durMaxPages} pages`
         };
       }
-    } while ((pageNo - 1) * numOfRows < totalCount);
+      const pageFingerprint = publicDataPageFingerprint(wrapped.items);
+      if (pageFingerprints.has(pageFingerprint)) {
+        return {
+          ok: false,
+          type: "USJNT_TABOO",
+          contraindications,
+          failedType: "USJNT_TABOO",
+          error: "DUR pagination repeated an identical page"
+        };
+      }
+      pageFingerprints.add(pageFingerprint);
+      for (const row of wrapped.items) {
+        const rowFingerprint = publicDataRowFingerprint(row);
+        if (rowFingerprints.has(rowFingerprint)) {
+          return {
+            ok: false,
+            type: "USJNT_TABOO",
+            contraindications,
+            failedType: "USJNT_TABOO",
+            error: "DUR pagination returned duplicate rows"
+          };
+        }
+        rowFingerprints.add(rowFingerprint);
+        if (isDeletedDurRow(row)) continue;
+        const sourceItemSeq = readMappedField(row, FIELD_MAP.durUsjntTaboo.sourceItemSeq);
+        if (!sourceItemSeq) unresolvedFields.add("sourceItemSeq");
+        if (sourceItemSeq && sourceItemSeq !== itemSeq) {
+          return {
+            ok: false,
+            type: "USJNT_TABOO",
+            contraindications,
+            failedType: "USJNT_TABOO",
+            error: `DUR response itemSeq mismatch: requested ${itemSeq}, received ${sourceItemSeq}`
+          };
+        }
+        const targetItemSeq = readMappedField(row, FIELD_MAP.durUsjntTaboo.targetItemSeq);
+        const targetIngredientCode = readMappedField(
+          row,
+          FIELD_MAP.durUsjntTaboo.targetIngredientCode
+        );
+        const targetIngredientName = readMappedField(
+          row,
+          FIELD_MAP.durUsjntTaboo.targetIngredientName
+        );
+        const reason = readMappedField(row, FIELD_MAP.durUsjntTaboo.reason);
+        if (!targetItemSeq && !targetIngredientCode) unresolvedFields.add("targetItemSeq");
+        if (!reason) unresolvedFields.add("reason");
+        const rawSourceBaseDate = readMappedField(row, FIELD_MAP.durUsjntTaboo.baseDate);
+        const sourceBaseDate = normalizedDurDate(rawSourceBaseDate ?? "");
+        if (rawSourceBaseDate && !sourceBaseDate) unresolvedFields.add("baseDate");
+        contraindications.push({
+          sourceItemSeq: itemSeq,
+          targetItemSeq,
+          targetIngredientCode,
+          targetIngredientName,
+          targetIngredientKey: targetIngredientName
+            ? normalizeIngredientName(targetIngredientName)
+            : null,
+          reason: reason ?? "DUR 병용금기 응답 필드 미해결",
+          baseDate: sourceBaseDate ?? this.config.durBaseDate,
+          dateBasis: sourceBaseDate ? "SOURCE_DATE" : "SNAPSHOT_FETCHED_AT",
+          source: OFFICIAL_SOURCE_URLS.durProductInfo
+        });
+      }
+      receivedRows += wrapped.items.length;
+      if (receivedRows >= totalCount) break;
+      if (wrapped.items.length === 0) {
+        return {
+          ok: false,
+          type: "USJNT_TABOO",
+          contraindications,
+          failedType: "USJNT_TABOO",
+          error: "DUR pagination ended before totalCount rows were received"
+        };
+      }
+      pageNo += 1;
+    }
 
     if (unresolvedFields.size > 0) {
       return {
@@ -244,18 +429,33 @@ export class LiveDurClient implements DurClient {
       };
     }
 
+    if (rowFingerprints.size !== totalCount) {
+      return {
+        ok: false,
+        type: "USJNT_TABOO",
+        contraindications,
+        failedType: "USJNT_TABOO",
+        error: "DUR distinct row count does not match totalCount"
+      };
+    }
+
     return { ok: true, type: "USJNT_TABOO", contraindications };
   }
 
   private async fetchWithRetry(url: URL, timeoutMs: number): Promise<Response> {
+    const deadline = Date.now() + timeoutMs;
     let lastError: unknown = null;
     for (let attempt = 0; attempt <= this.config.durMaxRetries; attempt += 1) {
+      const remainingMs = deadline - Date.now();
+      if (remainingMs <= 0) throw new Error("DUR request deadline exceeded");
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      const timer = setTimeout(() => controller.abort(), remainingMs);
       try {
         const response = await fetch(url, { signal: controller.signal });
         if ((response.status === 429 || response.status >= 500) && attempt < this.config.durMaxRetries) {
-          await delay(backoffMs(attempt));
+          const waitMs = retryDelayMs(response, attempt);
+          if (Date.now() + waitMs >= deadline) throw new Error("DUR retry exceeds request deadline");
+          await delay(waitMs);
           continue;
         }
         return response;
@@ -269,6 +469,17 @@ export class LiveDurClient implements DurClient {
     }
     throw lastError instanceof Error ? lastError : new Error(String(lastError ?? "DUR request failed"));
   }
+}
+
+function retryDelayMs(response: Response, attempt: number): number {
+  const retryAfter = response.headers.get("retry-after")?.trim();
+  if (retryAfter) {
+    const seconds = Number(retryAfter);
+    if (Number.isFinite(seconds) && seconds >= 0) return Math.min(5000, seconds * 1000);
+    const dateMs = Date.parse(retryAfter);
+    if (Number.isFinite(dateMs)) return Math.min(5000, Math.max(0, dateMs - Date.now()));
+  }
+  return backoffMs(attempt);
 }
 
 function backoffMs(attempt: number): number {
@@ -287,11 +498,7 @@ function normalizePublicDataResponse(json: Record<string, unknown>): {
   const response = (json.response ?? json) as Record<string, unknown>;
   const header = (response.header ?? null) as Record<string, unknown> | null;
   const body = (response.body ?? {}) as Record<string, unknown>;
-  const itemsWrapper = (body.items ?? {}) as Record<string, unknown> | Record<string, unknown>[];
-  const rawItems = Array.isArray(itemsWrapper)
-    ? itemsWrapper
-    : ((itemsWrapper as Record<string, unknown>).item ?? []);
-  const items = Array.isArray(rawItems) ? rawItems : rawItems ? [rawItems] : [];
+  const items = publicDataItems(body.items);
 
   return {
     header: header
@@ -300,7 +507,7 @@ function normalizePublicDataResponse(json: Record<string, unknown>): {
           resultMsg: header.resultMsg == null ? undefined : String(header.resultMsg)
         }
       : null,
-    items: items as Record<string, unknown>[],
+    items,
     totalCount: body.totalCount == null ? null : Number(body.totalCount)
   };
 }

@@ -1,54 +1,49 @@
 # Kakao Tools Widget Mapping
 
-## 목적
+`widget-preview.html`은 정적 그림이 아니라 `window.renderMedsafeWidget(structuredContent)`에 실제 MCP 응답 계약을 넣어 렌더링합니다. text 응답을 다시 파싱하지 않습니다.
 
-본선에서 Widget 스펙을 요구받았을 때 `structuredContent`를 그대로 카드 UI로 옮길 수 있음을 보여준다.
+## Resolve 계약
 
-## 데이터 계약
+| Field | UI |
+|---|---|
+| `resolved[].status` | `AMBIGUOUS`, `CONFIRMED`, `NOT_FOUND`, `OUT_OF_SCOPE` 상태 |
+| `resolved[].query` | 사용자가 말한 표현 |
+| `resolved[].candidates[]` | 실제 품목명·제조사 선택 목록 |
+| `candidate.itemSeq` | 화면에 노출하지 않는 선택 식별자 |
+| `candidate.confirmationToken` | 모호한 후보에서는 항상 `null` |
+| `dataAsOf` | 응답에 사용한 로컬 공개데이터 스냅샷 기준일 |
 
-`check_medication_safety`의 `structuredContent`:
+후보 선택 후 Agent는 선택한 정확한 제품명으로 `resolve_medications`를 다시 호출합니다. 이 두 번째 결과가 `CONFIRMED`일 때만 token이 발급됩니다. Widget이 임의로 status를 올리거나 token을 만들지 않습니다.
 
-| Field | Widget role | 표시 규칙 |
-|---|---|---|
-| `verdict` | 상단 신호등 | `WARN` red, `CAUTION`/`UNCERTAIN` yellow, `NO_KNOWN_FINDINGS` green |
-| `findings[]` | 근거 카드 목록 | type, a, b, reason, source, baseDate 표시 |
-| `unresolved[]` | 되묻기/확인 필요 영역 | 미확정 약, token 누락, 범위 밖 입력 표시 |
-| `checkedTypes[]` | 접힌 상세 정보 | 조회 완료 범위 |
-| `failedTypes[]` | 접힌 경고 정보 | 녹색 금지 사유 |
-| `disclaimer` | 카드 하단 고정 문구 | 항상 표시 |
+후보 버튼은 선택 상태를 표시하고 Widget root에서 `medsafe:candidate-selected` CustomEvent를 발생시킵니다. 이벤트 detail은 `query`, `itemSeq`, `ingrCode`, `matchedName`, `candidateIndex`만 포함하며 token은 포함하지 않습니다. 여러 `resolved[]` 항목은 각각 별도 행으로 렌더링합니다.
 
-## 카드 상태
+## Safety 계약
 
-### Ambiguous Selection
+| Field | UI |
+|---|---|
+| `verdict` | `WARN` red, `CAUTION`/`UNCERTAIN` yellow, 실패·미확인 항목이 전혀 없는 `NO_KNOWN_FINDINGS`만 green |
+| `findings[]` | type, a, b, reason, source, baseDate, dateBasis 근거 행 |
+| `unresolved[]` | 특정하지 못했거나 성분·DUR 규칙 조건·스냅샷 근거가 불완전한 항목 |
+| `checkedTypes[]` | 실제 완료된 핵심 검사 |
+| `failedTypes[]` | 실제 실패한 핵심 검사. 존재하면 green 금지 |
+| `disclaimer` | 하단 고정 문구 |
 
-- 제목: "약을 한 번 더 확인해주세요"
-- 본문: 후보 제품명 2-5개
-- 액션: 후보 선택 버튼
-- 서버 입력: 선택된 candidate의 `itemSeq`, `ingrCode`, `confirmationToken`
+## Explain 계약
 
-### Caution
+| Field | UI |
+|---|---|
+| `found`, `status` | `FOUND`, `NOT_FOUND`, `UPSTREAM_ERROR` 상태 분기 |
+| `info.itemName`, `info.entpName` | 품목명과 업체명 |
+| `info.efcyQesitm` | 효능·효과 |
+| `info.useMethodQesitm` | 사용 방법 |
+| `info.atpnWarnQesitm`, `info.atpnQesitm` | 주의사항 |
+| `dataAsOf` | 로컬 e약은요 스냅샷 기준일 |
 
-- 제목: "주의 정보가 있습니다"
-- 색상: yellow
-- 본문: 중복 성분, 맥락 부족, 일부 조회 실패
-- 액션: "약사에게 보여줄 요약 보기"
+## 렌더링 원칙
 
-### Warn
-
-- 제목: "병용금기 가능성이 있습니다"
-- 색상: red
-- 본문: 두 약 이름, reason, source, baseDate
-- 고정 문구: "임의 중단 전 약사·의사에게 문의하세요"
-
-### Out Of Scope
-
-- 제목: "의약품 조회 범위 밖 입력입니다"
-- 색상: neutral/yellow
-- 본문: 식품·건강기능식품·한약은 별도 확인 필요
-
-## 구현 메모
-
-- Widget은 `content[0].text`를 재해석하지 않고 `structuredContent`만 렌더링한다.
-- `confirmationToken`은 화면에 노출하지 않는다.
-- `source`와 `baseDate`는 finding마다 표시한다.
-- `failedTypes`가 있으면 green UI를 금지한다.
+- resolve의 `{ emergency: true, resolved: [] }`와 check의 `EMERGENCY` finding 모두 일반 결과보다 먼저 119/응급실 제목을 표시합니다.
+- `confirmationToken`은 화면·로그·캡처에 표시하지 않습니다.
+- source, baseDate, dateBasis는 finding마다 함께 표시합니다. dateBasis로 원천 기준일·스냅샷 수집일·정책일을 구분합니다.
+- `failedTypes` 또는 `unresolved`가 하나라도 있으면 payload의 verdict가 `NO_KNOWN_FINDINGS`여도 `UNCERTAIN`으로 강등합니다.
+- 미구현 검사 유형을 마치 실행 실패한 것처럼 `failedTypes`에 넣지 않습니다.
+- 서버 응답 문자열은 HTML로 삽입하기 전에 escape합니다.

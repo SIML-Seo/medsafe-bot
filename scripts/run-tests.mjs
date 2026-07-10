@@ -4,15 +4,16 @@ import { join } from "node:path";
 
 const testMasterDbPath = "data/master.test.sqlite";
 const env = { ...process.env, SOURCE_DATE_EPOCH: "0", MASTER_DB_PATH: testMasterDbPath };
+const BUILD_TIMEOUT_MS = 60_000;
+const TEST_TIMEOUT_MS = 240_000;
 
 const build = spawnSync("npm", ["run", "build"], {
   stdio: "inherit",
   shell: process.platform === "win32",
-  env
+  env,
+  timeout: BUILD_TIMEOUT_MS
 });
-if (build.status !== 0) {
-  process.exit(build.status ?? 1);
-}
+exitOnFailure(build, "TypeScript build");
 
 const buildMaster = spawnSync(
   process.execPath,
@@ -27,12 +28,11 @@ const buildMaster = spawnSync(
   ],
   {
     stdio: "inherit",
-    env
+    env,
+    timeout: BUILD_TIMEOUT_MS
   }
 );
-if (buildMaster.status !== 0) {
-  process.exit(buildMaster.status ?? 1);
-}
+exitOnFailure(buildMaster, "fixture DB build");
 
 const testFiles = readdirSync("dist/tests")
   .filter((file) => file.endsWith(".test.js"))
@@ -41,6 +41,13 @@ const testFiles = readdirSync("dist/tests")
 
 const test = spawnSync(process.execPath, ["--test", ...testFiles], {
   stdio: "inherit",
-  env
+  env,
+  timeout: TEST_TIMEOUT_MS
 });
-process.exit(test.status ?? 1);
+exitOnFailure(test, "test suite");
+
+function exitOnFailure(result, label) {
+  if (result.status === 0) return;
+  if (result.error) console.error(`${label} failed: ${result.error.message}`);
+  process.exit(result.status ?? 1);
+}

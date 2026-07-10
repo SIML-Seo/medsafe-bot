@@ -5,27 +5,34 @@
   "type": "module",
   "description": "Medication safety orchestration MCP server for Kakao AGENTIC PLAYER.",
   "engines": {
-    "node": ">=18.19.0"
+    "node": ">=22.7.5"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "dev": "npm run build && node dist/src/server.js",
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build:master && node dist/src/server.js",
     "start": "node dist/src/server.js",
     "test": "node scripts/run-tests.mjs",
-    "verify": "npm test && node dist/scripts/submission-check.js",
-    "build:master": "npm run build && node dist/scripts/build-master-db.js --input data/master.seed.json --aliases data/aliases.json --output data/master.sqlite",
+    "verify": "node scripts/run-verify.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "verify:inspector-output": "node scripts/validate-inspector-output.mjs",
+    "build:master": "npm run build && node dist/scripts/build-master-db.js --input data/master.seed.json --aliases data/aliases.json --output data/master.fixture.sqlite",
     "build:master:live": "npm run build && node dist/scripts/build-live-master-inputs.js --output data/master.live.seed.json --aliases data/aliases.live.json && node dist/scripts/build-master-db.js --input data/master.live.seed.json --aliases data/aliases.live.json --output data/master.sqlite",
     "demo:transcript": "npm run build && node dist/scripts/generate-demo-transcript.js --output docs/submission/demo-transcript.generated.md",
-    "submission:check": "npm run build:master && node dist/scripts/submission-check.js",
-    "submission:check:live": "npm run build && node dist/scripts/submission-check.js --strict-live"
+    "submission:check": "npm run build && node dist/scripts/submission-check.js",
+    "submission:check:live": "npm run build && node dist/scripts/submission-check.js --strict-live",
+    "submission:check:release": "npm run build && node dist/scripts/submission-check.js --strict-live --require-remote",
+    "verify:remote": "npm run build && node dist/scripts/verify-remote.js",
+    "verify:all": "npm run verify && npm run submission:check:live && npm run verify:remote && npm run submission:check:release"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "iconv-lite": "0.6.3",
     "sql.js": "^1.13.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@types/node": "^20.14.10",
+    "@modelcontextprotocol/inspector": "0.22.0",
+    "@types/node": "22.20.1",
     "@types/sql.js": "^1.4.9",
     "typescript": "^5.5.3"
   }

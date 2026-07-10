@@ -1,55 +1,34 @@
-# 데모와 등록 가이드
+# 데모와 등록
 
-## 로컬 데모
+## 로컬 검증
 
 ```bash
-npm install
-npm run build:master
-DATA_MODE=fixture npm run dev
+npm ci
+npm test
+npm run dev
 ```
 
-MCP endpoint:
+fixture DB는 `data/master.fixture.sqlite` 또는 테스트 전용 `data/master.test.sqlite`를 사용하며 제출용 `data/master.sqlite`를 덮어쓰지 않는다.
 
-```text
-http://127.0.0.1:3000/mcp
+## 3분 데모 순서
+
+1. “아스피린”으로 모호한 후보와 token 미발급을 보여준다.
+2. 정확한 아스피린프로텍트정과 유한메토트렉세이트정으로 실제 RED를 보여준다.
+3. 타이레놀 500mg과 게보린의 아세트아미노펜 중복을 보여준다.
+4. 타이레놀 e약은요 설명을 조회한다.
+5. 호흡곤란·과량복용 문장으로 119 우선 분기를 보여준다.
+6. `/readyz`의 build ID, DB SHA, generation, freshness, coverage와 원격 100회 성능 증거를 보여준다.
+
+## PlayMCP 등록·갱신
+
+KC Git 빌드에 공개 저장소를 연결하고 runtime 환경변수를 설정한다. endpoint가 Active가 된 뒤 PlayMCP에는 `/mcp`, Streamable HTTP로 등록한다. 배포 변경 후에는 KC 가이드에 따라 기존 KC 서버를 동일 이름으로 다시 생성하고, PlayMCP 정보 다시 불러오기와 재심사를 수행한다.
+
+최종 증거 절차:
+
+```bash
+npm run submission:check:live
+npm run verify:remote
+npm run submission:check:release
 ```
 
-## 데모 대화
-
-사용자:
-
-```text
-엄마가 타이레놀하고 게보린 같이 먹어도 되는지 봐줘
-```
-
-오케스트레이션:
-
-1. `resolve_medications({ "queries": ["타이레놀", "게보린"] })`
-2. 후보가 단일이면 사용자에게 제품명을 되보여 확인
-3. `check_medication_safety({ medications, context: { subjectIsUser: false, ageGroup: "unknown", pregnancy: "unknown" } })`
-
-예상 결과:
-
-- 중복성분 노란색 finding
-- 등록된 병용금기는 fixture 기준 미조회 문구
-- 스코프 한계와 디스클레이머
-- "안전합니다" 미출현
-
-## PlayMCP 등록 순서
-
-1. 카카오클라우드 또는 허용된 배포 환경에 HTTPS로 배포
-2. `MFDS_SERVICE_KEY`와 `DATA_MODE=live` 설정
-3. `npm run build:master`를 실제 ATC 매핑 파일로 실행
-4. PlayMCP 개발자 콘솔에서 MCP 서버 endpoint 등록
-5. 임시 등록으로 tool list/call 테스트
-6. 최종 제출용은 등록 및 심사 요청
-7. 심사 통과 후 공개 상태를 전체 공개로 변경
-8. AGENTIC PLAYER 예선 참여 버튼으로 제출
-
-## 제출 전 필수 확인
-
-- 2026-07-07까지 심사 요청하는 것이 가장 안전하다. 공식 페이지는 2026-07-07(화)까지 요청 건은 2026-07-10(금)까지 심사 완료 예정, 이후 요청은 응모기한 내 심사 완료가 어려울 수 있다고 안내한다.
-- serviceKey self-test 정상
-- 실 DUR 병용금기 회귀쌍 최소 1건
-- 실제 ATC 매핑 파일로 조인키 검증 노트 갱신
-- 개인정보처리방침/데이터 미저장 설명 준비
+`verify:remote`가 성공하면 현재 endpoint, build ID, verification ID, DB SHA, 고정 RED와 품목 스냅샷 없는 성분 카탈로그 전용 RED, 표기 변형·구성성분 중복, 브랜드 응급 회귀·비응급 대조군·모호한 과량복용 보류를 포함한 대표 흐름, 고정 안전 프로브 216개, 합계 100회 도구별 분포·동시 burst·cold 연결 평균·p99를 `docs/submission/remote-verification.generated.json`에 원자적으로 기록한다. token과 service key는 증거 파일에 쓰지 않는다. GitHub Actions `Remote Release Verification`은 Node 22와 lockfile 고정 공식 Inspector로 tools/list를 별도 확인하고 두 JSON을 30일 artifact로 보존한다.

@@ -6,6 +6,8 @@ import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createAppServices } from "../src/app.js";
 import { loadConfig } from "../src/config/env.js";
 import { buildMcpServer } from "../src/mcpServer.js";
+import { MasterRepository } from "../src/repositories/masterRepository.js";
+import { computeBuildId } from "../src/version.js";
 
 interface TextContent {
   type: string;
@@ -20,7 +22,7 @@ if (!outputPath) {
   throw new Error("--output requires a path");
 }
 
-const transcriptDataMode = process.env.DATA_MODE === "live" ? "live" : "fixture";
+const transcriptDataMode = await inferDataMode();
 const services = await createAppServices(
   loadConfig({
     ...process.env,
@@ -36,8 +38,15 @@ try {
   await server.connect(serverTransport);
   await client.connect(clientTransport);
 
-  const primaryQueries = transcriptDataMode === "live" ? ["로바콜", "더마졸"] : ["타이레놀", "게보린"];
-  const secondaryQueries = transcriptDataMode === "live" ? ["타이레놀", "게보린"] : ["와파린", "아스피린"];
+  const ambiguity = await client.callTool({
+    name: "resolve_medications",
+    arguments: { queries: [transcriptDataMode === "live" ? "아스피린" : "타이레놀"] }
+  });
+
+  const primaryQueries = transcriptDataMode === "live"
+    ? ["아스피린프로텍트정 100mg", "유한메토트렉세이트정"]
+    : ["와파린", "아스피린"];
+  const secondaryQueries = ["타이레놀정 500mg", "게보린정"];
   const caregiverResolve = await client.callTool({
     name: "resolve_medications",
     arguments: { queries: primaryQueries }
@@ -61,14 +70,13 @@ try {
     name: "check_medication_safety",
     arguments: {
       medications: caregiverStructured.resolved.map((item) => ({
-        itemSeq: item.status === "AMBIGUOUS" ? item.candidates[0]?.itemSeq : item.itemSeq,
-        ingrCode: item.status === "AMBIGUOUS" ? item.candidates[0]?.ingrCode : item.ingrCode,
-        status: "CONFIRMED",
-        displayName: item.status === "AMBIGUOUS" ? item.candidates[0]?.matchedName : item.matchedName,
-        confirmationToken:
-          item.status === "AMBIGUOUS" ? item.candidates[0]?.confirmationToken : item.confirmationToken
+        itemSeq: item.itemSeq,
+        ingrCode: item.ingrCode,
+        status: item.status,
+        displayName: item.matchedName,
+        confirmationToken: item.confirmationToken
       })),
-      context: { subjectIsUser: false, ageGroup: "elderly", pregnancy: "no" }
+      context: { ageGroup: "adult", pregnancy: "no" }
     }
   });
 
@@ -87,7 +95,7 @@ try {
         displayName: item.matchedName,
         confirmationToken: item.confirmationToken
       })),
-      context: { subjectIsUser: false, ageGroup: "adult", pregnancy: "no" }
+      context: { ageGroup: "adult", pregnancy: "no" }
     }
   });
 
@@ -99,17 +107,36 @@ try {
     name: "resolve_medications",
     arguments: { queries: ["자몽"] }
   });
+  const explanation = await client.callTool({
+    name: "explain_medication",
+    arguments: {
+      itemSeq: transcriptDataMode === "live" ? "202106092" : "DEMO-TYLENOL-500"
+    }
+  });
 
   const markdown = [
     "# Demo Transcript",
     "",
     transcriptDataMode === "live"
-      ? "Generated from the local MCP server with live public-data mode."
+      ? "Generated from the local MCP server with a verified live public-data snapshot."
       : "Generated from the local MCP server with fixture data. Use live public-data evidence before final submission.",
     "",
-    transcriptDataMode === "live" ? "## 1. Live red-case 입력과 확인" : "## 1. 보호자 입력과 되묻기",
+    `Build ID: \`${computeBuildId()}\``,
+    `Data SHA-256: \`${services.dataSha256}\``,
     "",
-    `User: 엄마가 ${primaryQueries[0]}하고 ${primaryQueries[1]} 같이 먹어도 돼?`,
+    "## 1. 모호한 약 이름은 후보 확인",
+    "",
+    `User: ${transcriptDataMode === "live" ? "아스피린" : "타이레놀"} 먹고 있어요.`,
+    "",
+    "Tool: `resolve_medications`",
+    "",
+    "```text",
+    textOf(ambiguity),
+    "```",
+    "",
+    transcriptDataMode === "live" ? "## 2. 정확한 품목으로 Live red-case 확인" : "## 2. 정확한 품목 확인",
+    "",
+    `User: 성인 남성인 아버지가 ${primaryQueries[0]}하고 ${primaryQueries[1]} 같이 먹어도 돼?`,
     "",
     "Tool: `resolve_medications`",
     "",
@@ -123,7 +150,7 @@ try {
     JSON.stringify(redactTokens(caregiverResolve.structuredContent), null, 2),
     "```",
     "",
-    transcriptDataMode === "live" ? "## 2. 실제 DUR 병용금기" : "## 2. 중복 성분 주의",
+    transcriptDataMode === "live" ? "## 3. 실제 DUR 병용금기" : "## 3. 중복 성분 주의",
     "",
     "Tool: `check_medication_safety`",
     "",
@@ -131,7 +158,9 @@ try {
     textOf(primaryCheck),
     "```",
     "",
-    transcriptDataMode === "live" ? "## 3. 데이터 부족 fail-closed 데모" : "## 3. 병용금기 빨간색 데모",
+    "## 4. 실제 복합성분 중복 점검",
+    "",
+    "User: 성인 남성인 제가 타이레놀정 500mg하고 게보린정을 같이 먹어도 돼?",
     "",
     "Tool: `resolve_medications` then `check_medication_safety`",
     "",
@@ -139,13 +168,21 @@ try {
     textOf(secondaryCheck),
     "```",
     "",
-    "## 4. 응급 우선",
+    "## 5. e약은요 설명",
+    "",
+    "Tool: `explain_medication`",
+    "",
+    "```text",
+    textOf(explanation),
+    "```",
+    "",
+    "## 6. 응급 우선",
     "",
     "```text",
     textOf(emergency),
     "```",
     "",
-    "## 5. 범위 밖 입력",
+    "## 7. 범위 밖 입력",
     "",
     "```text",
     textOf(outOfScope),
@@ -177,9 +214,28 @@ function redactTokens(value: unknown): unknown {
     return Object.fromEntries(
       Object.entries(value).map(([key, nested]) => [
         key,
-        key === "confirmationToken" && typeof nested === "string" ? "v1.[redacted]" : redactTokens(nested)
+        key === "confirmationToken" && typeof nested === "string" ? "v2.[redacted]" : redactTokens(nested)
       ])
     );
   }
   return value;
+}
+
+async function inferDataMode(): Promise<"fixture" | "live"> {
+  if (process.env.DATA_MODE) return process.env.DATA_MODE === "live" ? "live" : "fixture";
+  const repository = await MasterRepository.open(process.env.MASTER_DB_PATH ?? "data/master.sqlite");
+  try {
+    if (repository.metadata("source") !== "PUBLIC_DATA_LIVE") return "fixture";
+    if (
+      repository.metadata("dataModelVersion") !== "3" ||
+      !repository.hasCompleteDurIngredientCatalog()
+    ) {
+      throw new Error(
+        "Refusing to generate a live transcript from a pre-v3 or incomplete DUR catalog."
+      );
+    }
+    return "live";
+  } finally {
+    repository.close();
+  }
 }

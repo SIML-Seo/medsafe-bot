@@ -1,16 +1,33 @@
 # Demo Transcript
 
-Generated from the local MCP server with live public-data mode.
+Generated from the local MCP server with a verified live public-data snapshot.
 
-## 1. Live red-case 입력과 확인
+Build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
+Data SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 
-User: 엄마가 로바콜하고 더마졸 같이 먹어도 돼?
+## 1. 모호한 약 이름은 후보 확인
+
+User: 아스피린 먹고 있어요.
 
 Tool: `resolve_medications`
 
 ```text
-확인 후보: 로바콜 → 로바콜정(로바스타틴)(수출용)
-확인 후보: 더마졸 → 더마졸정(케토코나졸)(수출용)
+되묻기 필요: 아스피린 → 1. 아스피린프로텍트정100밀리그람 / 2. 경동아스피린장용정 / 3. 경보아스피린장용정 / 4. 삼익아스피린장용정 / 5. 삼진아스피린장용정
+
+이 결과는 건강기능식품·식품·한약·일부 의약품 정보를 포함하지 못할 수 있습니다.
+본 서비스는 의료기기가 아닙니다.
+본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119.
+```
+
+## 2. 정확한 품목으로 Live red-case 확인
+
+User: 성인 남성인 아버지가 아스피린프로텍트정 100mg하고 유한메토트렉세이트정 같이 먹어도 돼?
+
+Tool: `resolve_medications`
+
+```text
+확인 후보: 아스피린프로텍트정 100mg → 아스피린프로텍트정100밀리그람
+확인 후보: 유한메토트렉세이트정 → 유한메토트렉세이트정
 
 이 결과는 건강기능식품·식품·한약·일부 의약품 정보를 포함하지 못할 수 있습니다.
 본 서비스는 의료기기가 아닙니다.
@@ -23,62 +40,61 @@ Structured summary:
 {
   "resolved": [
     {
-      "query": "로바콜",
+      "query": "아스피린프로텍트정 100mg",
       "status": "CONFIRMED",
       "inputKind": "PRODUCT",
-      "itemSeq": "199701294",
-      "ingrCode": "D000419",
-      "matchedName": "로바콜정(로바스타틴)(수출용)",
+      "itemSeq": "200108429",
+      "ingrCode": "111001ATE",
+      "matchedName": "아스피린프로텍트정100밀리그람",
       "candidates": [
         {
-          "itemSeq": "199701294",
-          "ingrCode": "D000419",
-          "matchedName": "로바콜정(로바스타틴)(수출용)",
-          "manufacturer": "명인제약(주)",
+          "itemSeq": "200108429",
+          "ingrCode": "111001ATE",
+          "matchedName": "아스피린프로텍트정100밀리그람",
+          "manufacturer": "바이엘코리아(주)",
           "score": 1,
-          "reason": "alias product",
-          "confirmationToken": "v1.[redacted]"
+          "reason": "exact normalized product",
+          "confirmationToken": "v2.[redacted]"
         }
       ],
-      "confirmationToken": "v1.[redacted]"
+      "confirmationToken": "v2.[redacted]"
     },
     {
-      "query": "더마졸",
+      "query": "유한메토트렉세이트정",
       "status": "CONFIRMED",
       "inputKind": "PRODUCT",
-      "itemSeq": "199101243",
-      "ingrCode": "D000769",
-      "matchedName": "더마졸정(케토코나졸)(수출용)",
+      "itemSeq": "197900145",
+      "ingrCode": "192101ATB",
+      "matchedName": "유한메토트렉세이트정",
       "candidates": [
         {
-          "itemSeq": "199101243",
-          "ingrCode": "D000769",
-          "matchedName": "더마졸정(케토코나졸)(수출용)",
-          "manufacturer": "(주)동구바이오제약",
+          "itemSeq": "197900145",
+          "ingrCode": "192101ATB",
+          "matchedName": "유한메토트렉세이트정",
+          "manufacturer": "(주)유한양행",
           "score": 1,
-          "reason": "alias product",
-          "confirmationToken": "v1.[redacted]"
+          "reason": "exact normalized product",
+          "confirmationToken": "v2.[redacted]"
         }
       ],
-      "confirmationToken": "v1.[redacted]"
+      "confirmationToken": "v2.[redacted]"
     }
-  ]
+  ],
+  "dataAsOf": "2026-07-10"
 }
 ```
 
-## 2. 실제 DUR 병용금기
+## 3. 실제 DUR 병용금기
 
 Tool: `check_medication_safety`
 
 ```text
 🔴 금기 1건 / 주의 0건
 
-• [USJNT_TABOO] 로바콜정(로바스타틴)(수출용) × 더마졸정(케토코나졸)(수출용)
-  → 횡문근융해증을 비롯한 근육질환 등 중증 이상반응
+• [USJNT_TABOO] 아스피린프로텍트정100밀리그람 × 유한메토트렉세이트정
+  → 혈액학적 독성
   이 약이 아니면 이 경고는 무시하세요. 이미 처방받은 조합일 수 있으니 임의 중단 전 의사·약사에게 문의하세요.
-  출처: https://www.data.go.kr/data/15059486/openapi.do · 기준일 2026-07-01
-
-※ 일부 조회 실패: AGE_TABOO, PREG_TABOO, CAPACITY, PERIOD, ELDERLY_CAUTION, EFCY_DUP, SR_SPLIT. 이 경우 녹색으로 표시하지 않습니다.
+  출처: https://apis.data.go.kr/1471000/DURPrdlstInfoService03/getUsjntTabooInfoList03 · 원천 기준일 2009-03-03
 이 결과는 건강기능식품·식품·한약·일부 의약품 정보를 포함하지 못할 수 있습니다.
 이미 처방받은 조합일 수 있으니 임의 중단 전 약사·의사에게 문의하세요.
 
@@ -86,17 +102,19 @@ Tool: `check_medication_safety`
 본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119.
 ```
 
-## 3. 데이터 부족 fail-closed 데모
+## 4. 실제 복합성분 중복 점검
+
+User: 성인 남성인 제가 타이레놀정 500mg하고 게보린정을 같이 먹어도 돼?
 
 Tool: `resolve_medications` then `check_medication_safety`
 
 ```text
-🟡 추가 확인 필요
+🟡 주의 정보 1건 (🔴 금기 0건)
 
-
-※ 특정하지 못한 항목: 타이레놀정500밀리그람(아세트아미노펜): 성분코드 미확인으로 중복성분 판정 보류, 게보린정(수출명:돌로린정): 성분코드 미확인으로 중복성분 판정 보류
-
-※ 일부 조회 실패: AGE_TABOO, PREG_TABOO, CAPACITY, PERIOD, ELDERLY_CAUTION, EFCY_DUP, SR_SPLIT, DUP_INGREDIENT. 이 경우 녹색으로 표시하지 않습니다.
+• [DUP_INGREDIENT] 타이레놀정500밀리그람(아세트아미노펜) × 게보린정(수출명:돌로린정)
+  → 아세트아미노펜 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.
+  이 약이 아니면 이 경고는 무시하세요. 이미 처방받은 조합일 수 있으니 임의 중단 전 의사·약사에게 문의하세요.
+  출처: MFDS DUR 품목 성분 스냅샷 · 스냅샷 수집일 2026-07-10
 
 ※ 등록된 병용금기는 조회되지 않았습니다(안전을 보장하는 것은 아닙니다).
 이 결과는 건강기능식품·식품·한약·일부 의약품 정보를 포함하지 못할 수 있습니다.
@@ -106,22 +124,36 @@ Tool: `resolve_medications` then `check_medication_safety`
 본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119.
 ```
 
-## 4. 응급 우선
+## 5. e약은요 설명
+
+Tool: `explain_medication`
 
 ```text
-🔴 금기 1건 / 주의 0건
+타이레놀정500밀리그람(아세트아미노펜) / 켄뷰코리아판매유한회사
+효능: 이 약은 감기로 인한 발열 및 동통(통증), 두통, 신경통, 근육통, 월경통, 염좌통(삔 통증), 치통, 관절통, 류마티양 동통(통증)에 사용합니다
+사용법: 만 12세 이상 소아 및 성인은 1회 1~2정씩, 1일 3~4회(4~6시간 마다) 필요시 복용합니다. 이 약은 가능한 최단기간동안 최소 유효용량으로 복용하며, 1일 최대 8정(4 g)을 초과하여 복용하지 않습니다.
+핵심 주의: 매일 세 잔 이상 정기적 음주자가 이 약 또는 다른 해열진통제를 복용할 때는 의사 또는 약사와 상의하십시오. 간손상을 일으킬 수 있습니다. 매우 드물게 치명적일 수 있는 급성 전신성 발진성 고름물집증, 스티븐스-존슨 증후군, 독성 표피 괴사용해와 같은 중대한 피부반응이 보고되었고 이 약 복용후 피부발진 또는 다른 과민반응의 징후가 나타나는 경우 즉시 복용을 중단하십시오. 아세트아미노펜으로 일일 최대 용량(4,000 mg)을 초과하여 복용하지 마십시오. 간손상을 일으킬 수 있습니다. 아세트아미노펜을 포함하는 다른 제품과 함께 복용하지 마십시오....
+상호작용: 바르비탈계 약물, 삼환계 항우울제 및 알코올을 투여한 환자, 와파린, 플루클록사실린을 복용하는 환자는 의사 또는 약사와 상의하십시오.
+출처: https://www.data.go.kr/data/15075057/openapi.do
 
-• [EMERGENCY] 응급 의심 표현
-  → 응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.
-  출처: 서버 안전정책 · 기준일 2026-07-01
 이 결과는 건강기능식품·식품·한약·일부 의약품 정보를 포함하지 못할 수 있습니다.
-이미 처방받은 조합일 수 있으니 임의 중단 전 약사·의사에게 문의하세요.
+본 서비스는 의료기기가 아닙니다.
+본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119.
+```
+
+## 6. 응급 우선
+
+```text
+🚨 즉시 119 또는 응급실에 연락하세요.
+
+응급 신호가 감지되어 약물 상호작용 조회보다 긴급 도움 요청을 우선합니다.
+의식이 없거나 호흡이 어렵다면 지체하지 마세요.
 
 ────────
 본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119.
 ```
 
-## 5. 범위 밖 입력
+## 7. 범위 밖 입력
 
 ```text
 범위 밖 입력: 자몽 → 의약품 품목 조회 대상이 아닙니다. 식품·건강기능식품·한약 상호작용은 약사에게 확인하세요.

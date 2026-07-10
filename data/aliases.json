@@ -1,4 +1,9 @@
-[
+{
+  "metadata": {
+    "generationId": "fixture-v3",
+    "fetchedAt": "2026-07-01T00:00:00.000Z"
+  },
+  "aliases": [
   {
     "alias": "타이레놀",
     "kind": "PRODUCT",
@@ -26,7 +31,7 @@
   {
     "alias": "아세트아미노펜",
     "kind": "INGREDIENT",
-    "targetIngredientCode": "INGR-APAP",
+    "targetIngredientKey": "아세트아미노펜",
     "label": "아세트아미노펜"
   },
   {
@@ -47,4 +52,5 @@
     "targetItemSeq": "DEMO-ASPIRIN",
     "label": "데모아스피린장용정 100mg"
   }
-]
+  ]
+}

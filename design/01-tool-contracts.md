@@ -1,112 +1,30 @@
 # Tool 계약
 
-## 공통 원칙
+## 공통
 
-- 모든 tool은 read-only이다.
-- 호출자 LLM을 신뢰하지 않는다. `check_medication_safety`는 `resolve_medications`가 발급한 `confirmationToken`이 없거나 불일치하는 `CONFIRMED` 항목을 미확정 처리한다.
-- 실행 실패는 가능한 한 tool result의 `isError=true`와 서버 생성 텍스트로 반환한다.
-- 판정/설명 텍스트는 서버가 생성한다. 호출자 LLM이 의료 표현을 자유 작성하지 않도록 한다.
+세 도구는 모두 `readOnlyHint=true`, `destructiveHint=false`, `openWorldHint=false`, `idempotentHint=true`다. 출력 텍스트는 서버가 생성·정제하며, `structuredContent`에는 `dataAsOf`를 포함한다.
 
 ## resolve_medications
 
-입력:
-
-```json
-{
-  "queries": ["타이레놀", "게보린"]
-}
-```
-
-출력:
-
-```json
-{
-  "resolved": [
-    {
-      "query": "타이레놀",
-      "status": "AMBIGUOUS",
-      "inputKind": "PRODUCT",
-      "itemSeq": null,
-      "ingrCode": null,
-      "matchedName": null,
-      "confirmationToken": null,
-      "candidates": []
-    }
-  ]
-}
-```
-
-상태:
-
-- `CONFIRMED`: 단일 고신뢰 후보. 그래도 판정 전 사용자에게 되보이는 것을 기본 UX로 한다.
-- `AMBIGUOUS`: 복수 후보 또는 중간 신뢰도. 후보 최대 5개.
-- `NOT_FOUND`: 후보 없음. 판정에서는 unresolved로 밀린다.
-- `OUT_OF_SCOPE`: 식품·건강기능식품·한약 등 의약품 품목 조회 범위 밖 입력.
-
-입력 제한:
-
-- `queries`: 1-8개
-- 각 query: 1-80자
-- 후보와 확정 결과에는 `confirmationToken`이 붙을 수 있다. 이 값은 판정 전용이며 사용자에게 설명할 필요는 없다.
-- 후보의 `confirmationToken`은 사용자가 해당 후보를 선택해 `status=CONFIRMED`로 넘길 때만 유효하다.
+- 입력: `queries` 1~8개, 각 1~512자. 실제 정식 품목명을 그대로 재확인할 수 있는 경계다.
+- 출력 상태: `CONFIRMED`, `AMBIGUOUS`, `NOT_FOUND`, `OUT_OF_SCOPE`.
+- 정확한 단일 품목만 `CONFIRMED`와 10분 만료 `confirmationToken`을 받는다.
+- `AMBIGUOUS` 후보에는 token을 발급하지 않는다. Agent/UI는 사용자가 고른 정확한 품목명으로 다시 resolve한다.
+- 제품명에 식품·건기식 단어가 들어 있어도 실제 품목 완전일치가 먼저다.
+- 응급 표현이면 `{ "resolved": [], "emergency": true, "dataAsOf": "..." }`를 반환한다.
 
 ## check_medication_safety
 
-입력:
+입력 `medications`는 resolve 결과의 `itemSeq`, `ingrCode`, `status`, `confirmationToken`을 그대로 복사하고, `matchedName`은 check 입력의 `displayName`으로 매핑한다. `displayName`은 최대 512자다. token이 없거나 canonical 필드와 다르면 해당 항목은 미확정으로 강등한다.
 
-```json
-{
-  "medications": [
-    {
-      "itemSeq": "DEMO-TYLENOL-500",
-      "ingrCode": "INGR-APAP",
-      "status": "CONFIRMED",
-      "displayName": "타이레놀정500밀리그람",
-      "confirmationToken": "v1..."
-    }
-  ],
-  "context": {
-    "subjectIsUser": false,
-    "ageGroup": "elderly",
-    "pregnancy": "unknown"
-  }
-}
-```
+선택 컨텍스트:
 
-출력 핵심:
+- `ageGroup`: `adult`, `elderly`, `child`, `unknown`
+- `pregnancy`: `yes`, `no`, `unknown`
+- `notes`: 최대 500자
 
-- `verdict`: `NO_KNOWN_FINDINGS`, `CAUTION`, `WARN`, `UNCERTAIN`
-- `findings`: 금기/주의/보류 finding 배열
-- `unresolved`: 미확정/무효/비의약품 의심 항목
-- `checkedTypes`, `failedTypes`
-- `disclaimer`
-
-입력 제한:
-
-- `medications`: 1-12개
-- `itemSeq`, `ingrCode`: 최대 80자
-- `displayName`: 최대 100자
-- `context.notes`: 최대 500자
-
-부분 실패:
-
-- 핵심 2종 중 병용금기 조회 실패 또는 필드 미해결이면 `UNCERTAIN`.
-- 중복성분은 로컬 DB 기준으로 수행한다.
-- 8종 전체 중 일부 best-effort 실패는 `failedTypes`에 남기고 녹색을 금지한다.
+출력은 `verdict`, `dataAsOf`, `findings`, `unresolved`, `checkedTypes`, `failedTypes`, `disclaimer`다. 각 finding은 `source`, `baseDate`, `dateBasis`를 가진다. 핵심 조회 실패나 스냅샷 부재는 `UNCERTAIN`이며 tool error가 아니다.
 
 ## explain_medication
 
-입력:
-
-```json
-{ "itemSeq": "DEMO-TYLENOL-500" }
-```
-
-출력:
-
-- 제품명, 업체명, 효능, 사용법, 주의, 상호작용, 부작용, 보관법
-- e약은요 커버리지 밖이면 `isError=false`로 "정보 없음"을 반환한다.
-
-## 본선 후보 tool
-
-`identify_pill_by_text`는 MVP 코드에는 넣지 않는다. 본선에서 색/모양/각인 입력을 받아 후보만 반환하며 단독 확정하지 않는다.
+입력은 resolve가 확인한 9자리 `itemSeq`다. 출력 status는 `FOUND`, `NOT_FOUND`, `UPSTREAM_ERROR`다. runtime은 로컬 e약은요 스냅샷을 읽고, 텍스트는 주요 항목을 줄여 보여주며 `structuredContent.info`에는 저장된 전체 필드를 유지한다.

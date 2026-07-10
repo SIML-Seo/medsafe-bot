@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+  release-artifact:
+    name: Release artifact checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm audit
+      - name: Ensure secret paths are not tracked
+        shell: bash
+        run: |
+          tracked="$(git ls-files '.env' '.env.*' '.secrets/**' '*.pem' '*.key' '*.p12' '*.pfx' 'credentials*.json' 'service-account*.json' | grep -v '^\.env\.example$' || true)"
+          test -z "$tracked"
+      - run: npm run scan:secrets
+      - name: Strict live artifact check
+        run: npm run submission:check:live
+        env:
+          NODE_ENV: production
+          DATA_MODE: live
+          MASTER_DB_PATH: data/master.sqlite
+          CONFIRMATION_SECRET: ci-release-secret-is-at-least-32-characters
+          LIVE_SELF_TEST_ITEM_SEQ: "200108429"
+          LIVE_SELF_TEST_TARGET_ITEM_SEQ: "197900145"
+          LIVE_SELF_TEST_EXPECT_CONTRAINDICATION: "true"
+          ALLOWED_HOSTS: medsafe-bot.playmcp-endpoint.kakaocloud.io
+          ALLOWED_ORIGINS: https://playmcp.kakao.com,https://playmcp.kakaocloud.io
+      - run: docker build --tag medsafe-bot:ci .
+      - name: Smoke-test non-root runtime image
+        run: |
+          test "$(docker run --rm medsafe-bot:ci id -u)" != "0"
+          container_id="$(docker run -d -p 3000:3000 -e CONFIRMATION_SECRET=ci-runtime-secret-at-least-32-characters medsafe-bot:ci)"
+          trap 'docker logs "$container_id"; docker rm -f "$container_id"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3000/readyz >/tmp/readyz.json; then
+              node -e "const value=require('/tmp/readyz.json'); if (!value.ok || value.dataSource !== 'PUBLIC_DATA_LIVE') process.exit(1)"
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1

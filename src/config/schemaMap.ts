@@ -4,7 +4,7 @@ export const OFFICIAL_SOURCE_URLS = {
   easyDrugInfo: "https://www.data.go.kr/data/15075057/openapi.do",
   atcMapping: "https://www.data.go.kr/data/15118958/fileData.do",
   ingredientMaster: "https://www.data.go.kr/data/15067461/fileData.do",
-  mcpTransports: "https://modelcontextprotocol.io/specification/2025-03-26/basic/transports",
+  mcpTransports: "https://modelcontextprotocol.io/specification/2025-11-25/basic/transports",
   mcpTools: "https://modelcontextprotocol.io/specification/draft/server/tools",
   kakaoAgenticPlayer: "https://b.kakao.com/views/PlayMCP/AGENTIC_PlAYER_10"
 } as const;
@@ -15,62 +15,47 @@ export const DUR_OPERATION_MAP = {
     verified: true,
     sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
   },
-  AGE_TABOO: {
-    operationName: "getSpcifyAgrdeTabooInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  PREG_TABOO: {
-    operationName: "getPwnmTabooInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  CAPACITY: {
-    operationName: "getCpctyAtentInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  PERIOD: {
-    operationName: "getMdctnPdAtentInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  ELDERLY_CAUTION: {
-    operationName: "getOdsnAtentInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  EFCY_DUP: {
-    operationName: "getEfcyDplctInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
-  SR_SPLIT: {
-    operationName: "getSeobangjeongPartitnAtentInfoList03",
-    verified: false,
-    sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
-  },
   PRODUCT_LIST: {
     operationName: "getDurPrdlstInfoList03",
     verified: false,
     sourceUrl: OFFICIAL_SOURCE_URLS.durProductInfo
+  },
+  INGREDIENT_USJNT_TABOO: {
+    operationName: "getUsjntTabooInfoList02",
+    verified: false,
+    sourceUrl: OFFICIAL_SOURCE_URLS.durIngredientInfo
   }
 } as const;
 
-export const DUR_BASE_URLS = [
-  "https://apis.data.go.kr/1471000/DURPrdlstInfoService03"
-] as const;
+export const DUR_PRODUCT_BASE_URL =
+  "https://apis.data.go.kr/1471000/DURPrdlstInfoService03";
+
+export const DUR_INGREDIENT_BASE_URL =
+  "https://apis.data.go.kr/1471000/DURIrdntInfoService03";
+
+export const DUR_BASE_URLS = [DUR_PRODUCT_BASE_URL, DUR_INGREDIENT_BASE_URL] as const;
 
 export const EASY_DRUG_ENDPOINT =
   "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList";
+
+export const SUBMISSION_MCP_ENDPOINT =
+  "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp";
 
 export const FIELD_MAP = {
   durUsjntTaboo: {
     sourceItemSeq: ["ITEM_SEQ", "itemSeq", "ITEMSEQ"],
     targetItemSeq: ["MIXTURE_ITEM_SEQ", "mixtureItemSeq", "MIXTURE_ITEMSEQ"],
     targetIngredientCode: ["MIXTURE_INGR_CODE", "mixtureIngrCode", "MIXTURE_INGR_CODE"],
+    targetIngredientName: ["MIXTURE_INGR_KOR_NAME", "mixtureIngrKorName"],
     reason: ["PROHBT_CONTENT", "prohbtContent", "REMARK", "remark", "TABOO_CONTENT"],
-    baseDate: ["BASE_DATE", "baseDate", "UPDATE_DATE", "updateDate"]
+    baseDate: [
+      "NOTIFICATION_DATE",
+      "notificationDate",
+      "BASE_DATE",
+      "baseDate",
+      "UPDATE_DATE",
+      "updateDate"
+    ]
   },
   easyDrug: {
     itemSeq: ["itemSeq", "ITEM_SEQ"],

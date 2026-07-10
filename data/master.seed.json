@@ -2,7 +2,24 @@
   "metadata": {
     "source": "DEMO_FIXTURE",
     "baseDate": "2026-07-01",
-    "notice": "개발/테스트용 fixture입니다. 실제 제출 전에는 공공데이터포털 15118958 원문 파일로 재생성해야 합니다."
+    "dataModelVersion": "fixture-v3",
+    "generationId": "fixture-v3",
+    "fetchedAt": "2026-07-01T00:00:00.000Z",
+    "curatedDurProductCount": "2",
+    "overallDurSnapshotCoverageRatio": "0.125000",
+    "invalidIngredientRowCount": "0",
+    "replicatedProductIngredientCodeCount": "0",
+    "snapshotTargetIngredientMismatchCount": "0",
+    "snapshotTargetIngredientUnverifiableCount": "0",
+    "snapshotTargetProductMissingCount": "0",
+    "durIngredientCatalogComplete": "false",
+    "durIngredientCatalogIdentityCount": "2",
+    "durIngredientCatalogMappedIdentityCount": "2",
+    "durIngredientCatalogMappingRatio": "1.000000",
+    "durIngredientCatalogUnmappedIdentityCount": "0",
+    "durIngredientProductCoverageCount": "14",
+    "durIngredientProductCoverageRatio": "0.875000",
+    "notice": "개발/테스트용 fixture입니다. 실제 제출 전에는 승인된 DUR 품목·성분, e약은요 API와 HIRA 원문 파일로 재생성해야 합니다."
   },
   "products": [
     {
@@ -36,7 +53,25 @@
       "ingredientName": "아세트아미노펜",
       "atcCode": "N02BE51",
       "atcName": "Anilides, combinations excl. psycholeptics",
-      "source": "DEMO_FIXTURE"
+      "source": "DEMO_FIXTURE",
+      "ingredients": [
+        {
+          "ingredientCode": "636401ATB",
+          "ingredientName": "아세트아미노펜"
+        },
+        {
+          "ingredientCode": "INGR-CAFFEINE",
+          "ingredientName": "카페인무수물",
+          "durIngredientKeys": [
+            "카페인무수물",
+            "카페인"
+          ]
+        },
+        {
+          "ingredientCode": "INGR-IPA",
+          "ingredientName": "이소프로필안티피린"
+        }
+      ]
     },
     {
       "itemSeq": "DEMO-BRUFEN",
@@ -50,12 +85,45 @@
       "source": "DEMO_FIXTURE"
     },
     {
+      "itemSeq": "DEMO-APAP-COATED",
+      "productCode": "DEMO-APAP-COATED",
+      "name": "아세트아미노펜제피세립데모정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "",
+      "ingredientName": "아세트아미노펜 제피세립",
+      "atcCode": "N02BE01",
+      "atcName": "Anilides",
+      "source": "DEMO_FIXTURE"
+    },
+    {
       "itemSeq": "DEMO-WARFARIN",
       "productCode": "DEMO-WARFARIN",
       "name": "데모와파린정",
       "manufacturer": "데모제약",
       "ingredientCode": "INGR-WARFARIN",
       "ingredientName": "와파린",
+      "atcCode": "B01AA03",
+      "atcName": "Warfarin",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-WARFARIN-SODIUM-A",
+      "productCode": "DEMO-WARFARIN-SODIUM-A",
+      "name": "데모와르파린나트륨정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "",
+      "ingredientName": "와르파린나트륨",
+      "atcCode": "B01AA03",
+      "atcName": "Warfarin",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-WARFARIN-SODIUM-B",
+      "productCode": "DEMO-WARFARIN-SODIUM-B",
+      "name": "데모와파린나트륨정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "",
+      "ingredientName": "와파린나트륨",
       "atcCode": "B01AA03",
       "atcName": "Warfarin",
       "source": "DEMO_FIXTURE"
@@ -83,6 +151,24 @@
       "source": "DEMO_FIXTURE"
     },
     {
+      "itemSeq": "DEMO-PARTIAL-COMBO",
+      "productCode": "DEMO-PARTIAL-COMBO",
+      "name": "부분성분복합제데모정",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-PARTIAL-A",
+      "ingredientName": "부분성분에이",
+      "atcCode": "",
+      "atcName": "",
+      "source": "DEMO_FIXTURE",
+      "ingredientsComplete": false,
+      "ingredients": [
+        {
+          "ingredientCode": "INGR-PARTIAL-A",
+          "ingredientName": "부분성분에이"
+        }
+      ]
+    },
+    {
       "itemSeq": "HIRA-DEMO-WARFARIN",
       "productCode": "HIRA-DEMO-WARFARIN",
       "name": "심평원코드와파린정",
@@ -92,6 +178,114 @@
       "atcCode": "B01AA03",
       "atcName": "Warfarin",
       "source": "HIRA_ATC_MAPPING"
+    },
+    {
+      "itemSeq": "DEMO-OMEGA-RX",
+      "productCode": "DEMO-OMEGA-RX",
+      "name": "로수맥콤비젤연질캡슐10/1000밀리그램(로수바스타틴,오메가3산에틸에스테르90)",
+      "manufacturer": "데모제약",
+      "ingredientCode": "INGR-ROSUVASTATIN",
+      "ingredientName": "로수바스타틴",
+      "atcCode": "C10BA",
+      "atcName": "Combinations of lipid modifying agents",
+      "source": "DEMO_FIXTURE",
+      "ingredients": [
+        {
+          "ingredientCode": "INGR-ROSUVASTATIN",
+          "ingredientName": "로수바스타틴"
+        },
+        {
+          "ingredientCode": "INGR-OMEGA3-EE90",
+          "ingredientName": "오메가3산에틸에스테르90"
+        }
+      ]
+    },
+    {
+      "itemSeq": "DEMO-ACEBRO-A",
+      "productCode": "DEMO-ACEBRO-A",
+      "name": "설포라제데모캡슐",
+      "manufacturer": "데모제약",
+      "ingredientCode": "100701ACH",
+      "ingredientName": "아세브로필린",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-ACEBRO-B",
+      "productCode": "DEMO-ACEBRO-B",
+      "name": "아세펙트데모캡슐",
+      "manufacturer": "데모제약",
+      "ingredientCode": "100701ACH",
+      "ingredientName": "아세브로필린(아세필린산암브록솔)",
+      "source": "DEMO_FIXTURE"
+    },
+    {
+      "itemSeq": "DEMO-LONG-NAME",
+      "productCode": "DEMO-LONG-NAME",
+      "name": "매우긴정식품목명검증정100밀리그램(첫번째성분명,두번째성분명,세번째성분명,네번째성분명,다섯번째성분명,여섯번째성분명,일곱번째성분명,여덟번째성분명,아홉번째성분명,열번째성분명)",
+      "manufacturer": "데모제약",
+      "ingredientCode": "LONG001ATB",
+      "ingredientName": "첫번째성분명",
+      "source": "DEMO_FIXTURE"
+    }
+  ],
+  "easyDrugInfo": [
+    {
+      "itemSeq": "DEMO-TYLENOL-500",
+      "itemName": "타이레놀정500밀리그람",
+      "entpName": "데모제약",
+      "efcyQesitm": "[DEMO] 통증 및 발열 관련 설명 fixture",
+      "useMethodQesitm": "[DEMO] 제품 라벨과 전문가 지시를 확인하세요.",
+      "atpnQesitm": "[DEMO] 중복 성분 확인이 필요할 수 있습니다."
+    }
+  ],
+  "durIngredientContraindications": [
+    {
+      "sourceIngredientCode": "D-DEMO-WARFARIN",
+      "sourceIngredientName": "와파린",
+      "sourceIngredientKey": "와파린",
+      "targetIngredientCode": "D-DEMO-ASPIRIN",
+      "targetIngredientName": "아스피린",
+      "targetIngredientKey": "아스피린",
+      "reason": "[DEMO] 병용금기 fixture입니다. 실제 DUR 데이터가 아닙니다.",
+      "baseDate": "2026-07-01",
+      "dateBasis": "FIXTURE_DATE",
+      "source": "DEMO_FIXTURE_DUR_INGREDIENT"
+    }
+  ],
+  "durSnapshots": [
+    {
+      "itemSeq": "DEMO-WARFARIN",
+      "complete": true,
+      "fetchedAt": "2026-07-01T00:00:00.000Z",
+      "source": "DEMO_FIXTURE_DUR",
+      "contraindications": [
+        {
+          "sourceItemSeq": "DEMO-WARFARIN",
+          "targetItemSeq": "DEMO-ASPIRIN",
+          "targetIngredientCode": "INGR-ASPIRIN",
+          "targetIngredientName": "아스피린",
+          "reason": "[DEMO] 병용금기 fixture입니다. 실제 DUR 데이터가 아닙니다.",
+          "baseDate": "2026-07-01",
+          "source": "DEMO_FIXTURE_DUR"
+        }
+      ]
+    },
+    {
+      "itemSeq": "DEMO-ASPIRIN",
+      "complete": true,
+      "fetchedAt": "2026-07-01T00:00:00.000Z",
+      "source": "DEMO_FIXTURE_DUR",
+      "contraindications": [
+        {
+          "sourceItemSeq": "DEMO-ASPIRIN",
+          "targetItemSeq": "DEMO-WARFARIN",
+          "targetIngredientCode": "INGR-WARFARIN",
+          "targetIngredientName": "와파린",
+          "reason": "[DEMO] 병용금기 fixture입니다. 실제 DUR 데이터가 아닙니다.",
+          "baseDate": "2026-07-01",
+          "source": "DEMO_FIXTURE_DUR"
+        }
+      ]
     }
   ]
 }
