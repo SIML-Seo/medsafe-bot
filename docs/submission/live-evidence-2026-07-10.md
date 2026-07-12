@@ -9,10 +9,12 @@
 
 ## Current Status
 
-2026-07-12 KC endpoint를 data model v3 release로 재배포하고 공식 MCP SDK, MCP Inspector, strict release gate로 다시 검증했다. endpoint의 build ID와 DB SHA는 현재 release artifact와 일치한다.
+2026-07-12 data model v3 endpoint 검증을 완료한 뒤, PlayMCP text-content handoff 호환 수정 release candidate를 준비했다. candidate는 전체 로컬 검증을 통과했으며 KC 재배포와 새 원격 증거 생성을 기다리고 있다.
 
-- deployed build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
-- verification ID: `sha256:af8f1cb6b1969c35b27c2c554cb117d12fa9c8eaf9d1931eb9b9ab2aaae840c2`
+- release candidate build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
+- candidate verification ID: `sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100`
+- currently deployed build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
+- deployment status: `KC redeploy pending`
 - deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 - deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
