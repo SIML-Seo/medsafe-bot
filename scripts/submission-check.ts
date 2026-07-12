@@ -290,6 +290,13 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
         resolved?: Array<{ status?: string; itemSeq?: string | null }>;
         duplicateIngredient?: EvidenceFlow;
         redCase?: EvidenceFlow;
+        playMcpTextHandoff?: {
+          source?: string;
+          medicationCount?: number;
+          verdict?: string;
+          redFinding?: boolean;
+          unresolvedCount?: number;
+        };
         explanation?: EvidenceFlow;
         ingredientCatalogCoverage?: EvidenceFlow;
         ingredientCatalogRedCase?: EvidenceFlow;
@@ -340,6 +347,7 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
       expectedTools.every((tool) => evidence.tools?.includes(tool));
     const duplicate = evidence.flows?.duplicateIngredient;
     const red = evidence.flows?.redCase;
+    const playMcpTextHandoff = evidence.flows?.playMcpTextHandoff;
     const explanation = evidence.flows?.explanation;
     const catalogCoverage = evidence.flows?.ingredientCatalogCoverage;
     const catalogRed = evidence.flows?.ingredientCatalogRedCase;
@@ -382,6 +390,11 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
           verifiedRedOrigins.has(finding.origin ?? "")
       ) === true &&
       !red.failedTypes?.includes("USJNT_TABOO") &&
+      playMcpTextHandoff?.source === "content" &&
+      playMcpTextHandoff.medicationCount === 2 &&
+      playMcpTextHandoff.verdict === "WARN" &&
+      playMcpTextHandoff.redFinding === true &&
+      playMcpTextHandoff.unresolvedCount === 0 &&
       explanation?.found === true &&
       explanation.status === "FOUND" &&
       explanation.itemSeq === "202106092" &&

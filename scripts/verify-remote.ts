@@ -213,11 +213,26 @@ try {
   );
   assert(!duplicate.failedTypes.includes("DUP_INGREDIENT"), "duplicate ingredient was marked failed");
 
-  verificationStage = "representative RED";
+  verificationStage = "PlayMCP text handoff resolve";
+  const playMcpResolveResponse = await client.callTool({
+    name: "resolve_medications",
+    arguments: {
+      queries: ["아스피린프로텍트정 100mg", "유한메토트렉세이트정"]
+    }
+  });
+  const playMcpHandoff = checkHandoffFromText(playMcpResolveResponse);
+  assert(playMcpHandoff.medications.length === 2, "PlayMCP handoff returned an unexpected medication count");
+  assert(
+    playMcpHandoff.medications[0]?.itemSeq === "200108429" &&
+      playMcpHandoff.medications[1]?.itemSeq === "197900145",
+    "PlayMCP handoff resolved the wrong red-case products"
+  );
+
+  verificationStage = "representative RED from PlayMCP text handoff";
   const redResponse = await client.callTool({
     name: "check_medication_safety",
     arguments: {
-      medications: resolved.slice(2, 4).map(checkInput),
+      ...playMcpHandoff,
       context: { ageGroup: "adult", pregnancy: "no" }
     }
   });
@@ -225,6 +240,7 @@ try {
     verdict: string;
     findings: Array<{ type: string; level: string }>;
     failedTypes: string[];
+    unresolved: string[];
   }>(redResponse);
   assert(redResponse.isError !== true, "red-case check returned a tool error");
   assert(red.verdict === "WARN", `red-case verdict was ${red.verdict}`);
@@ -233,6 +249,16 @@ try {
     "red-case did not return a RED USJNT_TABOO finding"
   );
   assert(!red.failedTypes.includes("USJNT_TABOO"), "red-case DUR category was marked failed");
+  assert(red.unresolved.length === 0, "PlayMCP text handoff did not preserve confirmation tokens");
+  const playMcpTextHandoffEvidence = {
+    source: "content",
+    medicationCount: playMcpHandoff.medications.length,
+    verdict: red.verdict,
+    redFinding: red.findings.some(
+      (finding) => finding.type === "USJNT_TABOO" && finding.level === "RED"
+    ),
+    unresolvedCount: red.unresolved.length
+  };
 
   verificationStage = "explanation";
   const explanationResponse = await client.callTool({
@@ -798,6 +824,7 @@ try {
       resolved: omitConfirmationTokens(resolved),
       duplicateIngredient: duplicate,
       redCase: red,
+      playMcpTextHandoff: playMcpTextHandoffEvidence,
       explanation: {
         found: explanation.found,
         status: explanation.status,
@@ -832,7 +859,7 @@ try {
   console.log(`ok readiness: source=${ready.json.dataSource} model=${ready.json.dataModelVersion} build=${ready.json.buildId}`);
   console.log(`ok data identity: sha256=${localDataSha256}`);
   console.log(`ok tools: ${expectedTools.join(", ")}`);
-  console.log("ok representative flows: duplicate ingredient, live red-case, exact explanation, ingredient catalog coverage, ingredient-only RED, conservative-form RED, critical mapping/duplicate/emergency regressions, ingredient-missing fail-closed");
+  console.log("ok representative flows: PlayMCP text handoff, duplicate ingredient, live red-case, exact explanation, ingredient catalog coverage, ingredient-only RED, conservative-form RED, critical mapping/duplicate/emergency regressions, ingredient-missing fail-closed");
   console.log(
     `${performanceProfile === "strict" ? "ok" : "observed"} performance (${performanceProfile}): n=${timings.length} avg=${average.toFixed(1)}ms p99=${p99.toFixed(1)}ms`
   );
@@ -859,6 +886,57 @@ function checkInput(item: {
     displayName: item.matchedName,
     confirmationToken: item.confirmationToken
   };
+}
+
+type PlayMcpCheckHandoff = {
+  medications: Array<{
+    itemSeq: string | null;
+    ingrCode: string | null;
+    status: string;
+    displayName: string | null;
+    confirmationToken: string;
+  }>;
+};
+
+function checkHandoffFromText(response: unknown): PlayMcpCheckHandoff {
+  const rawContent = (response as { content?: unknown }).content;
+  assert(Array.isArray(rawContent), "resolve response content is missing");
+  const text = rawContent
+    .filter((item): item is { type: "text"; text: string } =>
+      Boolean(
+        item &&
+          typeof item === "object" &&
+          (item as { type?: unknown }).type === "text" &&
+          typeof (item as { text?: unknown }).text === "string"
+      )
+    )
+    .map((item) => item.text)
+    .join("\n");
+  const match = text.match(
+    /\[CHECK_MEDICATION_SAFETY_INPUT\]\n([^\n]+)\n\[\/CHECK_MEDICATION_SAFETY_INPUT\]/
+  );
+  assert(match?.[1], "resolve text has no CHECK_MEDICATION_SAFETY_INPUT block");
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(match[1]);
+  } catch {
+    throw new Error("resolve text handoff is not valid JSON");
+  }
+  const medications = (parsed as { medications?: unknown })?.medications;
+  assert(Array.isArray(medications) && medications.length > 0, "resolve text handoff has no medications");
+  for (const medication of medications) {
+    assert(medication && typeof medication === "object", "resolve text handoff medication is invalid");
+    const value = medication as Record<string, unknown>;
+    assert(value.status === "CONFIRMED", "resolve text handoff contains an unconfirmed medication");
+    assert(typeof value.displayName === "string", "resolve text handoff displayName is missing");
+    assert(
+      typeof value.confirmationToken === "string" && value.confirmationToken.startsWith("v2."),
+      "resolve text handoff confirmationToken is missing"
+    );
+    assert("itemSeq" in value && "ingrCode" in value, "resolve text handoff canonical fields are missing");
+  }
+  return parsed as PlayMcpCheckHandoff;
 }
 
 async function timedOperation(operation: () => Promise<unknown>): Promise<number> {

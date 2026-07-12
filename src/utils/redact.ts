@@ -1,3 +1,5 @@
+const CONFIRMATION_TOKEN_PATTERN = /\bv2\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/g;
+
 export function omitConfirmationTokens(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(omitConfirmationTokens);
   if (value && typeof value === "object") {
@@ -8,4 +10,8 @@ export function omitConfirmationTokens(value: unknown): unknown {
     );
   }
   return value;
+}
+
+export function redactConfirmationTokensInText(value: string): string {
+  return value.replace(CONFIRMATION_TOKEN_PATTERN, "v2.[redacted]");
 }

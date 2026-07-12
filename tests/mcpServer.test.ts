@@ -471,6 +471,12 @@ test("MCP tools/list and tools/call expose read-only medication tools", async ()
       name: "resolve_medications",
       arguments: { queries: ["타이레놀", "게보린"] }
     });
+    const cautionResolveText = (
+      cautionResolve.content as Array<{ type: string; text?: string }>
+    )
+      .map((item) => item.text ?? "")
+      .join("\n");
+    assert.doesNotMatch(cautionResolveText, /\[CHECK_MEDICATION_SAFETY_INPUT\]/);
     const cautionStructured = cautionResolve.structuredContent as {
       resolved: Array<{
         status: string;
@@ -531,6 +537,52 @@ test("MCP tools/list and tools/call expose read-only medication tools", async ()
       name: "resolve_medications",
       arguments: { queries: ["와파린", "아스피린"] }
     });
+    const resolvedRiskText = (resolvedRisk.content as Array<{ type: string; text?: string }>)
+      .map((item) => item.text ?? "")
+      .join("\n");
+    const handoffMatch = resolvedRiskText.match(
+      /\[CHECK_MEDICATION_SAFETY_INPUT\]\n([^\n]+)\n\[\/CHECK_MEDICATION_SAFETY_INPUT\]/
+    );
+    assert.ok(handoffMatch, "confirmed resolve content must expose a PlayMCP check handoff");
+    assert.ok(
+      resolvedRiskText.indexOf("[CHECK_MEDICATION_SAFETY_INPUT]") <
+        resolvedRiskText.indexOf("확인 후보:"),
+      "server-generated handoff must precede user-derived summary text"
+    );
+    const playMcpHandoff = JSON.parse(handoffMatch[1] ?? "{}") as {
+      medications?: Array<{
+        itemSeq?: string | null;
+        ingrCode?: string | null;
+        status?: string;
+        displayName?: string | null;
+        confirmationToken?: string | null;
+      }>;
+    };
+    assert.equal(playMcpHandoff.medications?.length, 2);
+    assert.ok(
+      playMcpHandoff.medications?.every(
+        (item) => item.status === "CONFIRMED" && item.confirmationToken?.startsWith("v2.")
+      )
+    );
+    const checkedFromTextOnly = await client.callTool({
+      name: "check_medication_safety",
+      arguments: {
+        ...playMcpHandoff,
+        context: { ageGroup: "adult", pregnancy: "no" }
+      }
+    });
+    const checkedFromTextStructured = checkedFromTextOnly.structuredContent as {
+      verdict: string;
+      findings: Array<{ type: string; level: string }>;
+      unresolved: string[];
+    };
+    assert.equal(checkedFromTextStructured.verdict, "WARN");
+    assert.ok(
+      checkedFromTextStructured.findings.some(
+        (finding) => finding.type === "USJNT_TABOO" && finding.level === "RED"
+      )
+    );
+    assert.deepEqual(checkedFromTextStructured.unresolved, []);
     const resolvedStructured = resolvedRisk.structuredContent as {
       resolved: Array<{
         status: string;

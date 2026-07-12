@@ -13,7 +13,7 @@
 5. 성분 파싱·조건 해석·카탈로그 완전성·품목 스냅샷 중 필요한 근거가 불완전하면 `UNCERTAIN`으로 닫고 녹색을 금지합니다.
 6. 호흡곤란·의식소실·과량복용 표현은 약물 조회보다 119/응급실 안내를 우선합니다.
 
-`confirmationToken`은 서버가 확인한 canonical `itemSeq`·성분·status가 이후 호출에서 바뀌지 않았음을 보장합니다. 사용자가 실제로 후보를 선택했다는 사실 자체는 대화 Agent/UI가 확인해야 하며, 서버는 이를 과장해 주장하지 않습니다.
+`confirmationToken`은 서버가 확인한 canonical `itemSeq`·성분·status가 이후 호출에서 바뀌지 않았음을 보장합니다. 사용자가 실제로 후보를 선택했다는 사실 자체는 대화 Agent/UI가 확인해야 하며, 서버는 이를 과장해 주장하지 않습니다. 모든 입력이 확정된 경우 `resolve_medications`는 `structuredContent`와 정제된 text content의 `[CHECK_MEDICATION_SAFETY_INPUT]` 블록에 동일한 다음 호출용 필드를 제공합니다. PlayMCP Agent는 이 블록의 `medications`를 토큰까지 변경 없이 복사하고, 사용자 답변에는 토큰을 표시하지 않습니다. 모호하거나 미확정인 입력이 하나라도 있으면 이 블록을 만들지 않습니다.
 
 ## 공개 Endpoint
 

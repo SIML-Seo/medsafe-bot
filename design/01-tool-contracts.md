@@ -8,7 +8,7 @@
 
 - 입력: `queries` 1~8개, 각 1~512자. 실제 정식 품목명을 그대로 재확인할 수 있는 경계다.
 - 출력 상태: `CONFIRMED`, `AMBIGUOUS`, `NOT_FOUND`, `OUT_OF_SCOPE`.
-- 정확한 단일 품목만 `CONFIRMED`와 10분 만료 `confirmationToken`을 받는다.
+- 정확한 단일 품목만 `CONFIRMED`와 10분 만료 `confirmationToken`을 받는다. 요청의 모든 항목이 확정되면 text content에도 `[CHECK_MEDICATION_SAFETY_INPUT]` 기계 전달 블록을 추가하여 PlayMCP가 `structuredContent`를 다음 호출에 전달하지 않는 경우를 보완한다. 블록은 다음 호출에 필요한 최소 필드만 포함하고, 하나라도 미확정이면 생성하지 않는다.
 - `AMBIGUOUS` 후보에는 token을 발급하지 않는다. Agent/UI는 사용자가 고른 정확한 품목명으로 다시 resolve한다.
 - 제품명에 식품·건기식 단어가 들어 있어도 실제 품목 완전일치가 먼저다.
 - 응급 표현이면 `{ "resolved": [], "emergency": true, "dataAsOf": "..." }`를 반환한다.

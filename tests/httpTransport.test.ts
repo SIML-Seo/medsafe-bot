@@ -20,10 +20,11 @@ const MCP_POST_HEADERS = {
   "content-type": "application/json",
   accept: "application/json, text/event-stream"
 };
-const TEST_PORT_BASE = randomInt(10_000, 50_000);
+// Stay below common outbound ephemeral ranges used by Linux and Windows runners.
+const TEST_PORT_BASE = randomInt(10_000, 20_000);
 
 function testPort(seed: number): number {
-  return 10_000 + ((TEST_PORT_BASE + seed) % 50_000);
+  return 10_000 + ((TEST_PORT_BASE + seed) % 20_000);
 }
 
 async function startServer(

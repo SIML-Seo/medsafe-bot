@@ -28,6 +28,8 @@ const MAX_CHECK_MEDICATIONS = 12;
 const MAX_ID_CHARS = 80;
 const MAX_DISPLAY_NAME_CHARS = 512;
 const MAX_CONTEXT_NOTES_CHARS = 500;
+const CHECK_HANDOFF_START = "[CHECK_MEDICATION_SAFETY_INPUT]";
+const CHECK_HANDOFF_END = "[/CHECK_MEDICATION_SAFETY_INPUT]";
 
 const SERVICE_NAME = "Medsafe Bot(복약안전 봇)";
 
@@ -110,7 +112,7 @@ export function buildMcpServer(services: AppServices): McpServer {
     {
       title: "약 이름 정규화",
       description:
-        `${SERVICE_NAME} maps user-provided medication product names or ingredients to standard itemSeq and ingredient codes. It returns confirmation candidates for ambiguous names and does not make a safety verdict.`,
+        `${SERVICE_NAME} maps medication names or ingredients to standard itemSeq and ingredient codes. For fully confirmed inputs, copy every field from the CHECK_MEDICATION_SAFETY_INPUT text block unchanged into check_medication_safety, including confirmationToken, and never expose the token to the user. Ambiguous names require clarification and this tool does not make a safety verdict.`,
       annotations: readOnlyToolAnnotations("약 이름 정규화", false),
       inputSchema: {
         queries: z
@@ -166,7 +168,7 @@ export function buildMcpServer(services: AppServices): McpServer {
         };
       }
       const resolved = addConfirmationTokens(services, services.resolver.resolveMany(queries));
-      const text = resolved
+      const summary = resolved
         .map((item) => {
           if (item.status === "CONFIRMED") {
             return `확인 후보: ${item.query} → ${item.matchedName}`;
@@ -182,6 +184,8 @@ export function buildMcpServer(services: AppServices): McpServer {
           return `특정 불가: ${item.query}`;
         })
         .join("\n");
+      const handoff = formatCheckHandoff(resolved);
+      const text = handoff ? [handoff, "", summary].join("\n") : summary;
       const textWithNotice = sanitizeSafetyText(
         [text, "", SCOPE_NOTICE, NON_DEVICE_NOTICE, STANDARD_DISCLAIMER].join("\n")
       );
@@ -197,7 +201,7 @@ export function buildMcpServer(services: AppServices): McpServer {
     {
       title: "복약 안전 점검",
       description:
-        `${SERVICE_NAME} checks confirmed medication entries copied from resolve_medications for DUR contraindications, duplicate ingredients, and unresolved risk states. It returns a read-only safety summary with sources, dates, and fail-closed disclaimers.`,
+        `${SERVICE_NAME} checks confirmed medication entries for DUR contraindications, duplicate ingredients, and unresolved risks. When resolve_medications returns a CHECK_MEDICATION_SAFETY_INPUT text block, copy its medications array exactly, including confirmationToken; never omit, alter, or show the token to the user. Returns a read-only summary with sources, dates, and fail-closed disclaimers.`,
       annotations: readOnlyToolAnnotations("복약 안전 점검", false),
       inputSchema: {
         medications: z
@@ -368,6 +372,34 @@ function confirmationTokenFor(
     ingrCode,
     status: item.status ?? null
   });
+}
+
+function formatCheckHandoff(resolved: TokenizedResolved[]): string | null {
+  if (
+    resolved.length === 0 ||
+    !resolved.every(
+      (item) => item.status === "CONFIRMED" && item.confirmationToken && item.matchedName
+    )
+  ) {
+    return null;
+  }
+
+  const input = {
+    medications: resolved.map((item) => ({
+      itemSeq: item.itemSeq,
+      ingrCode: item.ingrCode,
+      status: item.status,
+      displayName: item.matchedName,
+      confirmationToken: item.confirmationToken
+    }))
+  };
+
+  return [
+    "다음 check_medication_safety 호출에 아래 JSON의 medications를 필드 누락·변경 없이 그대로 전달하세요. confirmationToken은 사용자 답변에 표시하지 마세요.",
+    CHECK_HANDOFF_START,
+    JSON.stringify(input),
+    CHECK_HANDOFF_END
+  ].join("\n");
 }
 
 function requireConfirmationTokens(

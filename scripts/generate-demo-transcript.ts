@@ -7,6 +7,7 @@ import { createAppServices } from "../src/app.js";
 import { loadConfig } from "../src/config/env.js";
 import { buildMcpServer } from "../src/mcpServer.js";
 import { MasterRepository } from "../src/repositories/masterRepository.js";
+import { redactConfirmationTokensInText } from "../src/utils/redact.js";
 import { computeBuildId } from "../src/version.js";
 
 interface TextContent {
@@ -205,7 +206,9 @@ function textOf(result: unknown): string {
       ? ((result as { content?: unknown }).content ?? [])
       : [];
   const content: TextContent[] = Array.isArray(rawContent) ? (rawContent as TextContent[]) : [];
-  return content.map((item) => item.text ?? "").join("\n").trim();
+  return redactConfirmationTokensInText(
+    content.map((item) => item.text ?? "").join("\n").trim()
+  );
 }
 
 function redactTokens(value: unknown): unknown {
