@@ -27,8 +27,9 @@ const VERIFICATION_ID = computeVerificationId();
 const endpoint = new URL(
   process.env.REMOTE_ENDPOINT?.trim() || SUBMISSION_MCP_ENDPOINT
 );
-const averageLimitMs = numberEnv("REMOTE_AVG_LIMIT_MS", 100);
-const p99LimitMs = numberEnv("REMOTE_P99_LIMIT_MS", 3000);
+const performanceProfile = remotePerformanceProfile(process.env.REMOTE_PERFORMANCE_PROFILE);
+const averageLimitMs = 100;
+const p99LimitMs = 3000;
 const performanceSamples = Math.max(100, numberEnv("REMOTE_PERF_SAMPLES", 100));
 const concurrentSamples = Math.max(8, numberEnv("REMOTE_CONCURRENT_SAMPLES", 8));
 const coldConnectionSamples = Math.max(3, numberEnv("REMOTE_COLD_SAMPLES", 5));
@@ -757,7 +758,9 @@ try {
     Array.from(timingsByOperation, ([name, values]) => [name, timingSummary(values)])
   );
   for (const [name, values] of Object.entries(byOperation)) {
-    assert(values.averageMs <= averageLimitMs, `${name} average ${values.averageMs.toFixed(1)}ms exceeds ${averageLimitMs}ms`);
+    if (performanceProfile === "strict") {
+      assert(values.averageMs <= averageLimitMs, `${name} average ${values.averageMs.toFixed(1)}ms exceeds ${averageLimitMs}ms`);
+    }
     assert(values.p99Ms <= p99LimitMs, `${name} p99 ${values.p99Ms.toFixed(1)}ms exceeds ${p99LimitMs}ms`);
   }
   verificationStage = "performance concurrent samples";
@@ -775,7 +778,9 @@ try {
   const coldConnections = timingSummary(coldTimings);
   const average = summary.averageMs;
   const p99 = summary.p99Ms;
-  assert(average <= averageLimitMs, `remote average ${average.toFixed(1)}ms exceeds ${averageLimitMs}ms`);
+  if (performanceProfile === "strict") {
+    assert(average <= averageLimitMs, `remote average ${average.toFixed(1)}ms exceeds ${averageLimitMs}ms`);
+  }
   assert(p99 <= p99LimitMs, `remote p99 ${p99.toFixed(1)}ms exceeds ${p99LimitMs}ms`);
   assert(concurrent.p99Ms <= p99LimitMs, `concurrent p99 ${concurrent.p99Ms.toFixed(1)}ms exceeds ${p99LimitMs}ms`);
   assert(coldConnections.p99Ms <= p99LimitMs, `cold connection p99 ${coldConnections.p99Ms.toFixed(1)}ms exceeds ${p99LimitMs}ms`);
@@ -809,6 +814,8 @@ try {
       ingredientMissingFailClosed: noIngredientCheck
     },
     performance: {
+      profile: performanceProfile,
+      averageRequirementCertified: performanceProfile === "strict",
       samples: timings.length,
       averageMs: average,
       p99Ms: p99,
@@ -826,7 +833,9 @@ try {
   console.log(`ok data identity: sha256=${localDataSha256}`);
   console.log(`ok tools: ${expectedTools.join(", ")}`);
   console.log("ok representative flows: duplicate ingredient, live red-case, exact explanation, ingredient catalog coverage, ingredient-only RED, conservative-form RED, critical mapping/duplicate/emergency regressions, ingredient-missing fail-closed");
-  console.log(`ok performance: n=${timings.length} avg=${average.toFixed(1)}ms p99=${p99.toFixed(1)}ms`);
+  console.log(
+    `${performanceProfile === "strict" ? "ok" : "observed"} performance (${performanceProfile}): n=${timings.length} avg=${average.toFixed(1)}ms p99=${p99.toFixed(1)}ms`
+  );
   console.log(`ok concurrent: n=${concurrent.samples} avg=${concurrent.averageMs.toFixed(1)}ms p99=${concurrent.p99Ms.toFixed(1)}ms`);
   console.log(`ok cold connections: n=${coldConnections.samples} avg=${coldConnections.averageMs.toFixed(1)}ms p99=${coldConnections.p99Ms.toFixed(1)}ms`);
   console.log(`ok evidence: ${evidencePath}`);
@@ -912,6 +921,12 @@ function structured<T>(response: unknown): T {
 function numberEnv(name: string, fallback: number): number {
   const value = Number(process.env[name]);
   return Number.isFinite(value) && value > 0 ? value : fallback;
+}
+
+function remotePerformanceProfile(value: string | undefined): "strict" | "cross-region-observe" {
+  const normalized = value?.trim() || "strict";
+  if (normalized === "strict" || normalized === "cross-region-observe") return normalized;
+  throw new Error(`REMOTE_PERFORMANCE_PROFILE must be strict or cross-region-observe: ${normalized}`);
 }
 
 function assert(condition: unknown, message: string): asserts condition {

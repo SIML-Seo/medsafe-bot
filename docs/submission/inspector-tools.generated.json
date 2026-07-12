@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
-  "checkedAt": "2026-07-12T12:07:02.756Z",
+  "checkedAt": "2026-07-12T12:29:15.384Z",
   "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
-  "verificationId": "sha256:b432ca5c46dd25d44a279796560dc65982db14c43a4c473c2b3a31d5c7c152a5",
+  "verificationId": "sha256:af8f1cb6b1969c35b27c2c554cb117d12fa9c8eaf9d1931eb9b9ab2aaae840c2",
   "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
   "inspectorVersion": "0.22.0",
   "tools": [

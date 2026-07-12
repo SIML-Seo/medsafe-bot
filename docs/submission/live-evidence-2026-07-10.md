@@ -12,7 +12,7 @@
 2026-07-12 KC endpoint를 data model v3 release로 재배포하고 공식 MCP SDK, MCP Inspector, strict release gate로 다시 검증했다. endpoint의 build ID와 DB SHA는 현재 release artifact와 일치한다.
 
 - deployed build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
-- verification ID: `sha256:b432ca5c46dd25d44a279796560dc65982db14c43a4c473c2b3a31d5c7c152a5`
+- verification ID: `sha256:af8f1cb6b1969c35b27c2c554cb117d12fa9c8eaf9d1931eb9b9ab2aaae840c2`
 - deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 - deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
@@ -68,14 +68,15 @@
 
 ## Remote Verification Completed
 
-- SDK evidence checkedAt: `2026-07-12T12:06:58.227Z`
-- Inspector evidence checkedAt: `2026-07-12T12:07:02.756Z`
+- SDK evidence checkedAt: `2026-07-12T12:29:10.623Z`
+- Inspector evidence checkedAt: `2026-07-12T12:29:15.384Z`
 - 정확한 read-only tools 3개와 annotations, 대표 중복성분·RED·설명·응급·비응급·보류 흐름 통과
 - 원격 핵심 안전 프로브 `216/216`, 대표 품목 `31/31` 통과
-- 대표 흐름 100회 평균 `20.5ms`, p99 `87.8ms`
-- 동시 8회 p99 `88.9ms`, cold 연결 5회 p99 `73.0ms`
+- 대표 흐름 100회 평균 `21.0ms`, p99 `86.2ms`
+- 동시 8회 p99 `114.3ms`, cold 연결 5회 p99 `64.6ms`
 - 공식 MCP Inspector `tools/list` 통과
 - `npm run submission:check:release`: `tools=true`, `flows=true`, `readiness=true`, `performance=true`
+- 한국 경로의 `strict` 증거만 평균 100ms 인증으로 인정하며, 미국 GitHub-hosted runner는 `cross-region-observe` 별도 증거에서 전체 기능과 p99 3초를 검증
 
 ## Final Evidence Artifacts
 
@@ -87,9 +88,10 @@ npm run verify:remote
 npm run submission:check:release
 ```
 
-GitHub Actions `Remote Release Verification`은 다음 두 JSON을 30일 artifact로 보존한다.
+GitHub Actions `Remote Release Verification`은 다음 세 JSON을 30일 artifact로 보존한다.
 
 - `docs/submission/remote-verification.generated.json`
+- `docs/submission/remote-verification.cross-region.generated.json`
 - `docs/submission/inspector-tools.generated.json`
 
 최종 문서에는 다음 실측값만 기록한다.
@@ -107,4 +109,4 @@ GitHub Actions `Remote Release Verification`은 다음 두 JSON을 30일 artifac
 - e약은요 설명
 - 대표 흐름 합계 100회 및 도구별 분포 평균 100ms 이하·p99 3,000ms 이하, 동시 burst·cold 연결 p99 3,000ms 이하
 
-위 원격 gate는 2026-07-12 통과했다. GitHub Actions `Remote Release Verification` 수동 실행으로 동일 검증의 fresh checkout artifact를 보존한다.
+위 strict 원격 gate는 2026-07-12 통과했다. GitHub Actions는 미국 cross-region 관측과 fresh Inspector를 추가해 세 증거 artifact를 보존한다.

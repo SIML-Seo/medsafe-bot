@@ -31,4 +31,4 @@ npm run verify:remote
 npm run submission:check:release
 ```
 
-`verify:remote`가 성공하면 현재 endpoint, build ID, verification ID, DB SHA, 고정 RED와 품목 스냅샷 없는 성분 카탈로그 전용 RED, 표기 변형·구성성분 중복, 브랜드 응급 회귀·비응급 대조군·모호한 과량복용 보류를 포함한 대표 흐름, 고정 안전 프로브 216개, 합계 100회 도구별 분포·동시 burst·cold 연결 평균·p99를 `docs/submission/remote-verification.generated.json`에 원자적으로 기록한다. token과 service key는 증거 파일에 쓰지 않는다. GitHub Actions `Remote Release Verification`은 Node 22와 lockfile 고정 공식 Inspector로 tools/list를 별도 확인하고 두 JSON을 30일 artifact로 보존한다.
+`verify:remote`가 성공하면 현재 endpoint, build ID, verification ID, DB SHA, 고정 RED와 품목 스냅샷 없는 성분 카탈로그 전용 RED, 표기 변형·구성성분 중복, 브랜드 응급 회귀·비응급 대조군·모호한 과량복용 보류를 포함한 대표 흐름, 고정 안전 프로브 216개, 합계 100회 도구별 분포·동시 burst·cold 연결 평균·p99를 `docs/submission/remote-verification.generated.json`에 원자적으로 기록한다. token과 service key는 증거 파일에 쓰지 않는다. GitHub Actions는 미국 runner의 장거리 RTT를 `remote-verification.cross-region.generated.json`에 분리하고, 한국 strict 성능 인증·cross-region 관측·공식 Inspector의 세 JSON을 30일 artifact로 보존한다.

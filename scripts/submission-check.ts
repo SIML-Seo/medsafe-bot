@@ -59,6 +59,18 @@ const checks: Check[] = [
   fileCheck("live data checklist", "docs/submission/live-data-checklist.md", "error"),
   fileCheck("CI workflow", ".github/workflows/ci.yml", "error"),
   fileCheck("remote release workflow", ".github/workflows/remote-release.yml", "error"),
+  documentValueCheck(
+    "remote workflow uses cross-region observation profile",
+    ".github/workflows/remote-release.yml",
+    "REMOTE_PERFORMANCE_PROFILE: cross-region-observe",
+    "error"
+  ),
+  documentValueCheck(
+    "remote workflow separates cross-region evidence",
+    ".github/workflows/remote-release.yml",
+    "REMOTE_EVIDENCE_PATH: docs/submission/remote-verification.cross-region.generated.json",
+    "error"
+  ),
   fileCheck("live evidence", "docs/submission/live-evidence-2026-07-10.md", "warn"),
   documentValueCheck(
     "live evidence build ID matches local release",
@@ -300,9 +312,13 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
         ingredientMissingFailClosed?: EvidenceFlow;
       };
       performance?: {
+        profile?: string;
+        averageRequirementCertified?: boolean;
         samples?: number;
         averageMs?: number;
         p99Ms?: number;
+        averageLimitMs?: number;
+        p99LimitMs?: number;
         byOperation?: Record<string, { samples?: number; averageMs?: number; p99Ms?: number }>;
         concurrent?: { samples?: number; averageMs?: number; p99Ms?: number };
         coldConnections?: { samples?: number; averageMs?: number; p99Ms?: number };
@@ -470,6 +486,11 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
       (evidence.performance?.concurrent?.p99Ms ?? Number.POSITIVE_INFINITY) <= 3000 &&
       (evidence.performance?.coldConnections?.samples ?? 0) >= 3 &&
       (evidence.performance?.coldConnections?.p99Ms ?? Number.POSITIVE_INFINITY) <= 3000;
+    const strictPerformanceEvidenceOk =
+      evidence.performance?.profile === "strict" &&
+      evidence.performance.averageRequirementCertified === true &&
+      evidence.performance.averageLimitMs === 100 &&
+      evidence.performance.p99LimitMs === 3000;
     const ok =
       evidence.schemaVersion === 1 &&
       endpointOk &&
@@ -482,6 +503,7 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
       toolsOk &&
       flowsOk &&
       !rawEvidence.includes('"confirmationToken"') &&
+      strictPerformanceEvidenceOk &&
       (evidence.performance?.samples ?? 0) >= 100 &&
       (evidence.performance?.averageMs ?? Number.POSITIVE_INFINITY) <= 100 &&
       (evidence.performance?.p99Ms ?? Number.POSITIVE_INFINITY) <= 3000 &&
@@ -489,7 +511,7 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
     checksToUpdate.push({
       name: "remote evidence matches release artifact",
       ok,
-      detail: `${evidence.endpoint ?? "missing"} @ ${evidence.checkedAt ?? "missing"}; schema=${String(evidence.schemaVersion)} tools=${toolsOk} flows=${flowsOk} readiness=${readinessOk} performance=${detailedPerformanceOk}`,
+      detail: `${evidence.endpoint ?? "missing"} @ ${evidence.checkedAt ?? "missing"}; schema=${String(evidence.schemaVersion)} tools=${toolsOk} flows=${flowsOk} readiness=${readinessOk} performance=${detailedPerformanceOk} profile=${evidence.performance?.profile ?? "missing"} certified=${strictPerformanceEvidenceOk}`,
       severity: requireRemote ? "error" : "warn"
     });
   } catch (error) {

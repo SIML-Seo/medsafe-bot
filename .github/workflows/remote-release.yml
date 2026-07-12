@@ -22,9 +22,12 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npm run verify:remote
+      - name: Verify remote behavior from cross-region CI
+        run: npm run verify:remote
         env:
           MASTER_DB_PATH: data/master.sqlite
+          REMOTE_PERFORMANCE_PROFILE: cross-region-observe
+          REMOTE_EVIDENCE_PATH: docs/submission/remote-verification.cross-region.generated.json
       - name: Verify tools/list with official MCP Inspector
         run: |
           npx --no-install @modelcontextprotocol/inspector --cli https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp --transport http --method tools/list > /tmp/inspector-tools.raw.json
@@ -47,6 +50,7 @@ jobs:
           name: medsafe-remote-release-evidence
           path: |
             docs/submission/remote-verification.generated.json
+            docs/submission/remote-verification.cross-region.generated.json
             docs/submission/inspector-tools.generated.json
           if-no-files-found: error
           retention-days: 30

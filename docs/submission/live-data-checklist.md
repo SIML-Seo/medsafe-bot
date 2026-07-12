@@ -80,7 +80,7 @@
 - PlayMCP Active 상세 화면
 - tools/list 결과
 - 공식 MCP Inspector CLI 결과
-- GitHub Actions artifact의 `remote-verification.generated.json`, `inspector-tools.generated.json`
+- GitHub Actions artifact의 한국 strict `remote-verification.generated.json`, 미국 관측 `remote-verification.cross-region.generated.json`, `inspector-tools.generated.json`
 - `/readyz` JSON
 - 중복성분·red-case·설명·응급 우선 캡처
 - `verify:remote` 출력과 `remote-verification.generated.json`

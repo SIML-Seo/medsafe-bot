@@ -136,6 +136,8 @@ npm run verify:remote
 
 KC endpoint에 공식 MCP SDK로 연결해 `/healthz`, `/readyz`, tools/list, 타이레놀+게보린, 벤조산나트륨카페인+카페인, 초산 L-리신+L-리신 중복성분, 아스피린프로텍트+유한메토트렉세이트 RED, 타이레놀 설명, 두 품목 모두 품목 스냅샷이 없는 성분 카탈로그 전용 RED, 제한된 염·수화물 형식 매핑 기반 판토프라졸+릴피비린 RED, 팍스로비드 복합제·카보잔티닙 염·MIX D-code 및 검증된 한글 표기 변형 회귀 RED, 브랜드명 과량복용·자해 의도 응급, 음식·일상 복약·구매·보관·부정 표현 비응급 대조군, 모호한 과량복용 표현의 투명한 보류, 성분 자체가 없는 품목의 `UNCERTAIN`을 검사합니다. `/readyz`는 메타데이터·품목 스냅샷과 독립된 고정 안전 프로브 216개도 통과해야 합니다. 성능은 대표 4개 흐름 합계 100회와 도구별 분포에서 평균 100ms·p99 3초, 동시 burst p99 3초, cold 연결 p99 3초를 별도로 검증하며 성공 시 token을 제외한 증거 JSON을 생성합니다.
 
+기본 `verify:remote`는 한국 사용자 경로에서 평균 100ms·p99 3초를 모두 강제하는 `strict` 성능 인증입니다. 미국 GitHub-hosted runner는 한국 KC까지의 장거리 RTT를 제품 처리시간과 섞지 않도록 `cross-region-observe` 프로필로 별도 JSON을 생성하며, 전체 기능과 p99 3초만 강제합니다. `submission:check:release`는 계속 `strict` 프로필 증거만 최종 성능 인증으로 인정합니다.
+
 최종 KC 배포 뒤에는 PlayMCP 가이드가 요구하는 공식 Inspector CLI도 제출 endpoint에 직접 실행합니다. 릴리스 워크플로는 Node 22에서 lockfile에 고정된 Inspector `0.22.0`을 실행하고 결과 JSON을 artifact로 보존합니다.
 
 ```bash
@@ -153,8 +155,8 @@ npm run verify:inspector-output -- \
 npm run submission:check:release
 ```
 
-생성된 원격 증거가 24시간 이내이며 현재 build ID·DB SHA-256과 일치하는지 다시 확인합니다.
-KC 재배포 후에는 GitHub Actions의 `Remote Release Verification`을 수동 실행해 같은 두 명령을 fresh checkout에서도 통과시킵니다.
+생성된 strict 원격 증거가 24시간 이내이며 현재 build ID·DB SHA-256과 일치하는지 다시 확인합니다.
+KC 재배포 후에는 GitHub Actions의 `Remote Release Verification`을 수동 실행합니다. workflow는 미국 runner의 전체 기능·p99 관측을 별도 cross-region JSON에 기록하고, 커밋된 한국 strict 증거와 새 Inspector 증거를 fresh checkout에서 함께 검증합니다.
 
 ## 데모 흐름
 
