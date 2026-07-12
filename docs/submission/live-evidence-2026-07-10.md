@@ -1,4 +1,4 @@
-# Live Evidence Status - 2026-07-10
+# Live Evidence Status - Updated 2026-07-12
 
 ## Endpoint
 
@@ -9,14 +9,14 @@
 
 ## Current Status
 
-이 문서는 아직 최종 원격 제출 성공 증거가 아니다. 로컬 release DB는 data model v3로 생성됐지만 KC endpoint는 이 로컬 build ID와 DB SHA가 일치하도록 재배포한 뒤 다시 검증해야 한다. 이전 v2 캡처·성능 수치는 최종 증거에서 제외한다.
+2026-07-12 KC endpoint를 data model v3 release로 재배포하고 공식 MCP SDK, MCP Inspector, strict release gate로 다시 검증했다. endpoint의 build ID와 DB SHA는 현재 release artifact와 일치한다.
 
-- current local build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
-- current local verification ID: `sha256:3dfdc471205d7a1ed85886649db8791a1855fb7689bb8f9b817a85eed66eb907`
-- current local release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
-- current local release DB: `PUBLIC_DATA_LIVE`, data model v3
+- deployed build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
+- verification ID: `sha256:b432ca5c46dd25d44a279796560dc65982db14c43a4c473c2b3a31d5c7c152a5`
+- deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
+- deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
-- KC endpoint: 현재 로컬 build ID·DB SHA와 일치하도록 재배포 필요
+- KC endpoint: `/healthz` 200, `/readyz` 200, build ID·DB SHA 일치, 독립 안전 프로브 `216/216`
 
 서버와 `submission:check:live`는 아래 조건 중 하나라도 충족하지 않으면 실패한다.
 
@@ -66,9 +66,20 @@
 - Windows Node 22.18.0 최신 재실행은 로컬 WSL `node_modules` junction/ACL이 Windows `npm ci`를 거부해 미완료. GitHub Actions의 fresh Windows runner에서 확인 필요
 - 로컬 Docker daemon이 실행 중이 아니어서 image build는 미실행. CI Docker build와 KC 재배포에서 확인 필요
 
-## Final Evidence Required
+## Remote Verification Completed
 
-v3 DB 생성과 KC 재배포 후 아래 명령을 같은 release commit에서 실행한다.
+- SDK evidence checkedAt: `2026-07-12T12:06:58.227Z`
+- Inspector evidence checkedAt: `2026-07-12T12:07:02.756Z`
+- 정확한 read-only tools 3개와 annotations, 대표 중복성분·RED·설명·응급·비응급·보류 흐름 통과
+- 원격 핵심 안전 프로브 `216/216`, 대표 품목 `31/31` 통과
+- 대표 흐름 100회 평균 `20.5ms`, p99 `87.8ms`
+- 동시 8회 p99 `88.9ms`, cold 연결 5회 p99 `73.0ms`
+- 공식 MCP Inspector `tools/list` 통과
+- `npm run submission:check:release`: `tools=true`, `flows=true`, `readiness=true`, `performance=true`
+
+## Final Evidence Artifacts
+
+v3 DB와 KC endpoint를 같은 release artifact로 맞춘 뒤 아래 명령을 통과했다.
 
 ```bash
 npm run submission:check:live
@@ -96,4 +107,4 @@ GitHub Actions `Remote Release Verification`은 다음 두 JSON을 30일 artifac
 - e약은요 설명
 - 대표 흐름 합계 100회 및 도구별 분포 평균 100ms 이하·p99 3,000ms 이하, 동시 burst·cold 연결 p99 3,000ms 이하
 
-위 원격 gate가 통과하기 전에는 제출 완료 또는 최신 배포라고 주장하지 않는다.
+위 원격 gate는 2026-07-12 통과했다. GitHub Actions `Remote Release Verification` 수동 실행으로 동일 검증의 fresh checkout artifact를 보존한다.

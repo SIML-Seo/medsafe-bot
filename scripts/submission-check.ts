@@ -249,7 +249,7 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
       notes?: string;
       resolveEmergency?: boolean;
       resolveTriageStatus?: string;
-      resolveAmbiguityPreserved?: boolean;
+      resolveHoldPreserved?: boolean;
     };
     const evidence = JSON.parse(rawEvidence) as {
       schemaVersion?: number;
@@ -431,7 +431,7 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
         (flow) =>
           flow.resolveEmergency !== true &&
           flow.resolveTriageStatus === "UNCERTAIN" &&
-          flow.resolveAmbiguityPreserved === true &&
+          flow.resolveHoldPreserved === true &&
           flow.verdict === "UNCERTAIN" &&
           flow.findings?.some((finding) => finding.type === "CONTEXT_UNKNOWN") === true &&
           flow.findings?.some((finding) => finding.type === "EMERGENCY") !== true &&

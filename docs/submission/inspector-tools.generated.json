@@ -1,0 +1,611 @@
+{
+  "schemaVersion": 1,
+  "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
+  "checkedAt": "2026-07-12T12:07:02.756Z",
+  "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
+  "verificationId": "sha256:b432ca5c46dd25d44a279796560dc65982db14c43a4c473c2b3a31d5c7c152a5",
+  "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
+  "inspectorVersion": "0.22.0",
+  "tools": [
+    {
+      "name": "resolve_medications",
+      "title": "약 이름 정규화",
+      "description": "Medsafe Bot(복약안전 봇) maps user-provided medication product names or ingredients to standard itemSeq and ingredient codes. It returns confirmation candidates for ambiguous names and does not make a safety verdict.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "description": "사용자가 말한 약 표현 목록"
+          }
+        },
+        "required": [
+          "queries"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "resolved": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "CONFIRMED",
+                    "AMBIGUOUS",
+                    "NOT_FOUND",
+                    "OUT_OF_SCOPE"
+                  ]
+                },
+                "inputKind": {
+                  "type": "string",
+                  "enum": [
+                    "PRODUCT",
+                    "INGREDIENT",
+                    "UNKNOWN",
+                    "FOOD_OR_SUPPLEMENT"
+                  ]
+                },
+                "itemSeq": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "ingrCode": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "matchedName": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "confirmationToken": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "candidates": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "itemSeq": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "ingrCode": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "matchedName": {
+                        "type": "string"
+                      },
+                      "manufacturer": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "score": {
+                        "type": "number"
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "confirmationToken": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "itemSeq",
+                      "ingrCode",
+                      "matchedName",
+                      "manufacturer",
+                      "score",
+                      "reason"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "query",
+                "status",
+                "inputKind",
+                "itemSeq",
+                "ingrCode",
+                "matchedName",
+                "candidates"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "emergency": {
+            "type": "boolean"
+          },
+          "triageStatus": {
+            "type": "string",
+            "enum": [
+              "UNCERTAIN"
+            ]
+          },
+          "dataAsOf": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "resolved",
+          "dataAsOf"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "약 이름 정규화",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "check_medication_safety",
+      "title": "복약 안전 점검",
+      "description": "Medsafe Bot(복약안전 봇) checks confirmed medication entries copied from resolve_medications for DUR contraindications, duplicate ingredients, and unresolved risk states. It returns a read-only safety summary with sources, dates, and fail-closed disclaimers.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "medications": {
+            "minItems": 1,
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "itemSeq": {
+                  "description": "resolve_medications가 반환한 itemSeq를 그대로 전달합니다.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "ingrCode": {
+                  "description": "resolve_medications가 반환한 ingrCode를 그대로 전달합니다. 빈 문자열은 null처럼 처리됩니다.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 80
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "status": {
+                  "description": "resolve_medications가 반환한 status를 그대로 전달합니다.",
+                  "type": "string",
+                  "enum": [
+                    "CONFIRMED",
+                    "AMBIGUOUS",
+                    "NOT_FOUND",
+                    "OUT_OF_SCOPE"
+                  ]
+                },
+                "displayName": {
+                  "description": "resolve_medications가 반환한 matchedName 또는 후보명을 그대로 전달합니다.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 512
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "confirmationToken": {
+                  "description": "resolve_medications가 발급한 confirmationToken을 그대로 전달합니다.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 512
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "resolve_medications 결과의 itemSeq, ingrCode, status, confirmationToken은 그대로 복사하고 matchedName은 displayName으로 매핑해 전달합니다."
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "ageGroup": {
+                "description": "사용자가 복용자의 연령대를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다.",
+                "type": "string",
+                "enum": [
+                  "adult",
+                  "elderly",
+                  "child",
+                  "unknown"
+                ]
+              },
+              "pregnancy": {
+                "description": "사용자가 임신 여부를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다.",
+                "type": "string",
+                "enum": [
+                  "yes",
+                  "no",
+                  "unknown"
+                ]
+              },
+              "notes": {
+                "description": "응급·과량복용 표현을 포함해 사용자가 말한 추가 문맥을 임의 추론 없이 전달합니다.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "medications"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "NO_KNOWN_FINDINGS",
+              "CAUTION",
+              "WARN",
+              "UNCERTAIN"
+            ]
+          },
+          "dataAsOf": {
+            "type": "string"
+          },
+          "findings": {
+            "maxItems": 512,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "USJNT_TABOO",
+                    "DUP_INGREDIENT",
+                    "DUP_INPUT",
+                    "EMERGENCY",
+                    "CONTEXT_UNKNOWN"
+                  ]
+                },
+                "origin": {
+                  "type": "string",
+                  "enum": [
+                    "DUR_SNAPSHOT",
+                    "DUR_INGREDIENT_SNAPSHOT",
+                    "LOCAL_INGREDIENT",
+                    "LOCAL_ATC",
+                    "LOCAL_POLICY"
+                  ]
+                },
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "RED",
+                    "YELLOW",
+                    "GREEN"
+                  ]
+                },
+                "a": {
+                  "type": "string",
+                  "maxLength": 512
+                },
+                "b": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 512
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "maxLength": 2048
+                },
+                "source": {
+                  "type": "string",
+                  "maxLength": 512
+                },
+                "baseDate": {
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "dateBasis": {
+                  "type": "string",
+                  "enum": [
+                    "SOURCE_DATE",
+                    "SNAPSHOT_FETCHED_AT",
+                    "LOCAL_POLICY_DATE",
+                    "FIXTURE_DATE"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "origin",
+                "level",
+                "a",
+                "b",
+                "reason",
+                "source",
+                "baseDate",
+                "dateBasis"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "unresolved": {
+            "maxItems": 24,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 512
+            }
+          },
+          "checkedTypes": {
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USJNT_TABOO",
+                "DUP_INGREDIENT",
+                "DUP_INPUT"
+              ]
+            }
+          },
+          "failedTypes": {
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USJNT_TABOO",
+                "DUP_INGREDIENT",
+                "DUP_INPUT",
+                "EMERGENCY_TRIAGE"
+              ]
+            }
+          },
+          "disclaimer": {
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "verdict",
+          "dataAsOf",
+          "findings",
+          "unresolved",
+          "checkedTypes",
+          "failedTypes",
+          "disclaimer"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "복약 안전 점검",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "explain_medication",
+      "title": "의약품 설명 조회",
+      "description": "Medsafe Bot(복약안전 봇) retrieves public e약은요 medication guidance for a single itemSeq and returns a concise explanation. Missing public data is reported as not found, not as a tool failure.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "itemSeq": {
+            "type": "string",
+            "maxLength": 80,
+            "pattern": "^(?:\\d{9}|DEMO-[A-Z0-9-]+)$",
+            "description": "resolve_medications가 확정한 9자리 품목기준코드"
+          }
+        },
+        "required": [
+          "itemSeq"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "info": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "itemSeq": {
+                    "type": "string"
+                  },
+                  "itemName": {
+                    "type": "string"
+                  },
+                  "entpName": {
+                    "type": "string"
+                  },
+                  "efcyQesitm": {
+                    "type": "string"
+                  },
+                  "useMethodQesitm": {
+                    "type": "string"
+                  },
+                  "atpnWarnQesitm": {
+                    "type": "string"
+                  },
+                  "atpnQesitm": {
+                    "type": "string"
+                  },
+                  "intrcQesitm": {
+                    "type": "string"
+                  },
+                  "seQesitm": {
+                    "type": "string"
+                  },
+                  "depositMethodQesitm": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "itemSeq",
+                  "itemName",
+                  "entpName"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "found": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "FOUND",
+              "NOT_FOUND",
+              "UPSTREAM_ERROR"
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dataAsOf": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "info",
+          "found",
+          "status",
+          "error",
+          "dataAsOf"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "의약품 설명 조회",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ]
+}

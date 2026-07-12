@@ -1,0 +1,4829 @@
+{
+  "schemaVersion": 1,
+  "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
+  "checkedAt": "2026-07-12T12:06:58.227Z",
+  "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
+  "verificationId": "sha256:b432ca5c46dd25d44a279796560dc65982db14c43a4c473c2b3a31d5c7c152a5",
+  "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
+  "readiness": {
+    "ok": true,
+    "dataMode": "live",
+    "dataSource": "PUBLIC_DATA_LIVE",
+    "dataModelVersion": "3",
+    "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
+    "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
+    "generationId": "c041f1bd-24c2-4e7c-82fb-a95fb1288efd",
+    "fetchedAt": "2026-07-10T15:03:14.589Z",
+    "generatedAt": "2026-07-10T15:05:48.887Z",
+    "counts": {
+      "productCount": 25522,
+      "productApiTotalCount": 23424,
+      "mfdsDurProductCount": 23422,
+      "productCancelledRowCount": 2,
+      "productInvalidRowCount": 0,
+      "productDuplicateItemSeqCount": 0,
+      "ingredientCount": 40171,
+      "productIngredientDurKeyCount": 40441,
+      "easyDrugInfoCount": 4742,
+      "easyDrugApiTotalCount": 4759,
+      "easyDrugInvalidRowCount": 0,
+      "easyDrugDuplicateItemSeqCount": 17,
+      "easyDrugConflictingItemSeqCount": 0,
+      "durSnapshotCount": 66,
+      "durFindingCount": 9469,
+      "durIngredientFindingCount": 1750,
+      "durIngredientCatalogIdentityCount": 462,
+      "durIngredientCatalogMappedIdentityCount": 331,
+      "durIngredientCatalogUnmappedIdentityCount": 131,
+      "durIngredientActiveCatalogIdentityCount": 379,
+      "durIngredientActiveCatalogMappedIdentityCount": 379,
+      "durIngredientProductCoverageCount": 21715,
+      "durIngredientAliasCount": 1012,
+      "durIngredientMultiMappedAliasCount": 7,
+      "durIngredientRelationFieldCount": 3500,
+      "durIngredientUnparsedRelationFieldCount": 0,
+      "durIngredientMixtureFieldCount": 787,
+      "durIngredientUnparsedMixtureFieldCount": 0,
+      "durIngredientConservativeFormMappingCount": 79,
+      "durIngredientCuratedSpellingMappingCount": 33,
+      "durIngredientAmbiguousFormMappingCount": 0,
+      "durIngredientRiskyFallbackMappingCount": 1329,
+      "durIngredientCatalogAbsentMappingCount": 21319,
+      "durIngredientDeclaredRelationAliasCount": 966,
+      "durIngredientUnmappedRelationAliasCount": 21,
+      "durIngredientActiveUnmappedRelationAliasCount": 5,
+      "durIngredientActiveUnmappedRelationProductCount": 132,
+      "durIngredientActiveOfficialRelationCount": 512,
+      "durIngredientActiveOfficialRelationMappedCount": 512,
+      "durIngredientDeletedRowCount": 65,
+      "durIngredientApiTotalCount": 1816,
+      "durIngredientActiveRowCount": 1751,
+      "durIngredientDuplicateRuleCount": 1,
+      "durIngredientMissingReasonCount": 35,
+      "productIngredientCoverageCount": 22916,
+      "curatedDurProductCount": 66,
+      "aliasCount": 48,
+      "durIngredientVerifiedCoverageCount": 21715
+    },
+    "coverage": {
+      "productIngredients": {
+        "covered": 22916,
+        "total": 25522,
+        "ratio": 0.897892
+      },
+      "easyDrug": {
+        "covered": 4742,
+        "total": 25522,
+        "ratio": 0.1858
+      },
+      "durSnapshots": {
+        "covered": 66,
+        "total": 25522,
+        "ratio": 0.002586,
+        "scope": "curated alias and evidence products only"
+      },
+      "curatedDur": {
+        "covered": 66,
+        "total": 66,
+        "ratio": 1
+      },
+      "ingredientDur": {
+        "covered": 21715,
+        "total": 25522,
+        "ratio": 0.850835,
+        "scope": "products whose ingredient identities are fully parsed for complete local DUR catalog lookup"
+      },
+      "catalogIdentityMapping": {
+        "covered": 331,
+        "total": 462,
+        "ratio": 0.71645,
+        "scope": "all DUR catalog identities represented by the current active product master; inactive historical identities remain in the catalog"
+      },
+      "activeCatalogIdentityMapping": {
+        "covered": 379,
+        "total": 379,
+        "ratio": 1,
+        "scope": "independently derived official DUR identities required by active product material relations"
+      }
+    },
+    "dur": "local DUR snapshot verified",
+    "criticalSafety": {
+      "checked": 216,
+      "ok": true
+    },
+    "reasons": []
+  },
+  "tools": [
+    "resolve_medications",
+    "check_medication_safety",
+    "explain_medication"
+  ],
+  "flows": {
+    "resolved": [
+      {
+        "query": "타이레놀정 500mg",
+        "status": "CONFIRMED",
+        "inputKind": "PRODUCT",
+        "itemSeq": "202106092",
+        "ingrCode": null,
+        "matchedName": "타이레놀정500밀리그람(아세트아미노펜)",
+        "candidates": [
+          {
+            "itemSeq": "202106092",
+            "ingrCode": null,
+            "matchedName": "타이레놀정500밀리그람(아세트아미노펜)",
+            "manufacturer": "켄뷰코리아판매유한회사",
+            "score": 0.88,
+            "reason": "partial normalized product"
+          }
+        ]
+      },
+      {
+        "query": "게보린정",
+        "status": "CONFIRMED",
+        "inputKind": "PRODUCT",
+        "itemSeq": "197900277",
+        "ingrCode": null,
+        "matchedName": "게보린정(수출명:돌로린정)",
+        "candidates": [
+          {
+            "itemSeq": "197900277",
+            "ingrCode": null,
+            "matchedName": "게보린정(수출명:돌로린정)",
+            "manufacturer": "삼진제약(주)",
+            "score": 0.88,
+            "reason": "partial normalized product"
+          }
+        ]
+      },
+      {
+        "query": "아스피린프로텍트정 100mg",
+        "status": "CONFIRMED",
+        "inputKind": "PRODUCT",
+        "itemSeq": "200108429",
+        "ingrCode": "111001ATE",
+        "matchedName": "아스피린프로텍트정100밀리그람",
+        "candidates": [
+          {
+            "itemSeq": "200108429",
+            "ingrCode": "111001ATE",
+            "matchedName": "아스피린프로텍트정100밀리그람",
+            "manufacturer": "바이엘코리아(주)",
+            "score": 1,
+            "reason": "exact normalized product"
+          }
+        ]
+      },
+      {
+        "query": "유한메토트렉세이트정",
+        "status": "CONFIRMED",
+        "inputKind": "PRODUCT",
+        "itemSeq": "197900145",
+        "ingrCode": "192101ATB",
+        "matchedName": "유한메토트렉세이트정",
+        "candidates": [
+          {
+            "itemSeq": "197900145",
+            "ingrCode": "192101ATB",
+            "matchedName": "유한메토트렉세이트정",
+            "manufacturer": "(주)유한양행",
+            "score": 1,
+            "reason": "exact normalized product"
+          }
+        ]
+      }
+    ],
+    "duplicateIngredient": {
+      "verdict": "CAUTION",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "타이레놀정500밀리그람(아세트아미노펜)",
+          "b": "게보린정(수출명:돌로린정)",
+          "reason": "아세트아미노펜 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "redCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_SNAPSHOT",
+          "level": "RED",
+          "a": "아스피린프로텍트정100밀리그람",
+          "b": "유한메토트렉세이트정",
+          "reason": "혈액학적 독성",
+          "source": "https://apis.data.go.kr/1471000/DURPrdlstInfoService03/getUsjntTabooInfoList03",
+          "baseDate": "2009-03-03",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "explanation": {
+      "found": true,
+      "status": "FOUND",
+      "itemSeq": "202106092"
+    },
+    "ingredientCatalogCoverage": {
+      "verdict": "NO_KNOWN_FINDINGS",
+      "dataAsOf": "2026-07-10",
+      "findings": [],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "ingredientCatalogRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "제일에페드린염산염주사액4%",
+          "b": "노르아드레나린주0.1%(노르에피네프린타르타르산염수화물)",
+          "reason": "부정맥 또는 심정지",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2010-11-02",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "conservativeFormRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "에듀란트정25밀리그램(릴피비린염산염)",
+          "b": "판프라졸정40mg(판토프라졸나트륨세스키히드레이트)",
+          "reason": "위장 pH의 증가로 릴피비린의 흡수가 저하되어 릴피비린의 치료효과 감소",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2015-04-23",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "paxlovidCompoundRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "팍스로비드정(니르마트렐비르, 리토나비르)",
+          "b": "콤포나콤팩트에어100/50",
+          "reason": "- QT 연장, 심계항진, 동성빈맥(sinus tachycardia)을 포함하여 살메테롤과 관련된 심혈관 부작용의 위험을 증가시킬 수 있음",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2025-07-14",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "cabozantinibSingleRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "카보메틱스정60밀리그램(카보잔티닙)",
+          "b": "리포덱스정300밀리그람(리팜피신)",
+          "reason": "-Cabozantinib의 혈장 노출 감소",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2025-12-23",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "cabozantinibMixCodeRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "카보메틱스정60밀리그램(카보잔티닙)",
+          "b": "튜비스정",
+          "reason": "-Cabozantinib의 혈장 노출 감소",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2025-12-23",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "nimesulideSpellingRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "케토라신정(케토롤락트로메타민)",
+          "b": "리메시드정(니메술리드)(수출명 : SHIN POONG NIMESULIDE Tablet 100mg)(수출용)",
+          "reason": "중증의 위장관계 이상반응",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2008-01-01",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "isoniazidSpellingRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_SNAPSHOT",
+          "level": "RED",
+          "a": "더마졸정(케토코나졸)(수출용)",
+          "b": "신풍이소니아짓정(수출용)",
+          "reason": "효소유도로 인한 ketoconazole의 혈중농도 저하",
+          "source": "https://apis.data.go.kr/1471000/DURPrdlstInfoService03/getUsjntTabooInfoList03",
+          "baseDate": "2008-04-01",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "clopidogrelSpellingRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "팍스로비드정(니르마트렐비르, 리토나비르)",
+          "b": "크린빅스정(클로피도그렐황산염)",
+          "reason": "- Clopidogrel 활성대사체의 농도를 감소시킬 수 있음",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2025-07-14",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "xylometazolineSpellingRedCase": {
+      "verdict": "WARN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "USJNT_TABOO",
+          "origin": "DUR_INGREDIENT_SNAPSHOT",
+          "level": "RED",
+          "a": "오트리빈멘톨0.1%분무제(자일로메타졸린염산염)",
+          "b": "아질렉트정(라사길린메실산염)",
+          "reason": "xylometazoline의 전신작용(고혈압 위험) 증강 또는 연장",
+          "source": "https://apis.data.go.kr/1471000/DURIrdntInfoService03/getUsjntTabooInfoList02",
+          "baseDate": "2015-11-30",
+          "dateBasis": "SOURCE_DATE"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "nimesulideSpellingDuplicate": {
+      "verdict": "CAUTION",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "메수리드정(니메술리드)",
+          "b": "리메시드정(니메술리드)(수출명 : SHIN POONG NIMESULIDE Tablet 100mg)(수출용)",
+          "reason": "니메수리드 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "isoniazidSpellingDuplicate": {
+      "verdict": "CAUTION",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "유한짓정100mg(이소니아지드)(군납명:이소니아지드정케이.피100밀리그람)",
+          "b": "신풍이소니아짓정(수출용)",
+          "reason": "이소니아짓 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "clopidogrelSpellingDuplicate": {
+      "verdict": "CAUTION",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "하이빅스정(클로피도그렐황산수소염)",
+          "b": "크린빅스정(클로피도그렐황산염)",
+          "reason": "클리피도그렐황산염 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "caffeineCompoundDuplicate": {
+      "verdict": "CAUTION",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "안나카주사액20%(제일벤조산나트륨카페인주)(수출용)",
+          "b": "지엘타이밍정(카페인무수물)",
+          "reason": "카페인무수물 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "failedTypes": [],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "lysineAcetateDuplicate": {
+      "verdict": "UNCERTAIN",
+      "dataAsOf": "2026-07-10",
+      "findings": [
+        {
+          "type": "DUP_INGREDIENT",
+          "origin": "LOCAL_INGREDIENT",
+          "level": "YELLOW",
+          "a": "스모프카비벤주",
+          "b": "트레스탄캡슐",
+          "reason": "L-리신염산염 성분이 겹칩니다. 공개 데이터 기반 정보 조회 결과이며 임의 중단 또는 용량 변경 지시가 아닙니다.",
+          "source": "MFDS DUR 품목 성분 스냅샷",
+          "baseDate": "2026-07-10",
+          "dateBasis": "SNAPSHOT_FETCHED_AT"
+        }
+      ],
+      "unresolved": [
+        "스모프카비벤주: 성분정보 미확인 또는 불완전으로 중복성분 판정 보류",
+        "스모프카비벤주: 병용금기 데이터 미확인으로 판정 보류",
+        "트레스탄캡슐: 병용금기 데이터 미확인으로 판정 보류"
+      ],
+      "checkedTypes": [
+        "DUP_INPUT"
+      ],
+      "failedTypes": [
+        "DUP_INGREDIENT",
+        "USJNT_TABOO"
+      ],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "brandEmergencyCases": [
+      {
+        "notes": "타이레놀 한 통을 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 반 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 다섯 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 통째로 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 여러 알 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 몇 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두세 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 팩을 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 박스를 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹으려고 해요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 병 복용하려고 해요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 서너 통 삼키려고 해요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 여러 상자 먹을 예정이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 포 마시려고 해요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 반 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 한 박스 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을게요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹어버릴 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹으려고 한 건 아니지만 실수로 반 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀도 반 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀만 한 박스 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀까지 두세 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통씩 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 무려 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹겠어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 생각이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 계획이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹어버릴래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 삼켜버릴 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 방금 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 실수로 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 이미 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 한꺼번에 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통이나 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 반 통 정도를 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 넘게 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 거의 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 복용해 버렸어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹고 말았어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹기로 했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 복용하기로 했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 작정이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀, 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀: 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 어제 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 단숨에 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "한 통의 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀. 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 단숨에 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 어제 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 몽땅 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 먹어 치웠어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽으려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽으려 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽고 싶어서 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽고 싶어 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "살기 싫어서 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살하려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "극단적인 선택을 하려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자해하려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "목숨을 끊으려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽을려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 오늘 새벽에 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 한 번에 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 0.5통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 열두 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 시트 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 움큼 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 자살할래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살할 생각으로 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹어서 죽어야지",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 주먹 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두어 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 통 하나를 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 갑을 다 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 다 털어 넣었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을 거야",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽기로 했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽어버릴래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 목숨을 끊을래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 극단적인 선택을 할래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "문장을 번역해줘. 그런데 실제로 타이레놀 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "문장을 번역해줘. 지금 숨이 안 쉬어져요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "이 문구를 해석해줘. 그런데 나는 자살할 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "실제로 타이레놀 한 통 먹었어요. 이 문장을 번역해줘",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 물 한 병이랑 먹었어요. 그런데 타이레놀 20알을 삼켰어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 수백 알 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 십여 알 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 8알을 털어 넣었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20알을 삼켜버렸어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20정을 복용해버렸어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을 예정이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을 마음이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 생을 마감할래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 세상을 떠날래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽을 각오로 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 오늘 밤에 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 술김에 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "이 문장을 번역해줘 그리고 실제로 타이레놀 한 통 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "실제로 타이레놀 한 통 먹었어요 그리고 이 문장을 번역해줘",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "이 문장을 번역해줘, 지금 숨이 안 쉬어져요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "현재 타이레놀 0.5통 먹었어요 그리고 이 표현의 뜻을 알려줘",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20알 들이켰어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20알을 물과 함께 넘겼어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20알을 원샷했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 예방 교육을 들었지만 실제로 자살할 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 예방 자료를 읽었고 지금 자살할 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자해 방지 교육 후 자해할 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 통계를 보다가 실제로 자살할 거예요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을 셈이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 목숨을 버릴래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "생을 포기하려고 타이레놀을 먹었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "이 문장을 번역해줘 그래서 지금 숨을 쉴 수가 없어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 예방 교육이 중요하다는 건 알지만 오늘 목숨을 버릴래요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 밥 한 공기 먹고 복용 중이며 남은 건 한 통 마셨어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "오늘로 생을 포기할 셈이에요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 마셔 치웠어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 원샷했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "커피를 마셨어요 그리고 감기약 세 병을 원샷했어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 넘겼어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통을 들이부었어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 20알 처방받고 물과 함께 넘겼어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 병 보유 중이며 물과 함께 마셨어요",
+        "resolveEmergency": true,
+        "verdict": "WARN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "EMERGENCY",
+            "origin": "LOCAL_POLICY",
+            "level": "RED",
+            "a": "응급 의심 표현",
+            "b": null,
+            "reason": "응급 신호가 언급되었습니다. 상호작용 조회보다 119 또는 응급실 상담이 우선입니다.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [],
+        "checkedTypes": [],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      }
+    ],
+    "brandNonEmergencyCases": [
+      {
+        "notes": "타이레놀 한 통 먹고 있어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "물 한 병을 다 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "과자 한 봉지를 다 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 복용 중이고 물 한 병을 다 마셨어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "처방받은 약을 다 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "한 번에 한 알씩 먹으래요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "죽고 싶어서 먹은 건 아니에요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자해하려고 한 건 아니고 타이레놀을 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살할 생각은 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을래요라고 말한 적 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을래요라는 문장을 번역해줘",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "영화 대사에서 타이레놀 먹고 죽을래요라고 했어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 먹고 죽을래요? 이 표현의 뜻을 알려줘",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 알씩 먹어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 하루 한 번씩 먹어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 물 한 병이랑 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 밥 한 공기 먹은 뒤 복용했어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살하지 않을 거예요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자해는 절대 안 해요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "삶을 끝내지 않을 거예요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 예방 교육을 들었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 사려고 해요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 박스 보관하고 있어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹으려고 한 건 아니에요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 예정은 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 거라고 말한 적 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹을 계획은 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹겠다는 생각은 없어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀만 한 박스 사 왔어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 8알을 처방받았고 밥을 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 10알 남았는데 과자를 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 8알 샀고 점심을 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 12정은 잔량이며 식혜를 마셨어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 상자 남았는데 라면을 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 병 주문했고 사과를 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 팩 구매 후 죽을 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 세 통은 재고이고 콜라를 마셨어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 상자 배송 중이고 주스를 마셨어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 팩 주문했고 피자 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 세 통 재고인데 햄버거 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "번역해줘: “지금 숨을 못 쉬겠어요”",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "해석할 문구는 ‘현재 가슴이 너무 아파요’입니다",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "번역해줘: ‘오늘 자살할 거예요’",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "자살 예방 교육에서 삶을 포기하지 말자고 배웠어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 병 보유 중이고 결국 국수 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 상자 구매했고 바다포도를 먹었어요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "목숨을 내놓으면 안 돼요",
+        "resolveEmergency": false,
+        "verdict": "NO_KNOWN_FINDINGS",
+        "dataAsOf": "2026-07-10",
+        "findings": [],
+        "unresolved": [],
+        "checkedTypes": [
+          "DUP_INPUT",
+          "DUP_INGREDIENT",
+          "USJNT_TABOO"
+        ],
+        "failedTypes": [],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      }
+    ],
+    "potentialOverdoseCases": [
+      {
+        "notes": "타이레놀 한 통 먹으면 좋겠다는 광고를 봤어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 통 먹어치울까 고민 중이에요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 반 통 복용할지 고민 중이에요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 오늘 한 통 먹을지 고민 중이에요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 튜브를 다 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 블리스터를 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 알씩 먹어요. 그런데 실제로 한 통을 다 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 밥 한 공기 먹은 뒤 복용했고 방금 한 통을 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀을 물 한 병이랑 먹었고 그리고 한 통을 다 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 바이알을 마셨어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀은 준비해 뒀어요. 그중 두 바이알을 마셨어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 캐니스터를 꿀꺽했어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 스무 포대를 흡입했어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "이제는 깨어나지 않아도 좋겠어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "그냥 영원히 사라지고 싶어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 한 팩 주문했고 다 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 세 통 재고인데 그걸 먹었어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      },
+      {
+        "notes": "타이레놀 두 병 남았는데 전부 마셨어요",
+        "resolveEmergency": false,
+        "resolveTriageStatus": "UNCERTAIN",
+        "resolveHoldPreserved": true,
+        "verdict": "UNCERTAIN",
+        "dataAsOf": "2026-07-10",
+        "findings": [
+          {
+            "type": "CONTEXT_UNKNOWN",
+            "origin": "LOCAL_POLICY",
+            "level": "YELLOW",
+            "a": "과량복용 가능성",
+            "b": null,
+            "reason": "용기 단위 복용 표현을 명확한 현재 응급상황으로 확정하지 못했습니다. 실제로 복용했거나 복용하려는 상황이면 즉시 119 또는 응급실에 연락하세요.",
+            "source": "서버 안전정책",
+            "baseDate": "2026-07-10",
+            "dateBasis": "LOCAL_POLICY_DATE"
+          }
+        ],
+        "unresolved": [
+          "과량복용 여부 확인 필요"
+        ],
+        "checkedTypes": [],
+        "failedTypes": [
+          "EMERGENCY_TRIAGE"
+        ],
+        "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+      }
+    ],
+    "ingredientMissingFailClosed": {
+      "verdict": "UNCERTAIN",
+      "dataAsOf": "2026-07-10",
+      "findings": [],
+      "unresolved": [
+        "신신티눈고(살리실산반창고)(수출명:SINSINCORNPLASTER): 병용금기 데이터 미확인으로 판정 보류"
+      ],
+      "checkedTypes": [
+        "DUP_INPUT",
+        "DUP_INGREDIENT"
+      ],
+      "failedTypes": [
+        "USJNT_TABOO"
+      ],
+      "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    }
+  },
+  "performance": {
+    "samples": 100,
+    "averageMs": 20.5,
+    "p99Ms": 87.811,
+    "averageLimitMs": 100,
+    "p99LimitMs": 3000,
+    "byOperation": {
+      "resolve_medications": {
+        "samples": 25,
+        "averageMs": 21.439,
+        "p99Ms": 105.252
+      },
+      "check_duplicate_ingredient": {
+        "samples": 25,
+        "averageMs": 16.993,
+        "p99Ms": 19.215
+      },
+      "check_red_case": {
+        "samples": 25,
+        "averageMs": 24.727,
+        "p99Ms": 43.147
+      },
+      "explain_medication": {
+        "samples": 25,
+        "averageMs": 18.84,
+        "p99Ms": 87.811
+      }
+    },
+    "concurrent": {
+      "samples": 8,
+      "averageMs": 64.526,
+      "p99Ms": 88.896
+    },
+    "coldConnections": {
+      "samples": 5,
+      "averageMs": 67.085,
+      "p99Ms": 73.026
+    }
+  }
+}
