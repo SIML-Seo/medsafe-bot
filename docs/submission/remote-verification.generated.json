@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
-  "checkedAt": "2026-07-12T12:29:10.623Z",
-  "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
-  "verificationId": "sha256:af8f1cb6b1969c35b27c2c554cb117d12fa9c8eaf9d1931eb9b9ab2aaae840c2",
+  "checkedAt": "2026-07-12T13:37:42.976Z",
+  "buildId": "sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d",
+  "verificationId": "sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100",
   "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
   "readiness": {
     "ok": true,
     "dataMode": "live",
     "dataSource": "PUBLIC_DATA_LIVE",
     "dataModelVersion": "3",
-    "buildId": "sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2",
+    "buildId": "sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d",
     "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
     "generationId": "c041f1bd-24c2-4e7c-82fb-a95fb1288efd",
     "fetchedAt": "2026-07-10T15:03:14.589Z",
@@ -242,6 +242,13 @@
       ],
       "failedTypes": [],
       "disclaimer": "본 정보는 식약처 공개데이터 기반 일반 참고용이며 의사·약사의 진단·처방·복약지도를 대체하지 않습니다. 실제 복용·중단·변경은 반드시 의사 또는 약사와 상담하세요. 응급 증상 시 즉시 119."
+    },
+    "playMcpTextHandoff": {
+      "source": "content",
+      "medicationCount": 2,
+      "verdict": "WARN",
+      "redFinding": true,
+      "unresolvedCount": 0
     },
     "explanation": {
       "found": true,
@@ -4791,41 +4798,41 @@
     "profile": "strict",
     "averageRequirementCertified": true,
     "samples": 100,
-    "averageMs": 20.967,
-    "p99Ms": 86.188,
+    "averageMs": 21.153,
+    "p99Ms": 47.693,
     "averageLimitMs": 100,
     "p99LimitMs": 3000,
     "byOperation": {
       "resolve_medications": {
         "samples": 25,
-        "averageMs": 20.791,
-        "p99Ms": 96.627
+        "averageMs": 19.634,
+        "p99Ms": 24.138
       },
       "check_duplicate_ingredient": {
         "samples": 25,
-        "averageMs": 17.367,
-        "p99Ms": 42.827
+        "averageMs": 18.46,
+        "p99Ms": 25.257
       },
       "check_red_case": {
         "samples": 25,
-        "averageMs": 28.137,
-        "p99Ms": 80.528
+        "averageMs": 25.853,
+        "p99Ms": 47.693
       },
       "explain_medication": {
         "samples": 25,
-        "averageMs": 17.573,
-        "p99Ms": 86.188
+        "averageMs": 20.665,
+        "p99Ms": 93.042
       }
     },
     "concurrent": {
       "samples": 8,
-      "averageMs": 89.049,
-      "p99Ms": 114.274
+      "averageMs": 116.913,
+      "p99Ms": 172.371
     },
     "coldConnections": {
       "samples": 5,
-      "averageMs": 54.909,
-      "p99Ms": 64.592
+      "averageMs": 80.844,
+      "p99Ms": 90.291
     }
   }
 }

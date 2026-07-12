@@ -4,17 +4,16 @@
 
 - MCP: `https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp`
 - Transport: Streamable HTTP, stateless
-- PlayMCP status: Active
+- KC endpoint status: Active
+- PlayMCP registration: draft, review not requested
 - Expected tools: 3 read-only tools
 
 ## Current Status
 
-2026-07-12 data model v3 endpoint 검증을 완료한 뒤, PlayMCP text-content handoff 호환 수정 release candidate를 준비했다. candidate는 전체 로컬 검증을 통과했으며 KC 재배포와 새 원격 증거 생성을 기다리고 있다.
+2026-07-12 PlayMCP text-content handoff 호환 수정본을 KC에 재배포하고 공식 MCP SDK, MCP Inspector, strict release gate로 다시 검증했다. endpoint의 build ID와 DB SHA는 현재 release artifact와 일치한다.
 
-- release candidate build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
-- candidate verification ID: `sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100`
-- currently deployed build ID: `sha256:f9a561abcf9c6500dcc765d97f6f930899b776889181243988eaad7a30586bb2`
-- deployment status: `KC redeploy pending`
+- deployed build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
+- verification ID: `sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100`
 - deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 - deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
@@ -35,7 +34,7 @@
 
 ## Local Verification Completed
 
-- Linux Node 22.21.0에서 fixture·HTTP·MCP·의료 안전·release DB 회귀 테스트 `125/125` 통과
+- Linux·Windows fresh CI에서 fixture·HTTP·MCP·의료 안전·release DB 회귀 테스트 `126/126` 통과
 - Streamable HTTP protocol `2025-03-26`, `2025-06-18`, `2025-11-25` 협상과 후속 요청 검증
 - 공식 MCP Inspector CLI의 로컬 `tools/list` 성공
 - read-only tools 3개와 annotations 5개 확인
@@ -65,17 +64,18 @@
 - 브랜드 응급 회귀: 자연스러운 용기·다량복용·복용 의도·문장부호·어순·자해 의도 변형 127개는 `WARN` + `EMERGENCY`; 음식·일상 복약·구매·보관·부정·인용 표현 47개는 `EMERGENCY_TRIAGE` 없이 비응급 유지; 현재 복용 여부나 자해 의도가 모호한 18개는 false-green 대신 `UNCERTAIN` + `EMERGENCY_TRIAGE`로 보류하며 `resolve_medications` 경로도 같은 결과
 - 위험 fallback 대표 품목 `196000011`은 `UNCERTAIN` + `failedTypes=USJNT_TABOO`로 확인
 - 정식 원격 검증기를 로컬 live endpoint에 실행: 대표·회귀 흐름과 성능 100회 통과, 평균 `6.2ms`·p99 `9.2ms`, 동시 8회 p99 `53.0ms`, cold 연결 5회 p99 `27.3ms`; 표준 SDK 장기 세션 120회도 통과하며 증거 JSON은 제출 문서와 분리해 임시 경로에만 생성
-- Windows Node 22.18.0 최신 재실행은 로컬 WSL `node_modules` junction/ACL이 Windows `npm ci`를 거부해 미완료. GitHub Actions의 fresh Windows runner에서 확인 필요
-- 로컬 Docker daemon이 실행 중이 아니어서 image build는 미실행. CI Docker build와 KC 재배포에서 확인 필요
+- GitHub Actions fresh Windows runner의 `npm ci`·`npm run verify` 통과
+- CI Docker build·non-root smoke test와 KC Git 재배포 통과
 
 ## Remote Verification Completed
 
-- SDK evidence checkedAt: `2026-07-12T12:29:10.623Z`
-- Inspector evidence checkedAt: `2026-07-12T12:29:15.384Z`
+- SDK evidence checkedAt: `2026-07-12T13:37:42.976Z`
+- Inspector evidence checkedAt: `2026-07-12T13:39:21.671Z`
 - 정확한 read-only tools 3개와 annotations, 대표 중복성분·RED·설명·응급·비응급·보류 흐름 통과
+- PlayMCP가 소비하는 text content handoff만으로 확인 토큰 2개를 전달해 `WARN`·`USJNT_TABOO:RED` 도달, unresolved `0`
 - 원격 핵심 안전 프로브 `216/216`, 대표 품목 `31/31` 통과
-- 대표 흐름 100회 평균 `21.0ms`, p99 `86.2ms`
-- 동시 8회 p99 `114.3ms`, cold 연결 5회 p99 `64.6ms`
+- 대표 흐름 100회 평균 `21.2ms`, p99 `47.7ms`
+- 동시 8회 p99 `172.4ms`, cold 연결 5회 p99 `90.3ms`
 - 공식 MCP Inspector `tools/list` 통과
 - `npm run submission:check:release`: `tools=true`, `flows=true`, `readiness=true`, `performance=true`
 - 한국 경로의 `strict` 증거만 평균 100ms 인증으로 인정하며, 미국 GitHub-hosted runner는 `cross-region-observe` 별도 증거에서 전체 기능과 p99 3초를 검증

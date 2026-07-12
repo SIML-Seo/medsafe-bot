@@ -9,10 +9,11 @@
 | DUR 페이지 완전성 | 확인 | totalCount·중복 page/row·itemSeq 검증 |
 | 실제 국내 RED 쌍 | 확인 | source+target local self-test |
 | e약은요 exact itemSeq | 확인 | local repository·remote flow |
-| 전체 DUR 성분 규칙 카탈로그 | 로컬 v3 확인·KC 재배포 필요 | `/readyz.coverage`, strict-live, remote flow |
+| 전체 DUR 성분 규칙 카탈로그 | 로컬·KC v3 확인 | `/readyz.coverage`, strict-live, remote flow |
 | 연령·임부 DUR | 미구현 | CAUTION 범위 보류 |
 | PlayMCP Widget host 연동 | 콘솔 확인 필요 | 실제 structuredContent renderer와 mapping 문서 |
-| KC 최신 배포 | 재배포 후 확인 | build ID·DB SHA 일치 원격 증거 |
+| PlayMCP text-content handoff | 원격 SDK 확인·콘솔 재시험 필요 | content-only token handoff RED flow |
+| KC 최신 배포 | 확인 | build ID·DB SHA 일치 원격 증거 |
 
 `confirmationToken`은 stateless read-only 서버에서 만료 전 재사용 가능하다. canonical 매핑 변조 방지용이며 일회성 사용자 동의 증명으로 표현하지 않는다.
 
