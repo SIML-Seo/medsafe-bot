@@ -19,13 +19,13 @@ Agent는 정확한 용량·제품명을 `resolve_medications`에 전달합니다
 - 아스피린프로텍트정100밀리그람: itemSeq `200108429`
 - 유한메토트렉세이트정: itemSeq `197900145`
 - 두 결과 모두 `CONFIRMED`
-- 서버가 확인한 필드를 묶은 10분 만료 `confirmationToken` 발급
+- `[CHECK_MEDICATION_SAFETY_INPUT]`에 확정된 두 제품명 `queries`만 제공
 
-설명할 점: 모호한 표현은 token 없이 후보만 반환합니다. token은 canonical 매핑 변조를 막으며, 실제 사용자 선택 확인은 Agent 대화가 담당합니다.
+설명할 점: 모호한 표현에는 handoff를 만들지 않습니다. 제품이 모두 확정되면 Agent는 읽을 수 있는 제품명만 다음 도구에 넘기고, check 도구가 master에서 독립적으로 다시 확인합니다.
 
 ## 0:40-1:05 실제 RED
 
-Agent는 resolve가 반환한 `itemSeq`, `ingrCode`, `status`, `confirmationToken`을 그대로 전달하고 `matchedName`은 check 입력의 `displayName`으로 매핑합니다.
+Agent는 handoff의 `queries`만 그대로 전달합니다. `itemSeq`, 성분코드, status, token은 PlayMCP 모델이 복사하거나 구성하지 않습니다.
 
 예상 결과:
 

@@ -28,7 +28,7 @@ const contracts = {
     outputRequired: ["resolved", "dataAsOf"]
   },
   check_medication_safety: {
-    inputRequired: ["medications"],
+    inputRequired: [],
     outputRequired: [
       "verdict",
       "dataAsOf",
@@ -74,7 +74,16 @@ for (const tool of tools) {
     }
   }
   if (tool.name === "check_medication_safety") {
+    const queries = tool.inputSchema.properties.queries;
     const medications = tool.inputSchema.properties.medications;
+    if (
+      queries?.type !== "array" ||
+      queries.minItems !== 1 ||
+      queries.maxItems !== 12 ||
+      queries.items?.type !== "string"
+    ) {
+      throw new Error("check_medication_safety queries schema is invalid");
+    }
     if (
       medications?.type !== "array" ||
       medications.minItems !== 1 ||

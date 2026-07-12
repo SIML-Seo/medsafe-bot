@@ -101,6 +101,80 @@ const easyDrugInfoSchema = z.object({
   depositMethodQesitm: z.string().optional()
 });
 
+const medicationForCheckSchema = z.object({
+  itemSeq: z
+    .string()
+    .trim()
+    .min(1)
+    .max(MAX_ID_CHARS)
+    .nullable()
+    .optional()
+    .describe("resolve_medications가 반환한 itemSeq를 그대로 전달합니다."),
+  ingrCode: z
+    .string()
+    .trim()
+    .max(MAX_ID_CHARS)
+    .nullable()
+    .optional()
+    .describe("resolve_medications가 반환한 ingrCode를 그대로 전달합니다. 빈 문자열은 null처럼 처리됩니다."),
+  status: z
+    .enum(["CONFIRMED", "AMBIGUOUS", "NOT_FOUND", "OUT_OF_SCOPE"])
+    .optional()
+    .describe("resolve_medications가 반환한 status를 그대로 전달합니다."),
+  displayName: z
+    .string()
+    .trim()
+    .max(MAX_DISPLAY_NAME_CHARS)
+    .nullable()
+    .optional()
+    .describe("resolve_medications가 반환한 matchedName 또는 후보명을 그대로 전달합니다."),
+  confirmationToken: z
+    .string()
+    .min(1)
+    .max(512)
+    .nullable()
+    .optional()
+    .describe("SDK 직접 호출 호환 경로에서 resolve_medications가 발급한 값을 그대로 전달합니다.")
+});
+
+const safetyContextSchema = z.object({
+  ageGroup: z
+    .enum(["adult", "elderly", "child", "unknown"])
+    .optional()
+    .describe("사용자가 복용자의 연령대를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
+  pregnancy: z
+    .enum(["yes", "no", "unknown"])
+    .optional()
+    .describe("사용자가 임신 여부를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
+  notes: z
+    .string()
+    .trim()
+    .max(MAX_CONTEXT_NOTES_CHARS)
+    .nullable()
+    .optional()
+    .describe("응급·과량복용 표현을 포함해 사용자가 말한 추가 문맥을 임의 추론 없이 전달합니다.")
+});
+
+const checkMedicationInputSchema = z
+  .object({
+    queries: z
+      .array(z.string().trim().min(1).max(MAX_QUERY_CHARS))
+      .min(1)
+      .max(MAX_CHECK_MEDICATIONS)
+      .optional()
+      .describe("권장 경로입니다. CHECK_MEDICATION_SAFETY_INPUT의 확정 제품명 queries를 그대로 전달하면 서버가 다시 확인합니다."),
+    medications: z
+      .array(medicationForCheckSchema)
+      .min(1)
+      .max(MAX_CHECK_MEDICATIONS)
+      .optional()
+      .describe("SDK 호환 경로입니다. queries가 있으면 서버는 더 안전한 queries 재확인 경로를 우선합니다."),
+    context: safetyContextSchema.optional()
+  })
+  .refine((input) => Boolean(input.queries?.length || input.medications?.length), {
+    message: "queries 또는 medications 중 하나가 필요합니다."
+  });
+
 export function buildMcpServer(services: AppServices): McpServer {
   const server = new McpServer({
     name: "medsafe-bot",
@@ -112,7 +186,7 @@ export function buildMcpServer(services: AppServices): McpServer {
     {
       title: "약 이름 정규화",
       description:
-        `${SERVICE_NAME} maps medication names or ingredients to standard itemSeq and ingredient codes. For fully confirmed inputs, copy every field from the CHECK_MEDICATION_SAFETY_INPUT text block unchanged into check_medication_safety, including confirmationToken, and never expose the token to the user. Ambiguous names require clarification and this tool does not make a safety verdict.`,
+        `${SERVICE_NAME} maps medication names or ingredients to standard itemSeq and ingredient codes. For fully confirmed inputs, copy the CHECK_MEDICATION_SAFETY_INPUT queries into check_medication_safety; that tool independently re-resolves every name. Ambiguous names require clarification and this tool does not make a safety verdict.`,
       annotations: readOnlyToolAnnotations("약 이름 정규화", false),
       inputSchema: {
         queries: z
@@ -201,70 +275,9 @@ export function buildMcpServer(services: AppServices): McpServer {
     {
       title: "복약 안전 점검",
       description:
-        `${SERVICE_NAME} checks confirmed medication entries for DUR contraindications, duplicate ingredients, and unresolved risks. When resolve_medications returns a CHECK_MEDICATION_SAFETY_INPUT text block, copy its medications array exactly, including confirmationToken; never omit, alter, or show the token to the user. Returns a read-only summary with sources, dates, and fail-closed disclaimers.`,
+        `${SERVICE_NAME} checks medication names for DUR contraindications, duplicate ingredients, and unresolved risks. When resolve_medications returns CHECK_MEDICATION_SAFETY_INPUT, call this tool with that queries array only; do not construct medications. The server re-resolves every name and fails closed on ambiguity. Returns a read-only summary with sources, dates, and disclaimers.`,
       annotations: readOnlyToolAnnotations("복약 안전 점검", false),
-      inputSchema: {
-        medications: z
-          .array(
-            z.object({
-              itemSeq: z
-                .string()
-                .trim()
-                .min(1)
-                .max(MAX_ID_CHARS)
-                .nullable()
-                .optional()
-                .describe("resolve_medications가 반환한 itemSeq를 그대로 전달합니다."),
-              ingrCode: z
-                .string()
-                .trim()
-                .max(MAX_ID_CHARS)
-                .nullable()
-                .optional()
-                .describe("resolve_medications가 반환한 ingrCode를 그대로 전달합니다. 빈 문자열은 null처럼 처리됩니다."),
-              status: z
-                .enum(["CONFIRMED", "AMBIGUOUS", "NOT_FOUND", "OUT_OF_SCOPE"])
-                .optional()
-                .describe("resolve_medications가 반환한 status를 그대로 전달합니다."),
-              displayName: z
-                .string()
-                .trim()
-                .max(MAX_DISPLAY_NAME_CHARS)
-                .nullable()
-                .optional()
-                .describe("resolve_medications가 반환한 matchedName 또는 후보명을 그대로 전달합니다."),
-              confirmationToken: z
-                .string()
-                .min(1)
-                .max(512)
-                .nullable()
-                .optional()
-                .describe("resolve_medications가 발급한 confirmationToken을 그대로 전달합니다.")
-            })
-          )
-          .describe("resolve_medications 결과의 itemSeq, ingrCode, status, confirmationToken은 그대로 복사하고 matchedName은 displayName으로 매핑해 전달합니다.")
-          .min(1)
-          .max(MAX_CHECK_MEDICATIONS),
-        context: z
-          .object({
-            ageGroup: z
-              .enum(["adult", "elderly", "child", "unknown"])
-              .optional()
-              .describe("사용자가 복용자의 연령대를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
-            pregnancy: z
-              .enum(["yes", "no", "unknown"])
-              .optional()
-              .describe("사용자가 임신 여부를 직접 말한 경우만 전달하고, 아니면 unknown 또는 생략합니다."),
-            notes: z
-              .string()
-              .trim()
-              .max(MAX_CONTEXT_NOTES_CHARS)
-              .nullable()
-              .optional()
-              .describe("응급·과량복용 표현을 포함해 사용자가 말한 추가 문맥을 임의 추론 없이 전달합니다.")
-          })
-          .optional()
-      },
+      inputSchema: checkMedicationInputSchema,
       outputSchema: {
         verdict: z.enum(["NO_KNOWN_FINDINGS", "CAUTION", "WARN", "UNCERTAIN"]),
         dataAsOf: z.string(),
@@ -275,11 +288,10 @@ export function buildMcpServer(services: AppServices): McpServer {
         disclaimer: z.string().max(2048)
       }
     },
-    async ({ medications, context }) => {
-      const guardedMedications = requireConfirmationTokens(
-        services,
-        medications as MedicationForCheck[]
-      );
+    async ({ queries, medications, context }) => {
+      const guardedMedications = queries?.length
+        ? resolveQueriesForCheck(services, queries)
+        : requireConfirmationTokens(services, (medications ?? []) as MedicationForCheck[]);
       const result = sanitizeSafetyResult(
         await services.safety.check(guardedMedications, context as SafetyContext | undefined)
       );
@@ -377,29 +389,30 @@ function confirmationTokenFor(
 function formatCheckHandoff(resolved: TokenizedResolved[]): string | null {
   if (
     resolved.length === 0 ||
-    !resolved.every(
-      (item) => item.status === "CONFIRMED" && item.confirmationToken && item.matchedName
-    )
+    !resolved.every((item) => item.status === "CONFIRMED" && item.matchedName)
   ) {
     return null;
   }
 
   const input = {
-    medications: resolved.map((item) => ({
-      itemSeq: item.itemSeq,
-      ingrCode: item.ingrCode,
-      status: item.status,
-      displayName: item.matchedName,
-      confirmationToken: item.confirmationToken
-    }))
+    queries: resolved.map((item) => item.matchedName)
   };
 
   return [
-    "다음 check_medication_safety 호출에 아래 JSON의 medications를 필드 누락·변경 없이 그대로 전달하세요. confirmationToken은 사용자 답변에 표시하지 마세요.",
+    "다음 check_medication_safety 호출에 아래 JSON의 queries를 변경 없이 그대로 전달하세요. 서버가 각 제품명을 다시 확인합니다.",
     CHECK_HANDOFF_START,
     JSON.stringify(input),
     CHECK_HANDOFF_END
   ].join("\n");
+}
+
+function resolveQueriesForCheck(services: AppServices, queries: string[]): MedicationForCheck[] {
+  return services.resolver.resolveMany(queries).map((item) => ({
+    itemSeq: item.itemSeq,
+    ingrCode: item.ingrCode,
+    status: item.status,
+    displayName: item.matchedName ?? item.query
+  }));
 }
 
 function requireConfirmationTokens(

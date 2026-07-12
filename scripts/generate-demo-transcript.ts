@@ -70,13 +70,7 @@ try {
   const primaryCheck = await client.callTool({
     name: "check_medication_safety",
     arguments: {
-      medications: caregiverStructured.resolved.map((item) => ({
-        itemSeq: item.itemSeq,
-        ingrCode: item.ingrCode,
-        status: item.status,
-        displayName: item.matchedName,
-        confirmationToken: item.confirmationToken
-      })),
+      queries: caregiverStructured.resolved.map((item) => item.matchedName),
       context: { ageGroup: "adult", pregnancy: "no" }
     }
   });
@@ -89,13 +83,7 @@ try {
   const secondaryCheck = await client.callTool({
     name: "check_medication_safety",
     arguments: {
-      medications: riskStructured.resolved.map((item) => ({
-        itemSeq: item.itemSeq,
-        ingrCode: item.ingrCode,
-        status: item.status,
-        displayName: item.matchedName,
-        confirmationToken: item.confirmationToken
-      })),
+      queries: riskStructured.resolved.map((item) => item.matchedName),
       context: { ageGroup: "adult", pregnancy: "no" }
     }
   });

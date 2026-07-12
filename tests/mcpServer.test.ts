@@ -33,6 +33,15 @@ test("MCP tools/list and tools/call expose read-only medication tools", async ()
       assert.equal(tool.annotations?.idempotentHint, true);
     }
     assert.ok(tools.tools.every((tool) => tool.outputSchema));
+    const checkTool = tools.tools.find((tool) => tool.name === "check_medication_safety");
+    const checkInputSchema = checkTool?.inputSchema as {
+      properties?: Record<string, { type?: string; minItems?: number; maxItems?: number }>;
+      required?: string[];
+    };
+    assert.equal(checkInputSchema.properties?.queries?.type, "array");
+    assert.equal(checkInputSchema.properties?.queries?.minItems, 1);
+    assert.equal(checkInputSchema.properties?.queries?.maxItems, 12);
+    assert.equal(checkInputSchema.required?.includes("medications") ?? false, false);
 
     const response = await client.callTool({
       name: "resolve_medications",
@@ -550,20 +559,13 @@ test("MCP tools/list and tools/call expose read-only medication tools", async ()
       "server-generated handoff must precede user-derived summary text"
     );
     const playMcpHandoff = JSON.parse(handoffMatch[1] ?? "{}") as {
-      medications?: Array<{
-        itemSeq?: string | null;
-        ingrCode?: string | null;
-        status?: string;
-        displayName?: string | null;
-        confirmationToken?: string | null;
-      }>;
+      queries?: string[];
     };
-    assert.equal(playMcpHandoff.medications?.length, 2);
-    assert.ok(
-      playMcpHandoff.medications?.every(
-        (item) => item.status === "CONFIRMED" && item.confirmationToken?.startsWith("v2.")
-      )
-    );
+    assert.deepEqual(playMcpHandoff.queries, [
+      "데모와파린정",
+      "데모아스피린장용정100밀리그람"
+    ]);
+    assert.doesNotMatch(handoffMatch[1] ?? "", /confirmationToken|itemSeq|ingrCode/);
     const checkedFromTextOnly = await client.callTool({
       name: "check_medication_safety",
       arguments: {
@@ -583,6 +585,60 @@ test("MCP tools/list and tools/call expose read-only medication tools", async ()
       )
     );
     assert.deepEqual(checkedFromTextStructured.unresolved, []);
+
+    const checkedWithMutatedLegacyPayload = await client.callTool({
+      name: "check_medication_safety",
+      arguments: {
+        ...playMcpHandoff,
+        medications: [
+          {
+            itemSeq: "DEMO-NOT-REAL",
+            ingrCode: "INGR-NOT-REAL",
+            status: "CONFIRMED",
+            displayName: "변형된 legacy 입력",
+            confirmationToken: "v2.mutated.signature"
+          }
+        ],
+        context: { ageGroup: "adult", pregnancy: "no" }
+      }
+    });
+    const mutatedLegacyStructured = checkedWithMutatedLegacyPayload.structuredContent as {
+      verdict: string;
+      findings: Array<{ type: string; level: string }>;
+      unresolved: string[];
+    };
+    assert.equal(mutatedLegacyStructured.verdict, "WARN");
+    assert.ok(
+      mutatedLegacyStructured.findings.some(
+        (finding) => finding.type === "USJNT_TABOO" && finding.level === "RED"
+      )
+    );
+    assert.deepEqual(mutatedLegacyStructured.unresolved, []);
+
+    const ambiguousNameCheck = await client.callTool({
+      name: "check_medication_safety",
+      arguments: {
+        queries: ["타이레놀", "게보린"],
+        context: { ageGroup: "adult", pregnancy: "no" }
+      }
+    });
+    const ambiguousNameStructured = ambiguousNameCheck.structuredContent as {
+      verdict: string;
+      findings: Array<{ type: string }>;
+      unresolved: string[];
+    };
+    assert.equal(ambiguousNameStructured.verdict, "UNCERTAIN");
+    assert.equal(
+      ambiguousNameStructured.findings.some((finding) => finding.type === "USJNT_TABOO"),
+      false
+    );
+    assert.ok(ambiguousNameStructured.unresolved.includes("타이레놀"));
+
+    const emptyCheckInput = await client.callTool({
+      name: "check_medication_safety",
+      arguments: {}
+    });
+    assert.equal(emptyCheckInput.isError, true);
     const resolvedStructured = resolvedRisk.structuredContent as {
       resolved: Array<{
         status: string;

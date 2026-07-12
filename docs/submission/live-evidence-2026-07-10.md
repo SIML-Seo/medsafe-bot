@@ -5,15 +5,16 @@
 - MCP: `https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp`
 - Transport: Streamable HTTP, stateless
 - KC endpoint status: Active
-- PlayMCP registration: draft, review not requested
+- PlayMCP registration: Active, review not requested
 - Expected tools: 3 read-only tools
 
 ## Current Status
 
-2026-07-12 PlayMCP text-content handoff 호환 수정본을 KC에 재배포하고 공식 MCP SDK, MCP Inspector, strict release gate로 다시 검증했다. endpoint의 build ID와 DB SHA는 현재 release artifact와 일치한다.
+2026-07-12 실제 PlayMCP 대화에서 Agent가 긴 HMAC payload를 변형하는 현상을 확인했다. 서버의 서명 거부는 정상 동작했지만 사용자 흐름이 `UNCERTAIN`으로 끝났으므로, PlayMCP handoff를 확정 제품명 `queries`만 전달하고 check가 서버 내부에서 다시 resolve하는 방식으로 변경했다. 아래 candidate는 로컬 검증 완료 상태이며 KC 재배포와 PlayMCP 재시험 전이다.
 
-- deployed build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
-- verification ID: `sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100`
+- candidate build ID: `sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca`
+- candidate verification ID: `sha256:164a749df7b5d7d480d7b0d7123421f52a6c6fee423d30bbd19948cf88f08672`
+- currently deployed build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
 - deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 - deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
@@ -39,6 +40,7 @@
 - 공식 MCP Inspector CLI의 로컬 `tools/list` 성공
 - read-only tools 3개와 annotations 5개 확인
 - HMAC token 변조·만료·status 교차사용 차단
+- PlayMCP query handoff가 token·canonical code를 text에 노출하지 않고 서버 재해석만으로 RED에 도달하며, 모호한 이름은 `UNCERTAIN`으로 보류하는 통합 회귀 확인
 - stateless GET·DELETE `405`, batch 크기·메시지별 rate 비용, slow POST·조기 거부 unread body 종료, 물리 ingress·논리 클라이언트 제한 검증
 - 응급 현재 증상·이중부정·과량복용 정탐과 정의 질문·해소된 과거 증상 미탐 검증
 - 복합성분 부분 파싱 fail-closed, EDI 선행 0, 수화물 identity, code-only DUR target, 조건부 DUR 규칙 검증
@@ -67,18 +69,20 @@
 - GitHub Actions fresh Windows runner의 `npm ci`·`npm run verify` 통과
 - CI Docker build·non-root smoke test와 KC Git 재배포 통과
 
-## Remote Verification Completed
+## Previous Deployment Remote Verification
 
 - SDK evidence checkedAt: `2026-07-12T13:37:42.976Z`
 - Inspector evidence checkedAt: `2026-07-12T13:39:21.671Z`
 - 정확한 read-only tools 3개와 annotations, 대표 중복성분·RED·설명·응급·비응급·보류 흐름 통과
-- PlayMCP가 소비하는 text content handoff만으로 확인 토큰 2개를 전달해 `WARN`·`USJNT_TABOO:RED` 도달, unresolved `0`
+- SDK verifier가 text content의 token을 byte 그대로 재생한 경우 `WARN`·`USJNT_TABOO:RED`, unresolved `0`에 도달했다. 이후 실제 PlayMCP Agent의 token 변형이 확인되어 이 방식은 최종 handoff 계약에서 제거했다.
 - 원격 핵심 안전 프로브 `216/216`, 대표 품목 `31/31` 통과
 - 대표 흐름 100회 평균 `21.2ms`, p99 `47.7ms`
 - 동시 8회 p99 `172.4ms`, cold 연결 5회 p99 `90.3ms`
 - 공식 MCP Inspector `tools/list` 통과
 - `npm run submission:check:release`: `tools=true`, `flows=true`, `readiness=true`, `performance=true`
 - 한국 경로의 `strict` 증거만 평균 100ms 인증으로 인정하며, 미국 GitHub-hosted runner는 `cross-region-observe` 별도 증거에서 전체 기능과 p99 3초를 검증
+
+candidate 재배포 후 이 섹션의 SDK·Inspector 시각, build ID, query handoff RED, 성능 수치를 새 증거로 교체한다.
 
 ## Final Evidence Artifacts
 

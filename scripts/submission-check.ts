@@ -37,7 +37,7 @@ const strictLive = process.argv.includes("--strict-live");
 const requireRemote = process.argv.includes("--require-remote");
 const remoteEvidencePath = "docs/submission/remote-verification.generated.json";
 const inspectorEvidencePath = "docs/submission/inspector-tools.generated.json";
-const config = loadConfig(process.env);
+const config = loadConfig(strictLive ? { ...process.env, DATA_MODE: "live" } : process.env);
 const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
   scripts?: Record<string, string>;
   devDependencies?: Record<string, string>;
@@ -292,7 +292,8 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
         redCase?: EvidenceFlow;
         playMcpTextHandoff?: {
           source?: string;
-          medicationCount?: number;
+          queryCount?: number;
+          serverReresolved?: boolean;
           verdict?: string;
           redFinding?: boolean;
           unresolvedCount?: number;
@@ -391,7 +392,8 @@ function addRemoteEvidenceChecks(checksToUpdate: Check[]): void {
       ) === true &&
       !red.failedTypes?.includes("USJNT_TABOO") &&
       playMcpTextHandoff?.source === "content" &&
-      playMcpTextHandoff.medicationCount === 2 &&
+      playMcpTextHandoff.queryCount === 2 &&
+      playMcpTextHandoff.serverReresolved === true &&
       playMcpTextHandoff.verdict === "WARN" &&
       playMcpTextHandoff.redFinding === true &&
       playMcpTextHandoff.unresolvedCount === 0 &&

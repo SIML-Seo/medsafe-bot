@@ -8,12 +8,13 @@
 
 1. `resolve_medications`가 25,000개 이상의 실제 품목 master에서 이름·용량·제형을 확인합니다.
 2. 모호한 브랜드·성분명은 2~5개 후보로 되묻고 token을 발급하지 않습니다.
-3. 정확히 확인된 품목만 10분 만료 HMAC `confirmationToken`을 받습니다.
-4. `check_medication_safety`가 완전 수집한 DUR 성분 병용금기 카탈로그, 선별 품목 스냅샷, 전체 복합성분 행으로 병용금기·중복성분을 점검합니다.
-5. 성분 파싱·조건 해석·카탈로그 완전성·품목 스냅샷 중 필요한 근거가 불완전하면 `UNCERTAIN`으로 닫고 녹색을 금지합니다.
-6. 호흡곤란·의식소실·과량복용 표현은 약물 조회보다 119/응급실 안내를 우선합니다.
+3. 모든 입력이 확정되면 PlayMCP용 `[CHECK_MEDICATION_SAFETY_INPUT]`에 정확한 제품명 `queries`만 제공합니다.
+4. `check_medication_safety`는 전달된 제품명을 master에서 독립적으로 다시 확인한 뒤 병용금기·중복성분을 점검합니다.
+5. SDK 직접 호출 호환 경로의 canonical 입력은 10분 만료 HMAC `confirmationToken`으로 계속 보호합니다.
+6. 성분 파싱·조건 해석·카탈로그 완전성·품목 스냅샷 중 필요한 근거가 불완전하면 `UNCERTAIN`으로 닫고 녹색을 금지합니다.
+7. 호흡곤란·의식소실·과량복용 표현은 약물 조회보다 119/응급실 안내를 우선합니다.
 
-`confirmationToken`은 서버가 확인한 canonical `itemSeq`·성분·status가 이후 호출에서 바뀌지 않았음을 보장합니다. 사용자가 실제로 후보를 선택했다는 사실 자체는 대화 Agent/UI가 확인해야 하며, 서버는 이를 과장해 주장하지 않습니다. 모든 입력이 확정된 경우 `resolve_medications`는 `structuredContent`와 정제된 text content의 `[CHECK_MEDICATION_SAFETY_INPUT]` 블록에 동일한 다음 호출용 필드를 제공합니다. PlayMCP Agent는 이 블록의 `medications`를 토큰까지 변경 없이 복사하고, 사용자 답변에는 토큰을 표시하지 않습니다. 모호하거나 미확정인 입력이 하나라도 있으면 이 블록을 만들지 않습니다.
+PlayMCP Agent는 불투명한 HMAC 문자열을 복사하지 않습니다. 모든 입력이 확정된 경우 `resolve_medications`의 text content에 있는 `[CHECK_MEDICATION_SAFETY_INPUT]` 블록의 `queries`만 `check_medication_safety`로 전달합니다. check 도구는 각 제품명을 서버 내부 master에서 다시 해석하므로 LLM이 canonical `itemSeq`·성분·status를 임의 승격할 수 없습니다. 모호하거나 미확정인 입력이 하나라도 있으면 handoff 블록을 만들지 않습니다. 기존 SDK 클라이언트의 `medications` 입력은 `confirmationToken` 검증을 계속 적용하며, `queries`가 함께 들어오면 서버 재해석 경로를 우선합니다.
 
 ## 공개 Endpoint
 

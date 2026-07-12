@@ -221,11 +221,11 @@ try {
     }
   });
   const playMcpHandoff = checkHandoffFromText(playMcpResolveResponse);
-  assert(playMcpHandoff.medications.length === 2, "PlayMCP handoff returned an unexpected medication count");
+  assert(playMcpHandoff.queries.length === 2, "PlayMCP handoff returned an unexpected query count");
   assert(
-    playMcpHandoff.medications[0]?.itemSeq === "200108429" &&
-      playMcpHandoff.medications[1]?.itemSeq === "197900145",
-    "PlayMCP handoff resolved the wrong red-case products"
+    playMcpHandoff.queries[0] === "아스피린프로텍트정100밀리그람" &&
+      playMcpHandoff.queries[1] === "유한메토트렉세이트정",
+    "PlayMCP handoff returned the wrong confirmed product names"
   );
 
   verificationStage = "representative RED from PlayMCP text handoff";
@@ -249,10 +249,11 @@ try {
     "red-case did not return a RED USJNT_TABOO finding"
   );
   assert(!red.failedTypes.includes("USJNT_TABOO"), "red-case DUR category was marked failed");
-  assert(red.unresolved.length === 0, "PlayMCP text handoff did not preserve confirmation tokens");
+  assert(red.unresolved.length === 0, "PlayMCP query handoff did not re-resolve every product");
   const playMcpTextHandoffEvidence = {
     source: "content",
-    medicationCount: playMcpHandoff.medications.length,
+    queryCount: playMcpHandoff.queries.length,
+    serverReresolved: true,
     verdict: red.verdict,
     redFinding: red.findings.some(
       (finding) => finding.type === "USJNT_TABOO" && finding.level === "RED"
@@ -752,7 +753,7 @@ try {
       client.callTool({
         name: "check_medication_safety",
         arguments: {
-          medications: resolved.slice(2, 4).map(checkInput),
+          ...playMcpHandoff,
           context: { ageGroup: "adult", pregnancy: "no" }
         }
       })
@@ -889,13 +890,7 @@ function checkInput(item: {
 }
 
 type PlayMcpCheckHandoff = {
-  medications: Array<{
-    itemSeq: string | null;
-    ingrCode: string | null;
-    status: string;
-    displayName: string | null;
-    confirmationToken: string;
-  }>;
+  queries: string[];
 };
 
 function checkHandoffFromText(response: unknown): PlayMcpCheckHandoff {
@@ -923,19 +918,16 @@ function checkHandoffFromText(response: unknown): PlayMcpCheckHandoff {
   } catch {
     throw new Error("resolve text handoff is not valid JSON");
   }
-  const medications = (parsed as { medications?: unknown })?.medications;
-  assert(Array.isArray(medications) && medications.length > 0, "resolve text handoff has no medications");
-  for (const medication of medications) {
-    assert(medication && typeof medication === "object", "resolve text handoff medication is invalid");
-    const value = medication as Record<string, unknown>;
-    assert(value.status === "CONFIRMED", "resolve text handoff contains an unconfirmed medication");
-    assert(typeof value.displayName === "string", "resolve text handoff displayName is missing");
-    assert(
-      typeof value.confirmationToken === "string" && value.confirmationToken.startsWith("v2."),
-      "resolve text handoff confirmationToken is missing"
-    );
-    assert("itemSeq" in value && "ingrCode" in value, "resolve text handoff canonical fields are missing");
-  }
+  const queries = (parsed as { queries?: unknown })?.queries;
+  assert(Array.isArray(queries) && queries.length > 0, "resolve text handoff has no queries");
+  assert(
+    queries.every((query) => typeof query === "string" && query.length > 0),
+    "resolve text handoff contains an invalid query"
+  );
+  assert(
+    !/confirmationToken|itemSeq|ingrCode/.test(match[1]),
+    "resolve text handoff exposes canonical fields or an opaque token"
+  );
   return parsed as PlayMcpCheckHandoff;
 }
 
