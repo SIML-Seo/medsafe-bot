@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
-  "checkedAt": "2026-07-12T13:37:42.976Z",
-  "buildId": "sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d",
-  "verificationId": "sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100",
+  "checkedAt": "2026-07-12T14:27:37.983Z",
+  "buildId": "sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca",
+  "verificationId": "sha256:164a749df7b5d7d480d7b0d7123421f52a6c6fee423d30bbd19948cf88f08672",
   "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
   "readiness": {
     "ok": true,
     "dataMode": "live",
     "dataSource": "PUBLIC_DATA_LIVE",
     "dataModelVersion": "3",
-    "buildId": "sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d",
+    "buildId": "sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca",
     "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
     "generationId": "c041f1bd-24c2-4e7c-82fb-a95fb1288efd",
     "fetchedAt": "2026-07-10T15:03:14.589Z",
@@ -245,7 +245,8 @@
     },
     "playMcpTextHandoff": {
       "source": "content",
-      "medicationCount": 2,
+      "queryCount": 2,
+      "serverReresolved": true,
       "verdict": "WARN",
       "redFinding": true,
       "unresolvedCount": 0
@@ -4798,41 +4799,41 @@
     "profile": "strict",
     "averageRequirementCertified": true,
     "samples": 100,
-    "averageMs": 21.153,
-    "p99Ms": 47.693,
+    "averageMs": 19.792,
+    "p99Ms": 40.142,
     "averageLimitMs": 100,
     "p99LimitMs": 3000,
     "byOperation": {
       "resolve_medications": {
         "samples": 25,
-        "averageMs": 19.634,
-        "p99Ms": 24.138
+        "averageMs": 18.493,
+        "p99Ms": 21.519
       },
       "check_duplicate_ingredient": {
         "samples": 25,
-        "averageMs": 18.46,
-        "p99Ms": 25.257
+        "averageMs": 17.282,
+        "p99Ms": 19.89
       },
       "check_red_case": {
         "samples": 25,
-        "averageMs": 25.853,
-        "p99Ms": 47.693
+        "averageMs": 24.096,
+        "p99Ms": 40.142
       },
       "explain_medication": {
         "samples": 25,
-        "averageMs": 20.665,
-        "p99Ms": 93.042
+        "averageMs": 19.299,
+        "p99Ms": 93.031
       }
     },
     "concurrent": {
       "samples": 8,
-      "averageMs": 116.913,
-      "p99Ms": 172.371
+      "averageMs": 193.535,
+      "p99Ms": 281.647
     },
     "coldConnections": {
       "samples": 5,
-      "averageMs": 80.844,
-      "p99Ms": 90.291
+      "averageMs": 72.859,
+      "p99Ms": 83.747
     }
   }
 }

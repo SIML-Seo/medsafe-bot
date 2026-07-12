@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "endpoint": "https://medsafe-bot.playmcp-endpoint.kakaocloud.io/mcp",
-  "checkedAt": "2026-07-12T13:39:21.671Z",
-  "buildId": "sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d",
-  "verificationId": "sha256:5f0be3b1effbd169501e9ba33ca622ce612b0f47cd50bcd20e817c31c0206100",
+  "checkedAt": "2026-07-12T14:27:52.832Z",
+  "buildId": "sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca",
+  "verificationId": "sha256:164a749df7b5d7d480d7b0d7123421f52a6c6fee423d30bbd19948cf88f08672",
   "dataSha256": "7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782",
   "inspectorVersion": "0.22.0",
   "tools": [
     {
       "name": "resolve_medications",
       "title": "약 이름 정규화",
-      "description": "Medsafe Bot(복약안전 봇) maps medication names or ingredients to standard itemSeq and ingredient codes. For fully confirmed inputs, copy every field from the CHECK_MEDICATION_SAFETY_INPUT text block unchanged into check_medication_safety, including confirmationToken, and never expose the token to the user. Ambiguous names require clarification and this tool does not make a safety verdict.",
+      "description": "Medsafe Bot(복약안전 봇) maps medication names or ingredients to standard itemSeq and ingredient codes. For fully confirmed inputs, copy the CHECK_MEDICATION_SAFETY_INPUT queries into check_medication_safety; that tool independently re-resolves every name. Ambiguous names require clarification and this tool does not make a safety verdict.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -213,11 +213,23 @@
     {
       "name": "check_medication_safety",
       "title": "복약 안전 점검",
-      "description": "Medsafe Bot(복약안전 봇) checks confirmed medication entries for DUR contraindications, duplicate ingredients, and unresolved risks. When resolve_medications returns a CHECK_MEDICATION_SAFETY_INPUT text block, copy its medications array exactly, including confirmationToken; never omit, alter, or show the token to the user. Returns a read-only summary with sources, dates, and fail-closed disclaimers.",
+      "description": "Medsafe Bot(복약안전 봇) checks medication names for DUR contraindications, duplicate ingredients, and unresolved risks. When resolve_medications returns CHECK_MEDICATION_SAFETY_INPUT, call this tool with that queries array only; do not construct medications. The server re-resolves every name and fails closed on ambiguity. Returns a read-only summary with sources, dates, and disclaimers.",
       "inputSchema": {
         "type": "object",
         "properties": {
+          "queries": {
+            "description": "권장 경로입니다. CHECK_MEDICATION_SAFETY_INPUT의 확정 제품명 queries를 그대로 전달하면 서버가 다시 확인합니다.",
+            "minItems": 1,
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
           "medications": {
+            "description": "SDK 호환 경로입니다. queries가 있으면 서버는 더 안전한 queries 재확인 경로를 우선합니다.",
             "minItems": 1,
             "maxItems": 12,
             "type": "array",
@@ -272,7 +284,7 @@
                   ]
                 },
                 "confirmationToken": {
-                  "description": "resolve_medications가 발급한 confirmationToken을 그대로 전달합니다.",
+                  "description": "SDK 직접 호출 호환 경로에서 resolve_medications가 발급한 값을 그대로 전달합니다.",
                   "anyOf": [
                     {
                       "type": "string",
@@ -285,8 +297,7 @@
                   ]
                 }
               }
-            },
-            "description": "resolve_medications 결과의 itemSeq, ingrCode, status, confirmationToken은 그대로 복사하고 matchedName은 displayName으로 매핑해 전달합니다."
+            }
           },
           "context": {
             "type": "object",
@@ -325,9 +336,6 @@
             }
           }
         },
-        "required": [
-          "medications"
-        ],
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {

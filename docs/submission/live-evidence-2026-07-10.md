@@ -10,11 +10,10 @@
 
 ## Current Status
 
-2026-07-12 실제 PlayMCP 대화에서 Agent가 긴 HMAC payload를 변형하는 현상을 확인했다. 서버의 서명 거부는 정상 동작했지만 사용자 흐름이 `UNCERTAIN`으로 끝났으므로, PlayMCP handoff를 확정 제품명 `queries`만 전달하고 check가 서버 내부에서 다시 resolve하는 방식으로 변경했다. 아래 candidate는 로컬 검증 완료 상태이며 KC 재배포와 PlayMCP 재시험 전이다.
+2026-07-12 실제 PlayMCP 대화에서 확인된 긴 HMAC payload 변형 문제를 제거하기 위해, PlayMCP handoff를 확정 제품명 `queries`만 전달하고 check가 서버 내부에서 다시 resolve하는 방식으로 변경했다. 수정본을 KC에 재배포하고 공식 MCP SDK, MCP Inspector, strict remote verifier로 다시 검증했다.
 
-- candidate build ID: `sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca`
-- candidate verification ID: `sha256:164a749df7b5d7d480d7b0d7123421f52a6c6fee423d30bbd19948cf88f08672`
-- currently deployed build ID: `sha256:5a752cae27f413a4f5fad35bcd4fe9e1738537dafc1b38dec0f6a5b5f900483d`
+- deployed build ID: `sha256:9cc33e3fee13d7964468ce29380b72500625bc73b7a91c3d67d4d46ff60d23ca`
+- verification ID: `sha256:164a749df7b5d7d480d7b0d7123421f52a6c6fee423d30bbd19948cf88f08672`
 - deployed release DB SHA-256: `7807ac4207befc54730c3e600e9cb08e575942bbd9cbc47ea34e9355ebe0a782`
 - deployed release DB: `PUBLIC_DATA_LIVE`, data model v3
 - DUR 성분정보 dataset `15056780`: 활용신청 및 전체 수집 완료
@@ -69,20 +68,18 @@
 - GitHub Actions fresh Windows runner의 `npm ci`·`npm run verify` 통과
 - CI Docker build·non-root smoke test와 KC Git 재배포 통과
 
-## Previous Deployment Remote Verification
+## Remote Verification Completed
 
-- SDK evidence checkedAt: `2026-07-12T13:37:42.976Z`
-- Inspector evidence checkedAt: `2026-07-12T13:39:21.671Z`
+- SDK evidence checkedAt: `2026-07-12T14:27:37.983Z`
+- Inspector evidence checkedAt: `2026-07-12T14:27:52.832Z`
 - 정확한 read-only tools 3개와 annotations, 대표 중복성분·RED·설명·응급·비응급·보류 흐름 통과
-- SDK verifier가 text content의 token을 byte 그대로 재생한 경우 `WARN`·`USJNT_TABOO:RED`, unresolved `0`에 도달했다. 이후 실제 PlayMCP Agent의 token 변형이 확인되어 이 방식은 최종 handoff 계약에서 제거했다.
+- PlayMCP text content handoff는 token·canonical code 없이 확정 제품명 `queries` 2개만 전달하고 서버가 재해석해 `WARN`·`USJNT_TABOO:RED`, unresolved `0`에 도달
 - 원격 핵심 안전 프로브 `216/216`, 대표 품목 `31/31` 통과
-- 대표 흐름 100회 평균 `21.2ms`, p99 `47.7ms`
-- 동시 8회 p99 `172.4ms`, cold 연결 5회 p99 `90.3ms`
+- 대표 흐름 100회 평균 `19.8ms`, p99 `40.1ms`
+- 동시 8회 p99 `281.6ms`, cold 연결 5회 p99 `83.7ms`
 - 공식 MCP Inspector `tools/list` 통과
 - `npm run submission:check:release`: `tools=true`, `flows=true`, `readiness=true`, `performance=true`
 - 한국 경로의 `strict` 증거만 평균 100ms 인증으로 인정하며, 미국 GitHub-hosted runner는 `cross-region-observe` 별도 증거에서 전체 기능과 p99 3초를 검증
-
-candidate 재배포 후 이 섹션의 SDK·Inspector 시각, build ID, query handoff RED, 성능 수치를 새 증거로 교체한다.
 
 ## Final Evidence Artifacts
 
